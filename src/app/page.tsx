@@ -24,7 +24,10 @@ export default function Home() {
           Adopting Animal In Thailand
         </div>
         <div className="flex flex-row gap-8 justify-center h-full w-full">
-          <Link href="/" className="relative w-2/5 flex items-center justify-center duration-200 ease-in-out hover:scale-105">
+          <Link
+            href="/"
+            className="relative w-2/5 flex items-center justify-center duration-200 ease-in-out hover:scale-105"
+          >
             <CldImage
               src="Pelter_1"
               alt="Description of my image"
@@ -34,10 +37,15 @@ export default function Home() {
               className="rounded-md"
             />
             <div className="absolute inset-0 bg-amber-800 opacity-45 rounded-md"></div>
-            <div className="w-full h-full absolute flex justify-center items-center text-7xl font-bold text-white text-center">PET FOR FREE</div>
+            <div className="w-full h-full absolute flex justify-center items-center text-7xl font-bold text-white text-center">
+              PET FOR FREE
+            </div>
           </Link>
 
-          <Link href="/" className="relative w-2/5 flex items-center justify-center duration-200 ease-in-out hover:scale-105">
+          <Link
+            href="/"
+            className="relative w-2/5 flex items-center justify-center duration-200 ease-in-out hover:scale-105"
+          >
             <CldImage
               src="Pelter_3"
               alt="Description of my image"
@@ -47,7 +55,9 @@ export default function Home() {
               className="rounded-md"
             />
             <div className="absolute inset-0 bg-amber-800 opacity-45 rounded-md"></div>
-            <div className="w-full h-full absolute flex justify-center items-center text-7xl font-bold text-white text-center">PET FOR COMERCIAL</div>
+            <div className="w-full h-full absolute flex justify-center items-center text-7xl font-bold text-white text-center">
+              PET FOR COMERCIAL
+            </div>
           </Link>
         </div>
       </div>
