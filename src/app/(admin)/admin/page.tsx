@@ -1,15 +1,3 @@
-export default function page({
-
-}:{
-    
-})  {
-
-return (
-
-    <> 
-
-    </>
-
-    )
-
+export default function page({}: {}) {
+  return <></>
 }
