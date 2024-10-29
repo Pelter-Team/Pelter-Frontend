@@ -54,7 +54,7 @@ export default function Home() {
               width="500"
               height="500"
               sizes="100vw"
-              className="w-3/5 h-fit rounded-md"
+              className="w-3/5 h-auto rounded-md"
             />
             <div className="absolute inset-0 bg-amber-800 opacity-45 rounded-md"></div>
             <div className="w-full h-full absolute flex justify-center items-center text-6xl 2xl:text-7xl font-bold text-white text-center">
