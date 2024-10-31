@@ -1,6 +1,7 @@
 "use client"
 import Link from "next/link"
 import Image from "next/image"
+import Navbar from "./component/Navbar"
 import Pelter1 from "./public/Pelter_1.jpeg"
 import Pelter2 from "./public/Pelter_2.png"
 import Pelter3 from "./public/Pelter_3.jpeg"
@@ -8,6 +9,7 @@ import Pelter3 from "./public/Pelter_3.jpeg"
 export default function Home() {
   return (
     <>
+      <Navbar/>
       <div className="bg-[#C5705D] h-screen relative w-screen flex items-end justify-center">
         <div className="absolute italic top-[15%] z-20 text-9xl font-bold text-white">
           Pelter
