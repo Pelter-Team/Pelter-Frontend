@@ -6,9 +6,10 @@ import Pelter4 from "../../public/Pelter_4.png";
 
 export default function SignIn() {
   return (
+
     <div className="flex h-screen">
       {/* Left Section */}
-      <div className="w-1/2 bg-[#E9C9C1] items-center p-8">
+      <div className="w-1/2 bg-[#E9C9C1] p-8">
         <h2 className="text-3xl font-semibold text-browntext mt-7">
           Pelter
         </h2>
@@ -19,16 +20,19 @@ export default function SignIn() {
           Sign up is simple, free and fast. One place to manage everything, and everyone.
         </p>
         <div className="absolute bottom-0">
-          <Image src={Pelter4} alt="Pelter Logo" width={500} height={500}  className="max-w-full h-auto"/>
+          <Image src={Pelter4} alt="Pelter Logo" className="max-w-[500px] max-h-[500px] w-auto h-auto"/>
         </div>
       </div>
 
       {/* Right Section */}
-      <div className="w-1/2 flex flex-col justify-center items-center bg-white p-8">
-        <h3 className="text-3xl font-semibold text-browntext">Welcome Back to Pelter 👋</h3>
+      <div className="w-1/2 flex flex-col justify-center items-center bg-white p-8 ">
+
+        <h3 className="text-3xl font-semibold text-browntext">
+          Welcome Back to Pelter 👋
+        </h3>
         <p className="text-browntext mt-2">
           Doesn’t have one yet? 
-          <Link href="/register" className="text-browntext font-semibold ml-1 mr-1">
+          <Link href="/register" className="font-semibold ml-1 mr-1">
             Register 
           </Link> 
           your account.
@@ -39,7 +43,7 @@ export default function SignIn() {
           <Form.Item
             name="email"
             rules={[{ required: true, message: "Please enter your email!" }]}>
-            <Input prefix placeholder="Email" />
+            <Input placeholder="Email" />
           </Form.Item>
           {/* password */}
           <Form.Item
@@ -47,8 +51,9 @@ export default function SignIn() {
             rules={[{ required: true, message: "Please enter your password!" }]}>
             <Input.Password placeholder="Password"/>
           </Form.Item>
-          <div className="flex justify-between text-sm">
-            <Link href="/forgot-password" className=" text-lightpinktext">
+          {/* Forget password */}
+          <div className="flex justify-between text-sm text-lightpinktext">
+            <Link href="/forgot-password" >
               Forgot Password?
             </Link>
           </div>
@@ -60,6 +65,7 @@ export default function SignIn() {
           </Form.Item>
         </Form>
       </div>
+      
     </div>
   );
 }
