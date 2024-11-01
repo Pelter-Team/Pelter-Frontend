@@ -6,7 +6,6 @@ import Pelter4 from "../../public/Pelter_4.png";
 
 export default function SignIn() {
   return (
-
     <div className="flex h-screen">
       {/* Left Section */}
       <div className="w-1/2 bg-[#E9C9C1] p-8">
