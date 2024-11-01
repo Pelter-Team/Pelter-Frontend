@@ -11,6 +11,11 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        primary: "#C5705D",
+        secondary: "#E9C9C1",
+      },
+      fontFamily: {
+        lobster: ['Lobster', 'cursive'],
       },
     },
   },
