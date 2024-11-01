@@ -9,7 +9,7 @@ import Pelter3 from "./public/Pelter_3.jpeg"
 export default function Home() {
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <div className="bg-[#C5705D] h-screen relative w-screen flex items-end justify-center">
         <div className="absolute italic top-[15%] z-20 text-9xl font-bold text-white">
           Pelter
