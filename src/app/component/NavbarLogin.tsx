@@ -25,13 +25,13 @@ export default function NavbarLogin({ white }: { white?: boolean }) {
 
       <div className="flex flex-row gap-6 justify-center items-center">
         <Link href="/">
-          <SearchOutlined className="text-2xl hover:text-black" />
+          <SearchOutlined className="text-3xl hover:text-black" />
         </Link>
         <Link href="/">
-          <ShoppingCartOutlined className="text-2xl hover:text-black" />
+          <ShoppingCartOutlined className="text-3xl hover:text-black" />
         </Link>
         <Link href="/">
-          <PictureOutlined className="text-2xl hover:text-black" />
+          <PictureOutlined className="text-3xl hover:text-black" />
         </Link>
       </div>
     </div>
