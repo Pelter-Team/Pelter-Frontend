@@ -9,8 +9,8 @@ import {
 export default function NavbarLogin({ white }: { white?: boolean }) {
   return (
     <div
-      className={`z-30 flex fixed items-center justify-between px-4 md:px-8 py-2 lg:px-12 lg:py-4 h-[4.5rem] w-full ${
-        white ? "bg-[#FFFAF5] text-primary" : "bg-transparent text-[#C5705D]"
+      className={`z-30 flex fixed items-center justify-between px-4 md:px-8 py-2 lg:px-12 lg:py-4 h-[4.5rem] w-full backdrop-blur-sm ${
+        white ? "bg-[#FFFAF5] text-primary" : "bg-white/80 text-[#C5705D]"
       }`}
     >
       <div className="flex flex-row gap-6 items-center">
