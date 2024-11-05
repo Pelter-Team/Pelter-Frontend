@@ -1,4 +1,6 @@
 import Link from "next/link"
+import { useState } from "react"
+import { Drawer } from "antd"
 import {
   SearchOutlined,
   ShoppingCartOutlined,
@@ -6,6 +8,22 @@ import {
 } from "@ant-design/icons"
 
 export default function Navbar({ white }: { white?: boolean }) {
+  const [open, setOpen] = useState(false)
+
+  const menu = [
+    { name: "Home", link: "/" },
+    { name: "Shop", link: "/" },
+    { name: "Register your pet / stray", link: "/" },
+    { name: "Contact us ", link: "/" },
+  ]
+
+  const showDrawer = () => {
+    setOpen(true)
+  }
+
+  const onClose = () => {
+    setOpen(false)
+  }
   return (
     <div
       className={`z-30 flex fixed items-center justify-between px-4 md:px-8 py-2 lg:px-12 lg:py-4 h-[4.5rem] w-full ${
@@ -13,7 +31,22 @@ export default function Navbar({ white }: { white?: boolean }) {
       }`}
     >
       <div className="flex flex-row gap-6 items-center">
-        <MenuOutlined className="text-2xl hover:text-black cursor-pointer" />
+        <MenuOutlined
+          className="text-2xl hover:text-black cursor-pointer"
+          onClick={showDrawer}
+        />
+        <Drawer onClose={onClose} open={open} placement="left" keyboard>
+          <div className="flex flex-col gap-4 text-xl">
+            {menu.map((item, index) => (
+              <p key={index} className="group relative items-center flex">
+                <div className="group-hover:flex hidden border-4 border-primary absolute -translate-x-8 w-4 h-4 rounded-full"></div>
+                <Link className="hover:text-primary" href={item.link}>
+                  {item.name}
+                </Link>
+              </p>
+            ))}
+          </div>
+        </Drawer>
         <Link
           href="/"
           className={`text-4xl font-bold mr-20 font-lobster ${white ? "flex" : "hidden"}`}
