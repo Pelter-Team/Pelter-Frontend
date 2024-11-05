@@ -5,6 +5,8 @@ import {
   SearchOutlined,
   ShoppingCartOutlined,
   MenuOutlined,
+  HeartOutlined,
+  UserOutlined,
 } from "@ant-design/icons"
 
 export default function Navbar({ white }: { white?: boolean }) {
@@ -35,11 +37,34 @@ export default function Navbar({ white }: { white?: boolean }) {
           className="text-2xl hover:text-black cursor-pointer"
           onClick={showDrawer}
         />
-        <Drawer onClose={onClose} open={open} placement="left" keyboard>
-          <div className="flex flex-col gap-4 text-xl">
+        <Drawer
+          onClose={onClose}
+          open={open}
+          placement="left"
+          keyboard
+          footer={
+            <div className="flex flex-col gap-4 bottom-0 text-lg w-full pb-4 pt-2">
+              <Link href="/" className="flex items-center hover:text-primary">
+                <ShoppingCartOutlined className="text-3xl hover:text-black pr-2" />
+                Shopping Cart
+              </Link>
+              <hr />
+              <Link href="/" className="flex items-center hover:text-primary">
+                <HeartOutlined className="text-3xl hover:text-black pr-2" />
+                Wish list
+              </Link>
+              <hr />
+              <Link href="/" className="flex items-center hover:text-primary">
+                <UserOutlined className="text-3xl hover:text-black pr-2" />
+                Login
+              </Link>
+            </div>
+          }
+        >
+          <div className="flex flex-col gap-4 text-lg">
             {menu.map((item, index) => (
               <p key={index} className="group relative items-center flex">
-                <div className="group-hover:flex hidden border-4 border-primary absolute -translate-x-8 w-4 h-4 rounded-full"></div>
+                <div className="group-hover:flex hidden border-4 border-primary absolute -translate-x-[1.9rem] w-3 h-3 rounded-full"></div>
                 <Link className="hover:text-primary" href={item.link}>
                   {item.name}
                 </Link>
