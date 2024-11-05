@@ -19,12 +19,14 @@ export default function Home() {
       setWhite(false)
     }
   }
+
   useEffect(() => {
     window.addEventListener("scroll", setFixed)
     return () => {
       window.removeEventListener("scroll", setFixed)
     }
   }, [])
+
   return (
     <>
       <Navbar white={white} />

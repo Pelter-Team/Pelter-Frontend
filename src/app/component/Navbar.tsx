@@ -69,7 +69,7 @@ export default function Navbar({ white }: { white?: boolean }) {
           Sign Up
         </Link>
         <Link
-          href="/"
+          href="/signin"
           className={`flex py-2 px-4 border-2 justify-center items-center rounded-md ${white ? "bg-secondary border-secondary hover:bg-#E9C9C1 hover:bg-opacity-80 text-black" : "border-white hover:bg-white text-white hover:text-black"}`}
         >
           Log In
