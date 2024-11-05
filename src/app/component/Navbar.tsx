@@ -14,7 +14,10 @@ export default function Navbar({ white }: { white?: boolean }) {
     >
       <div className="flex flex-row gap-6 items-center">
         <MenuOutlined className="text-2xl hover:text-black cursor-pointer" />
-        <Link href="/" className={`text-4xl font-bold mr-20 font-lobster ${ white ? "flex" : "hidden"}`}>
+        <Link
+          href="/"
+          className={`text-4xl font-bold mr-20 font-lobster ${white ? "flex" : "hidden"}`}
+        >
           Pelter
         </Link>
       </div>
