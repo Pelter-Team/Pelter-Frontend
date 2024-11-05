@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import Navbar from "./component/Navbar"
 import localFont from "next/font/local"
 import "./globals.css"
 import { ConfigProvider } from "antd"

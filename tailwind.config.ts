@@ -12,6 +12,9 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        pinktext: "#C5705D",
+        browntext: "#873800",
+        lightpinktext: "#D6AEA3",
         primary: {
           DEFAULT: "#C5705D",
           // hover: "#AED8FB",

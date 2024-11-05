@@ -39,12 +39,12 @@ export default function Navbar() {
         </Link>
         <Link
           href="/"
-          className="flex py-2 px-4 bg-yellow-800 text-white justify-center items-center rounded-md hover:bg-yellow-600"
+          className="flex py-2 px-4 border-2 border-yellow-800 bg-yellow-800 text-white justify-center items-center rounded-md hover:bg-yellow-600"
         >
           Sign Up
         </Link>
         <Link
-          href="/"
+          href="/signin"
           className="flex py-2 px-4 border-2 justify-center items-center rounded-md hover:bg-white text-white hover:text-black"
         >
           Sign In
