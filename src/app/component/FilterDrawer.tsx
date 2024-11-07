@@ -14,8 +14,8 @@ interface FilterValues {
   ownerTypes: string[]
   priceRange: {
     isFree: boolean
-    min?: number
-    max?: number
+    min?: number | undefined
+    max?: number | undefined
   }
   gender: string
   petTypes: {
