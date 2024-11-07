@@ -13,4 +13,13 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  .custom-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #873800 !important;
+  }
+  .custom-tabs .ant-tabs-ink-bar {
+    background-color: #873800 !important;
+  }
+  .custom-tabs .ant-tabs-tab {
+    @apply flex-1 text-center;
+  }
 }
