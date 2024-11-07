@@ -14,7 +14,7 @@ const config: Config = {
         pinktext: "#C5705D",
         browntext: "#873800",
         lightpinktext: "#D6AEA3",
-        graybtn: "#BFBFBF"
+        graybtn: "#BFBFBF",
         primary: "#C5705D",
         secondary: "#E9C9C1",
       },
