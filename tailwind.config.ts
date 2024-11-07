@@ -15,6 +15,11 @@ const config: Config = {
         browntext: "#873800",
         lightpinktext: "#D6AEA3",
         graybtn: "#BFBFBF"
+        primary: "#C5705D",
+        secondary: "#E9C9C1",
+      },
+      fontFamily: {
+        lobster: ['Lobster', 'cursive'],
       },
     },
   },
