@@ -15,6 +15,7 @@ const config: Config = {
         pinktext: "#C5705D",
         browntext: "#873800",
         lightpinktext: "#D6AEA3",
+        secondary: "#E9C9C1",
         primary: {
           DEFAULT: "#C5705D",
           // hover: "#AED8FB",
