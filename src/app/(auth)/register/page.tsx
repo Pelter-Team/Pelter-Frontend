@@ -14,16 +14,23 @@ export default function SignUp() {
     form
       .validateFields()
       .then(() => setIsFormValid(true))
-      .catch(() => setIsFormValid(false))
+      // .catch(() => setIsFormValid(false))
+      console.log("is eaual", isFormValid)
+  }
+  const handleSubmit = (values) => {
+    console.log("Form submitted with values: ", values)
+    // Perform registration logic here
   }
 
   return (
     <div className="flex h-screen">
       {/* Left Section */}
-      <div className="w-1/2 bg-[#E9C9C1] p-8 relative">
-        <h2 className="text-3xl  text-browntext font-lobsters mt-7">Pelter</h2>
+      <div className="w-1/2 bg-[#E9C9C1] p-8">
+        <h2 className="text-3xl font-semibold text-browntext font-lobster mt-7">
+          Pelter
+        </h2>
         <p className="text-xl mt-8 font-semibold text-pinktext">
-          A place dedicated to pet lovers.
+          A place dedicated to pets lover.
         </p>
         <p className="mt-2 text-pinktext">
           Sign up is simple, free and fast. One place to manage everything, and
@@ -55,6 +62,7 @@ export default function SignUp() {
           form={form}
           className="w-3/4 mt-10"
           onValuesChange={handleFormChange}
+          onFinish={handleSubmit}
         >
           <Tabs
             defaultActiveKey="individual"
@@ -155,8 +163,9 @@ export default function SignUp() {
                 rules={[{ required: true, message: "* Required Field" }]}
               >
                 <Upload>
-                  <Button icon={<UploadOutlined />}>
-                    Upload Foundation Document
+                  * Upload
+                  <Button icon={<UploadOutlined />} className="ml-5">
+                    Upload
                   </Button>
                 </Upload>
               </Form.Item>
@@ -175,7 +184,7 @@ export default function SignUp() {
               },
             ]}
           >
-            <Checkbox className="text-gray-500">
+            <Checkbox className="text-gray-500 mt-3">
               Creating an account means you’re okay with our
               <Link href="/termsofservice" className="ml-1 mr-1 text-[#096DD9]">
                 Terms of Service
