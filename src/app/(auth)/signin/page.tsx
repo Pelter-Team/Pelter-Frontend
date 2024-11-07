@@ -9,12 +9,15 @@ export default function SignIn() {
     <div className="flex h-screen">
       {/* Left Section */}
       <div className="w-1/2 bg-[#E9C9C1] p-8">
-        <h2 className="text-3xl font-semibold text-browntext font-lobster mt-7">Pelter</h2>
+        <h2 className="text-3xl font-semibold text-browntext font-lobster mt-7">
+          Pelter
+        </h2>
         <p className="text-xl mt-8 font-semibold  text-pinktext">
           A place dedicated to pets lover.
         </p>
         <p className="mt-2 text-pinktext">
-          Sign up is simple, free and fast. One place to manage everything, and everyone
+          Sign up is simple, free and fast. One place to manage everything, and
+          everyone
         </p>
         <div className="absolute bottom-0">
           <Image

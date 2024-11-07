@@ -19,7 +19,7 @@ const config: Config = {
         secondary: "#E9C9C1",
       },
       fontFamily: {
-        lobster: ['Lobster', 'cursive'],
+        lobster: ["Lobster", "cursive"],
       },
     },
   },
