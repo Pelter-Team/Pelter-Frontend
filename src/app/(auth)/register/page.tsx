@@ -9,16 +9,14 @@ import Pelter4 from "../../public/Pelter_4.png"
 export default function SignUp() {
   const [isFormValid, setIsFormValid] = useState(false)
   const [form] = Form.useForm()
-
+  
   const handleFormChange = () => {
     form
       .validateFields()
       .then(() => setIsFormValid(true))
-      // .catch(() => setIsFormValid(false))
-      console.log("is eaual", isFormValid)
+      .catch(() => setIsFormValid(true))
   }
   const handleSubmit = (values) => {
-    console.log("Form submitted with values: ", values)
     // Perform registration logic here
   }
 
@@ -73,37 +71,21 @@ export default function SignUp() {
             {/* Individual Tab */}
             <Tabs.TabPane tab="Individual" key="individual">
               <div className="flex space-x-4">
-                <Form.Item
-                  name="firstname"
-                  rules={[{ required: true, message: "* Required Field" }]}
-                  className="flex-1"
-                >
+                <Form.Item name="firstname"rules={[{ required: true, message: "* Required Field" }]} className="flex-1">
                   <Input placeholder="First name" />
                 </Form.Item>
-                <Form.Item
-                  name="lastname"
-                  rules={[{ required: true, message: "* Required Field" }]}
-                  className="flex-1"
-                >
+                <Form.Item name="lastname" rules={[{ required: true, message: "* Required Field" }]} className="flex-1">
                   <Input placeholder="Last name" />
                 </Form.Item>
               </div>
-              <Form.Item
-                name="email"
-                rules={[{ required: true, message: "* Required Field" }]}
-              >
+              
+              <Form.Item name="email" rules={[{ required: true, message: "* Required Field" }]}>
                 <Input placeholder="Email" />
               </Form.Item>
-              <Form.Item
-                name="password"
-                rules={[{ required: true, message: "* Required Field" }]}
-              >
+              <Form.Item name="password" rules={[{ required: true, message: "* Required Field" }]} >
                 <Input.Password placeholder="Password" />
               </Form.Item>
-              <Form.Item
-                name="phone"
-                rules={[{ required: true, message: "* Required Field" }]}
-              >
+              <Form.Item name="phone" rules={[{ required: true, message: "* Required Field" }]} >
                 <Input
                   addonBefore={
                     <Select defaultValue="+66">
@@ -119,34 +101,19 @@ export default function SignUp() {
 
             {/* Foundation Tab */}
             <Tabs.TabPane tab="Foundation" key="foundation">
-              <Form.Item
-                name="foundationName"
-                rules={[{ required: true, message: "* Required Field" }]}
-              >
+              <Form.Item name="foundationName" rules={[{ required: true, message: "* Required Field" }]} >
                 <Input placeholder="Foundation name" />
               </Form.Item>
-              <Form.Item
-                name="address"
-                rules={[{ required: true, message: "* Required Field" }]}
-              >
+              <Form.Item name="address" rules={[{ required: true, message: "* Required Field" }]}>
                 <Input placeholder="Foundation address" />
               </Form.Item>
-              <Form.Item
-                name="email"
-                rules={[{ required: true, message: "* Required Field" }]}
-              >
+              <Form.Item name="email" rules={[{ required: true, message: "* Required Field" }]}>
                 <Input placeholder="Email" />
               </Form.Item>
-              <Form.Item
-                name="password"
-                rules={[{ required: true, message: "* Required Field" }]}
-              >
+              <Form.Item name="password" rules={[{ required: true, message: "* Required Field" }]}>
                 <Input.Password placeholder="Password" />
               </Form.Item>
-              <Form.Item
-                name="phone"
-                rules={[{ required: true, message: "* Required Field" }]}
-              >
+              <Form.Item name="phone"rules={[{ required: true, message: "* Required Field" }]}>
                 <Input
                   addonBefore={
                     <Select defaultValue="+66">
@@ -158,10 +125,7 @@ export default function SignUp() {
                   placeholder="Phone number"
                 />
               </Form.Item>
-              <Form.Item
-                name="upload"
-                rules={[{ required: true, message: "* Required Field" }]}
-              >
+              <Form.Item name="upload" rules={[{ required: true, message: "* Required Field" }]}>
                 <Upload>
                   * Upload
                   <Button icon={<UploadOutlined />} className="ml-5">
@@ -172,9 +136,7 @@ export default function SignUp() {
             </Tabs.TabPane>
           </Tabs>
 
-          <Form.Item
-            name="agreement"
-            valuePropName="checked"
+          <Form.Item name="agreement" valuePropName="checked"
             rules={[
               {
                 validator: (_, value) =>
@@ -182,8 +144,7 @@ export default function SignUp() {
                     ? Promise.resolve()
                     : Promise.reject(new Error("* Required Field")),
               },
-            ]}
-          >
+            ]} >
             <Checkbox className="text-gray-500 mt-3">
               Creating an account means you’re okay with our
               <Link href="/termsofservice" className="ml-1 mr-1 text-[#096DD9]">
@@ -198,12 +159,7 @@ export default function SignUp() {
           </Form.Item>
 
           <Form.Item className="mt-4">
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="w-full bg-graybtn hover:bg-gray-400"
-              disabled={!isFormValid}
-            >
+            <Button type="primary" htmlType="submit" disabled={!isFormValid} className="w-full text-white bg-gray-400 hover:text-white hover:bg-browntext">
               Register
             </Button>
           </Form.Item>
