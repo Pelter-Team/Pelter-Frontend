@@ -23,7 +23,7 @@ export default function SignIn() {
           <Image
             src={Pelter4}
             alt="Pelter Logo"
-            className="max-w-[500px] max-h-[500px] w-auto h-auto"
+            className="max-w-[700px] max-h-[800px] w-auto h-auto"
           />
         </div>
       </div>
