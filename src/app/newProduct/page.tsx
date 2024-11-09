@@ -51,7 +51,7 @@ export default function Product() {
 
     return (
         <>
-            <Navbar />
+            <Navbar white={true}/>
             <div className="min-h-screen h-fit w-screen bg-mainBG px-16 ">
                 <div className="flex flex-row pt-24 pb-7 justify-between">
                     <div className="flex flex-row gap-8 items-center">
