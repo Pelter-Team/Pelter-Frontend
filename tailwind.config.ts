@@ -18,13 +18,13 @@ const config: Config = {
         secondary: "#E9C9C1",
         primary: {
           DEFAULT: "#C5705D",
-          // hover: "#AED8FB",
-          // active: "#96CFFA",
         },
         accent: {
           DEFAULT: "#873800",
         },
-        // D0B8A8
+      },
+      fontFamily: {
+        lobster: ["Lobster", "cursive"],
       },
     },
   },
