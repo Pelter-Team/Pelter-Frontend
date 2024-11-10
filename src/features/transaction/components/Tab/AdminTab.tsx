@@ -1,75 +1,51 @@
 import React, { useState } from "react"
 import { Tabs } from "antd"
-import TransactionTab, { DataType } from "./Table"
+import TransactionTab from "./Table"
 import TabPane from "antd/es/tabs/TabPane"
 import LoadingSpinner from "@/components/LoadingSpinner"
+import { useTransactions } from "../../hooks/useTransactions"
 
+const TabContent: React.FC<{ data: any; loading: boolean }> = ({
+  data,
+  loading,
+}) => {
+  return loading ? (
+    <LoadingSpinner className="mt-8 flex justify-center" />
+  ) : (
+    <TransactionTab data={data} />
+  )
+}
+enum TransactionStatus {
+  "All transactions" = "all",
+  "Success" = "success",
+  "Processing" = "processing",
+  "Cancel" = "cancel",
+}
 const AdminTabTransaction: React.FC = () => {
-  const [loading, setLoading] = useState<boolean>(false)
+  const [activeTab, setActiveTab] =
+    useState<keyof typeof TransactionStatus>("All transactions")
 
-  const data: DataType[] = [
-    {
-      transactionId: "John Brown",
-      createdAt: new Date(),
-      petId: "New York No. 1 Lake Park",
-      price: 500,
-      status: "success",
-    },
-    {
-      transactionId: "John Brown",
-      createdAt: new Date(),
-      petId: "New York No. 1 Lake Park",
-      price: 500,
-      status: "cancel",
-    },
-    {
-      transactionId: "John Brown",
-      createdAt: new Date(),
-      petId: "New York No. 1 Lake Park",
-      price: 500,
-      status: "processing",
-    },
-  ]
-  const data2: DataType[] = [
-    {
-      transactionId: "John Brown",
-      createdAt: new Date(),
-      petId: "New York No. 1 Lake Park",
-      price: 500,
-      status: "success",
-    },
-  ]
+  const { isLoading: getTransactionLoading, data } = useTransactions(activeTab)
+  function onChangeTab(key: string) {
+    setActiveTab(key as keyof typeof TransactionStatus)
+  }
 
-  // NOTE: I know this code is trash but if have time will rewrite later
   return (
-    <Tabs defaultActiveKey="1">
-      <TabPane tab="All transactions" key={"1"}>
-        {loading ? (
-          <LoadingSpinner className="mt-8 flex justify-center" />
-        ) : (
-          <TransactionTab data={data} />
-        )}
+    <Tabs defaultActiveKey="1" onChange={onChangeTab}>
+      <TabPane
+        tab={"All transactions"}
+        key={TransactionStatus["All transactions"]}
+      >
+        <TabContent data={data} loading={getTransactionLoading} />
       </TabPane>
-      <TabPane tab="Success" key={"2"}>
-        {loading ? (
-          <LoadingSpinner className="mt-8 flex justify-center" />
-        ) : (
-          <TransactionTab data={data2} />
-        )}
+      <TabPane tab={"Success"} key={TransactionStatus["Success"]}>
+        <TabContent data={data} loading={getTransactionLoading} />
       </TabPane>
-      <TabPane tab="Processing" key={"3"}>
-        {loading ? (
-          <LoadingSpinner className="mt-8 flex justify-center" />
-        ) : (
-          <TransactionTab data={data} />
-        )}
+      <TabPane tab={"Processing"} key={TransactionStatus["Processing"]}>
+        <TabContent data={data} loading={getTransactionLoading} />
       </TabPane>
-      <TabPane tab="Cancel" key={"4"}>
-        {loading ? (
-          <LoadingSpinner className="mt-8 flex justify-center" />
-        ) : (
-          <TransactionTab data={data} />
-        )}
+      <TabPane tab={"Cancel"} key={TransactionStatus["Cancel"]}>
+        <TabContent data={data} loading={getTransactionLoading} />
       </TabPane>
     </Tabs>
   )
