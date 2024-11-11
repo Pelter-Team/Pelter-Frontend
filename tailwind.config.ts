@@ -13,6 +13,7 @@ const config: Config = {
         foreground: "var(--foreground)",
         primary: "#C5705D",
         secondary: "#E9C9C1",
+        mainBG: "#FFFAF5",
       },
       fontFamily: {
         lobster: ['Lobster', 'cursive'],
