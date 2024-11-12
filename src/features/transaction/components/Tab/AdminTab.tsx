@@ -4,7 +4,7 @@ import TransactionTab from "./Table"
 import TabPane from "antd/es/tabs/TabPane"
 import LoadingSpinner from "@/components/LoadingSpinner"
 import { useTransactions } from "../../hooks/useTransactions"
-import { TransactionStatus } from "@/core/api/transaction/transaction"
+import { TransactionStatus } from "@/core/api/transaction/transactionContract"
 
 const TabContent: React.FC<{ data: any; loading: boolean }> = ({
   data,

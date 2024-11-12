@@ -1,7 +1,7 @@
 import { APIError } from "../../error"
 import { apiContract } from "../.."
 import { Router } from "../../router"
-import { TransactionStatus } from "../transaction"
+import { TransactionStatus } from "../transactionContract"
 
 export class TransactionRouter extends Router<typeof apiContract> {
   async getTransactions(

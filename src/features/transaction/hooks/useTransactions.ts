@@ -4,7 +4,7 @@ import {
   GetTotalBenefit,
   GetTransactionsResponse,
   TransactionStatus,
-} from "@/core/api/transaction/transaction"
+} from "@/core/api/transaction/transactionContract"
 import { useQuery } from "@tanstack/react-query"
 
 export const useTransactions = (status: TransactionStatus) => {
