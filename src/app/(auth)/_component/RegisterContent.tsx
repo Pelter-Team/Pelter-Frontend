@@ -1,4 +1,4 @@
-import { Input, Button, Form, Tabs, Upload, Checkbox, Select, Divider } from "antd";
+import { Input, Button, Form, Checkbox, Select } from "antd";
 import {useState, useEffect} from "react"
 import type { FormInstance } from "antd";
 import Link from "next/link";

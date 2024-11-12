@@ -1,7 +1,7 @@
 import { Input, Button, Form, Tabs, Upload, Checkbox, Select, Divider } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import type { FormInstance, UploadFile, UploadProps  } from "antd";
+import type { FormInstance } from "antd";
 import { useState,useEffect } from "react";
 import { useRouter } from "next/navigation";
 
