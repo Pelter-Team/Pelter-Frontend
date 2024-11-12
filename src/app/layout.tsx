@@ -4,12 +4,7 @@ import NavbarLogin from "./component/NavbarLogin"
 import localFont from "next/font/local"
 import { Lobster } from "next/font/google"
 import "./globals.css"
-
-const lobster = Lobster({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-lobster",
-})
+import { ConfigProvider } from "antd"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,12 +30,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${lobster.variable} antialiased overflow-x-hidden bg-[#FFFAF5]`}
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: "#C5705D",
+          },
+        }}
       >
-        <NavbarLogin />
-        {children}
-      </body>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
+        >
+          {/* <Navbar /> */}
+          {children}
+        </body>
+      </ConfigProvider>
     </html>
   )
 }

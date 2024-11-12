@@ -5,17 +5,26 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/features/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        primary: "#C5705D",
+        pinktext: "#C5705D",
+        browntext: "#873800",
+        lightpinktext: "#D6AEA3",
         secondary: "#E9C9C1",
-      },
-      fontFamily: {
-        lobster: ['Lobster', 'cursive'],
+        primary: {
+          DEFAULT: "#C5705D",
+          // hover: "#AED8FB",
+          // active: "#96CFFA",
+        },
+        accent: {
+          DEFAULT: "#873800",
+        },
+        // D0B8A8
       },
       fontFamily: {
         lobster: ["var(--font-lobster)"],
