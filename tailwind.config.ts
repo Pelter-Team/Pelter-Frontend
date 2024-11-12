@@ -5,6 +5,7 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/features/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -14,12 +15,16 @@ const config: Config = {
         pinktext: "#C5705D",
         browntext: "#873800",
         lightpinktext: "#D6AEA3",
-        graybtn: "#BFBFBF",
-        primary: "#C5705D",
         secondary: "#E9C9C1",
-      },
-      fontFamily: {
-        lobster: ["Lobster", "cursive"],
+        primary: {
+          DEFAULT: "#C5705D",
+          // hover: "#AED8FB",
+          // active: "#96CFFA",
+        },
+        accent: {
+          DEFAULT: "#873800",
+        },
+        // D0B8A8
       },
     },
   },
