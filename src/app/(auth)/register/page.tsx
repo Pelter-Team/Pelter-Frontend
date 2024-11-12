@@ -1,24 +1,12 @@
-"use client"
-import Link from "next/link"
-import Image from "next/image"
-import { useState } from "react"
-import { Input, Button, Form, Tabs, Upload, Checkbox, Select } from "antd"
-import { UploadOutlined } from "@ant-design/icons"
-import Pelter4 from "../../public/Pelter_4.png"
+"use client";
+import Link from "next/link";
+import Image from "next/image";
+import { Tabs } from "antd";
+import Pelter4 from "../../public/Pelter_4.png";
+import RegisterContent from "../_component/RegisterContent"
+import FoundationContent from "../_component/FoundationContent"
 
 export default function SignUp() {
-  const [isFormValid, setIsFormValid] = useState(false)
-  const [form] = Form.useForm()
-
-  const handleFormChange = () => {
-    form
-      .validateFields()
-      .then(() => setIsFormValid(true))
-      .catch(() => setIsFormValid(true))
-  }
-  const handleSubmit = (values) => {
-    
-  }
 
   return (
     <div className="flex h-screen">
@@ -28,11 +16,10 @@ export default function SignUp() {
           Pelter
         </h2>
         <p className="text-xl mt-8 font-semibold text-pinktext">
-          A place dedicated to pets lover.
+          A place dedicated to pet lovers.
         </p>
         <p className="mt-2 text-pinktext">
-          Sign up is simple, free and fast. One place to manage everything, and
-          everyone
+          Sign up is simple, free, and fast. One place to manage everything, and everyone.
         </p>
         <div className="absolute bottom-0">
           <Image
@@ -56,158 +43,21 @@ export default function SignUp() {
           here.
         </p>
 
-        <Form
-          form={form}
-          className="w-3/4 mt-10"
-          onValuesChange={handleFormChange}
-          onFinish={handleSubmit}
-        >
           <Tabs
             defaultActiveKey="individual"
             centered
-            tabBarStyle={{ color: "#873800" }}
+            tabBarStyle={{ color: "#C5705D" }}
             className="custom-tabs"
           >
-            {/* Individual Tab */}
             <Tabs.TabPane tab="Individual" key="individual">
-              <div className="flex space-x-4">
-                <Form.Item
-                  name="firstname"
-                  rules={[{ required: true, message: "* Required Field" }]}
-                  className="flex-1"
-                >
-                  <Input placeholder="First name" />
-                </Form.Item>
-                <Form.Item
-                  name="lastname"
-                  rules={[{ required: true, message: "* Required Field" }]}
-                  className="flex-1"
-                >
-                  <Input placeholder="Last name" />
-                </Form.Item>
-              </div>
-              <Form.Item
-                name="email"
-                rules={[{ required: true, message: "* Required Field" }]}
-              >
-                <Input placeholder="Email" />
-              </Form.Item>
-              <Form.Item
-                name="password"
-                rules={[{ required: true, message: "* Required Field" }]}
-              >
-                <Input.Password placeholder="Password" />
-              </Form.Item>
-              <Form.Item
-                name="phone"
-                rules={[{ required: true, message: "* Required Field" }]}
-              >
-                <Input
-                  addonBefore={
-                    <Select defaultValue="+66">
-                      <Select.Option value="+1">🇺🇸 +1</Select.Option>
-                      <Select.Option value="+66">🇹🇭 +66</Select.Option>
-                      <Select.Option value="+44">🇬🇧 +44</Select.Option>
-                    </Select>
-                  }
-                  placeholder="Phone number"
-                />
-              </Form.Item>
+                <RegisterContent/>
             </Tabs.TabPane>
-
-            {/* Foundation Tab */}
             <Tabs.TabPane tab="Foundation" key="foundation">
-              <Form.Item
-                name="foundationName"
-                rules={[{ required: true, message: "* Required Field" }]}
-              >
-                <Input placeholder="Foundation name" />
-              </Form.Item>
-              <Form.Item
-                name="address"
-                rules={[{ required: true, message: "* Required Field" }]}
-              >
-                <Input placeholder="Foundation address" />
-              </Form.Item>
-              <Form.Item
-                name="email"
-                rules={[{ required: true, message: "* Required Field" }]}
-              >
-                <Input placeholder="Email" />
-              </Form.Item>
-              <Form.Item
-                name="password"
-                rules={[{ required: true, message: "* Required Field" }]}
-              >
-                <Input.Password placeholder="Password" />
-              </Form.Item>
-              <Form.Item
-                name="phone"
-                rules={[{ required: true, message: "* Required Field" }]}
-              >
-                <Input
-                  addonBefore={
-                    <Select defaultValue="+66">
-                      <Select.Option value="+1">🇺🇸 +1</Select.Option>
-                      <Select.Option value="+66">🇹🇭 +66</Select.Option>
-                      <Select.Option value="+44">🇬🇧 +44</Select.Option>
-                    </Select>
-                  }
-                  placeholder="Phone number"
-                />
-              </Form.Item>
-              <Form.Item
-                name="upload"
-                rules={[{ required: true, message: "* Required Field" }]}
-              >
-                <Upload>
-                  * Upload
-                  <Button icon={<UploadOutlined />} className="ml-5">
-                    Upload
-                  </Button>
-                </Upload>
-              </Form.Item>
+                <FoundationContent/>
             </Tabs.TabPane>
           </Tabs>
 
-          <Form.Item
-            name="agreement"
-            valuePropName="checked"
-            rules={[
-              {
-                validator: (_, value) =>
-                  value
-                    ? Promise.resolve()
-                    : Promise.reject(new Error("* Required Field")),
-              },
-            ]}
-          >
-            <Checkbox className="text-gray-500 mt-3">
-              Creating an account means you’re okay with our
-              <Link href="/termsofservice" className="ml-1 mr-1 text-[#096DD9]">
-                Terms of Service
-              </Link>
-              ,
-              <Link href="/policy" className="ml-1 text-[#096DD9]">
-                Privacy Policy
-              </Link>
-              .
-            </Checkbox>
-          </Form.Item>
-
-          <Form.Item className="mt-4">
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="w-full text-white bg-gray-400 hover:text-white hover:bg-browntext"
-              disabled={!isFormValid}
-              href="/registersuccess"
-            >
-              Register
-            </Button>
-          </Form.Item>
-        </Form>
       </div>
     </div>
-  )
+  );
 }

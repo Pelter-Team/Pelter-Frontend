@@ -16,10 +16,10 @@ body {
     text-wrap: balance;
   }
   .custom-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
-    color: #873800 !important;
+    color: #C5705D !important;
   }
   .custom-tabs .ant-tabs-ink-bar {
-    background-color: #873800 !important;
+    background-color: #C5705D !important;
   }
   .custom-tabs .ant-tabs-tab {
     @apply flex-1 text-center;

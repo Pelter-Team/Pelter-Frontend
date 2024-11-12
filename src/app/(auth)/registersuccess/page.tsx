@@ -1,7 +1,7 @@
 "use client"
 import Image from "next/image"
-import {Button} from "antd"
-import {CheckCircleOutlined } from "@ant-design/icons"
+import { Button } from "antd"
+import { CheckCircleOutlined } from "@ant-design/icons"
 import Pelter4 from "../../public/Pelter_4.png"
 
 export default function Successfully() {
@@ -29,16 +29,13 @@ export default function Successfully() {
       </div>
 
       <div className="w-1/2 flex flex-col justify-center items-center bg-white p-8 ">
-        <h1 className="text-3xl  text-browntext">
-          Welcome to Pelter 👋
-        </h1>
-        <h1 className=" text-2xl text-black mt-10">
-          Successfully Registered
-        </h1>
-        <h3 className="text-xl text-black mt-3">
-          Explore your lovely pet
-        </h3>
-        <CheckCircleOutlined className ="mt-10 "style={{ fontSize: '100px', color :'#C5705D'}} />
+        <h1 className="text-3xl  text-browntext">Welcome to Pelter 👋</h1>
+        <h1 className=" text-2xl text-black mt-10">Successfully Registered</h1>
+        <h3 className="text-xl text-black mt-3">Explore your lovely pet</h3>
+        <CheckCircleOutlined
+          className="mt-10 "
+          style={{ fontSize: "100px", color: "#C5705D" }}
+        />
         <Button
           type="primary"
           href="/"
