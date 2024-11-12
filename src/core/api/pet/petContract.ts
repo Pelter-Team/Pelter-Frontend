@@ -17,13 +17,6 @@ export enum PriceOption {
   Commercial = "Commercial",
 }
 
-export enum SortOption {
-  SortByLatest = "Sort By Latest",
-  SortByOldest = "Sort By Oldest",
-  AToZ = "A to Z",
-  ZToA = "Z",
-}
-
 export enum PetStatus {
   LookingForHome = "Looking For Home",
   AdoptionPending = "Adoption Pending",

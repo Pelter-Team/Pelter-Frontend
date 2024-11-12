@@ -4,13 +4,9 @@ import TabPane from "antd/es/tabs/TabPane"
 import LoadingSpinner from "@/components/LoadingSpinner"
 import { TransactionStatus } from "@/core/api/transaction/transactionContract"
 import { useListPets } from "../../hooks/useListPets"
-import {
-  PetLists,
-  PetStatus,
-  PriceOption,
-  SortOption,
-} from "@/core/api/pet/petContract"
+import { PetLists, PetStatus, PriceOption } from "@/core/api/pet/petContract"
 import PetsTable from "./PetTable"
+import { SortOption } from "@/core/api/type"
 
 const TabContent: React.FC<{
   data: PetLists[] | undefined

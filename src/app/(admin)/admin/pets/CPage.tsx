@@ -3,13 +3,13 @@ import { DebounceInput } from "@/components/DebounceInput"
 import {
   PriceOption,
   priceOptions,
-  SortOption,
   sortOptions,
 } from "@/core/api/pet/petContract"
 import PetStatusTab from "@/features/pet/components/Tab"
 import { SearchOutlined } from "@ant-design/icons"
 import { Select } from "antd"
 import { useState } from "react"
+import { SortOption } from "@/core/api/type"
 
 export default function Cpage({}: {}) {
   const [search, setSearch] = useState<string>("")
