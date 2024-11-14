@@ -27,6 +27,9 @@ const config: Config = {
         },
         // D0B8A8
       },
+      fontFamily: {
+        lobster: ['Lobster', 'cursive'],
+      },
     },
   },
   plugins: [],

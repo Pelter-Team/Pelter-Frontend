@@ -1,7 +1,6 @@
 "use client"
 import { useState } from "react"
 import { ArrowLeftOutlined } from "@ant-design/icons"
-import Navbar from "../component/Navbar"
 import BasicInfo from "./_component/BasicInfo"
 import PetDoc from "./_component/PetDoc"
 import Link from "next/link"
@@ -61,9 +60,8 @@ export default function Product() {
 
   return (
     <>
-      <Navbar white={true} />
       <div className="min-h-screen h-fit w-screen bg-mainBG px-16">
-        <div className="flex flex-row pt-24 pb-7 justify-between">
+        <div className="flex flex-row pt-20 pb-7 justify-between">
           <div className="flex flex-row gap-8 items-center">
             <Link href="/">
               <ArrowLeftOutlined className="flex justify-center text-primary  w-8 h-8 rounded-md  hover:bg-gray-100" />
@@ -222,7 +220,7 @@ export default function Product() {
           </div>
 
           {!validate && (
-            <div className="w-full flex justify-center col-span-2 text-red-500">
+            <div className="w-full flex justify-center col-span-2 text-red-500 mb-8">
               Please Input all require information
             </div>
           )}
