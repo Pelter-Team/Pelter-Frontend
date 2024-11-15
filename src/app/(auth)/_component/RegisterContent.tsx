@@ -40,7 +40,7 @@ return (
     <> 
           <Form
             form={form}
-            className="w-3/4 mt-10 flex-col"
+            className="mt-10 flex-col"
             onFinish={(values) => {
                 console.log("Form submitted:", values);
                 router.push("/registersuccess");
