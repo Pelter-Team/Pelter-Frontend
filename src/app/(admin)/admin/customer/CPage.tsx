@@ -1,26 +1,19 @@
 "use client"
 import { DebounceInput } from "@/components/DebounceInput"
-import {
-  PriceOption,
-  priceOptions,
-  sortOptions,
-} from "@/core/api/pet/petContract"
-import PetStatusTab from "@/features/pet/components/Tab"
+import { sortOptions } from "@/core/api/pet/petContract"
+import { SortOption } from "@/core/api/type"
+import UserTab from "@/features/user/components/Tab"
+import UserTable from "@/features/user/components/Tab/UserTable"
 import { SearchOutlined } from "@ant-design/icons"
 import { Select } from "antd"
 import { useState } from "react"
-import { SortOption } from "@/core/api/type"
 
 export default function Cpage({}: {}) {
   const [search, setSearch] = useState<string>("")
-  const [priceOption, setPriceOption] = useState<PriceOption>(PriceOption.Free)
   const [sortOption, setSortOption] = useState<SortOption>(
     SortOption.SortByLatest
   )
 
-  const handlePriceOptionChange = (value: PriceOption) => {
-    setPriceOption(value)
-  }
   const handleSortOptionChange = (value: SortOption) => {
     setSortOption(value)
   }
@@ -40,12 +33,7 @@ export default function Cpage({}: {}) {
             <SearchOutlined />
           </div>
         </div>
-        <Select
-          value={priceOption}
-          onChange={handlePriceOptionChange}
-          options={priceOptions}
-          className="w-28"
-        />
+
         <Select
           value={sortOption}
           onChange={handleSortOptionChange}
@@ -53,11 +41,7 @@ export default function Cpage({}: {}) {
           className="w-40"
         />
       </div>
-      <PetStatusTab
-        search={search}
-        priceOption={priceOption}
-        sortOption={sortOption}
-      />
+      <UserTab search={search} sortOption={sortOption} />
     </div>
   )
 }
