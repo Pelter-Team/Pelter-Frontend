@@ -16,7 +16,7 @@ export default function Navbar({ white }: { white?: boolean }) {
 
   const menu = [
     { name: "Home", link: "/" },
-    { name: "Shop", link: "/" },
+    { name: "Shop", link: "/petlist" },
     { name: "Register your pet / stray", link: "/" },
     { name: "Contact us ", link: "/" },
   ]
