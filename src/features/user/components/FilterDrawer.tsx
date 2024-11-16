@@ -42,12 +42,14 @@ const FilterDrawer = ({ visible, onClose, onFilter }: FilterDrawerProps) => {
     max: undefined,
   })
   const [gender, setGender] = useState<string>("")
-  const [petTypes, setPetTypes] = useState({
-    strayDog: false,
-    dogBreed: "",
-    strayCat: false,
-    catBreed: "",
-  })
+  type PetTypesState = {
+    strayDog: boolean
+    dogBreed?: string
+    strayCat: boolean
+    catBreed?: string
+  }
+
+  const [petTypes, setPetTypes] = useState<PetTypesState>({} as PetTypesState)
 
   const handleApplyFilters = () => {
     onFilter({
