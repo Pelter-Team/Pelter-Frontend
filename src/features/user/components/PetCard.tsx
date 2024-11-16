@@ -58,13 +58,7 @@ const PetCard: React.FC<{ pet: Pet }> = ({ pet }) => {
     >
       <Meta
         title={
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
+          <div className="flex justify-between items-center">
             <Text strong style={{ fontSize: 16, color: "#B95F5F" }}>
               {pet.name}
             </Text>

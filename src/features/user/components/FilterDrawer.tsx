@@ -134,13 +134,7 @@ const FilterDrawer = ({ visible, onClose, onFilter }: FilterDrawerProps) => {
         Price Range
       </Checkbox>
       {!priceRange.isFree && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: 8,
-          }}
-        >
+        <div className="flex justify-between mt-2">
           <Input
             placeholder="MIN"
             style={{ width: 120 }}
