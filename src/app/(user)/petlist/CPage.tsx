@@ -8,6 +8,18 @@ import Tag from "@/features/user/components/tag"
 import { Pagination, Button, Row, Col } from "antd"
 import Image from "../../public/Pelter_5.png"
 import { useMemo } from "react"
+
+enum SortBy {
+  DATE = "date",
+  PRICE = "price",
+  NAME = "name",
+}
+
+enum SortOrder {
+  ASC = "asc",
+  DESC = "desc",
+}
+
 interface Pet {
   id: string
   image: any
@@ -236,12 +248,13 @@ const pets: Pet[] = [
     petType: { strayDog: false, strayCat: true },
   },
 ]
+
 const PetListPage = () => {
   const [foundationName, setFoundationName] = useState("")
   const [filterVisible, setFilterVisible] = useState(false)
-  const [sortBy, setSortBy] = useState("date")
-  const [sortOrder, setSortOrder] = useState("desc")
   const [currentPage, setCurrentPage] = useState(1)
+  const [sortBy, setSortBy] = useState<SortBy>(SortBy.DATE)
+  const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.DESC)
   const [petsPerPage] = useState(8)
   const [filteredPets, setFilteredPets] = useState(pets)
   const [displayedPets, setDisplayedPets] = useState(pets)
@@ -297,19 +310,19 @@ const PetListPage = () => {
     setFilteredPets(filtered)
     setCurrentPage(1)
   }
-
-  const currentPets = sortedPets.slice(indexOfFirstPet, indexOfLastPet)
-  const handlePageChange = (page: number) => setCurrentPage(page)
-
-  const handleSortChange = (value: string) => {
+  // Update the handler types
+  const handleSortChange = (value: SortBy) => {
     setSortBy(value)
     setCurrentPage(1)
   }
 
-  const handleSortOrderChange = (value: string) => {
+  const handleSortOrderChange = (value: SortOrder) => {
     setSortOrder(value)
     setCurrentPage(1)
   }
+  const currentPets = sortedPets.slice(indexOfFirstPet, indexOfLastPet)
+  const handlePageChange = (page: number) => setCurrentPage(page)
+
   const handleFilter = (filters: {
     ownerTypes: string[]
     priceRange: { isFree: boolean; min?: number; max?: number }
