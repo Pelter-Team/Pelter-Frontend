@@ -1,4 +1,5 @@
 "use client"
+
 import Link from "next/link"
 import { useState } from "react"
 import { Drawer } from "antd"
@@ -30,7 +31,7 @@ export default function Navbar({ white }: { white?: boolean }) {
   return (
     <div
       className={`z-30 flex fixed items-center justify-between px-4 md:px-8 py-2 lg:px-12 lg:py-4 h-[4.5rem] w-full ${
-        white ? "bg-white text-primary" : "bg-transparent text-white"
+        white ? "text-primary" : "bg-transparent text-white"
       }`}
     >
       <div className="flex flex-row gap-6 items-center">

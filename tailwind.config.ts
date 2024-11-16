@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
@@ -16,6 +16,7 @@ const config: Config = {
         browntext: "#873800",
         lightpinktext: "#D6AEA3",
         secondary: "#E9C9C1",
+        mainBG: "#FFFAF5",
         primary: {
           DEFAULT: "#C5705D",
           // hover: "#AED8FB",
@@ -26,8 +27,12 @@ const config: Config = {
         },
         // D0B8A8
       },
+      fontFamily: {
+        lobster: ['Lobster', 'cursive'],
+      },
     },
   },
   plugins: [],
-}
-export default config
+};
+
+export default config;
