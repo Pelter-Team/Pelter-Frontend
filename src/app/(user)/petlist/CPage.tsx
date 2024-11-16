@@ -7,7 +7,7 @@ import FilterDrawer from "@/features/user/components/FilterDrawer"
 import Tag from "@/features/user/components/tag"
 import { Pagination, Button, Row, Col } from "antd"
 import Image from "../../public/Pelter_5.png"
-
+import { useMemo } from "react"
 interface Pet {
   id: string
   image: any
@@ -247,24 +247,26 @@ const PetListPage = () => {
   const [displayedPets, setDisplayedPets] = useState(pets)
   const indexOfLastPet = currentPage * petsPerPage
   const indexOfFirstPet = indexOfLastPet - petsPerPage
-  const sortedPets = [...filteredPets].sort((a, b) => {
-    switch (sortBy) {
-      case "price":
-        return sortOrder === "asc" ? a.price - b.price : b.price - a.price
-      case "date":
-        const dateA = new Date(a.dateOfBirth)
-        const dateB = new Date(b.dateOfBirth)
-        return sortOrder === "asc"
-          ? dateA.getTime() - dateB.getTime()
-          : dateB.getTime() - dateA.getTime()
-      case "name":
-        return sortOrder === "asc"
-          ? a.name.localeCompare(b.name)
-          : b.name.localeCompare(a.name)
-      default:
-        return 0
-    }
-  })
+  const sortedPets = useMemo(() => {
+    return [...filteredPets].sort((a, b) => {
+      switch (sortBy) {
+        case "price":
+          return sortOrder === "asc" ? a.price - b.price : b.price - a.price
+        case "date":
+          const dateA = new Date(a.dateOfBirth)
+          const dateB = new Date(b.dateOfBirth)
+          return sortOrder === "asc"
+            ? dateA.getTime() - dateB.getTime()
+            : dateB.getTime() - dateA.getTime()
+        case "name":
+          return sortOrder === "asc"
+            ? a.name.localeCompare(b.name)
+            : b.name.localeCompare(a.name)
+        default:
+          return 0
+      }
+    })
+  }, [filteredPets, sortBy, sortOrder])
 
   const [selectedTag, setSelectedTag] = useState("all")
 
