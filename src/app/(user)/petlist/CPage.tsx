@@ -6,7 +6,7 @@ import SortDropdown from "@/features/user/components/SortDropdown"
 import FilterDrawer from "@/features/user/components/FilterDrawer"
 import Tag from "@/features/user/components/tag"
 import { Pagination, Button, Row, Col } from "antd"
-import Image from "../../public/Pelter_5.png"
+import Image from "@/features/user/components/Pelter_5.png"
 import { useMemo } from "react"
 
 enum SortBy {
