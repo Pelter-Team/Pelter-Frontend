@@ -379,22 +379,16 @@ const PetListPage = () => {
     }
 
     // Filter by pet types
-    if (
-      filters.petTypes.strayDog ||
-      filters.petTypes.strayCat ||
-      filters.petTypes.dogBreed ||
-      filters.petTypes.catBreed
-    ) {
-      result = result.filter((pet) => {
-        return (
-          (filters.petTypes.strayDog && pet.petType.strayDog) ||
-          (filters.petTypes.strayCat && pet.petType.strayCat) ||
-          (filters.petTypes.dogBreed &&
-            pet.petType.dogBreed === filters.petTypes.dogBreed) ||
-          (filters.petTypes.catBreed &&
-            pet.petType.catBreed === filters.petTypes.catBreed)
+    const activeFilters = Object.entries(filters.petTypes).filter(
+      ([_, value]) => value
+    )
+    if (activeFilters.length) {
+      result = result.filter((pet) =>
+        activeFilters.some(
+          ([key, value]) =>
+            pet.petType[key] === value || pet.petType[key] === true
         )
-      })
+      )
     }
 
     setFilteredPets(result)
