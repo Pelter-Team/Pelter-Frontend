@@ -253,8 +253,13 @@ const PetListPage = () => {
   const [foundationName, setFoundationName] = useState("")
   const [filterVisible, setFilterVisible] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
-  const [sortBy, setSortBy] = useState<SortBy>(SortBy.DATE)
-  const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.DESC)
+  const [sort, setSort] = useState<{
+    category: "date" | "name" | "price"
+    order: "asc" | "desc"
+  }>({
+    category: "date",
+    order: "desc",
+  })
   const [petsPerPage] = useState(8)
   const [filteredPets, setFilteredPets] = useState(pets)
   const [displayedPets, setDisplayedPets] = useState(pets)
@@ -262,24 +267,24 @@ const PetListPage = () => {
   const indexOfFirstPet = indexOfLastPet - petsPerPage
   const sortedPets = useMemo(() => {
     return [...filteredPets].sort((a, b) => {
-      switch (sortBy) {
+      switch (sort.category) {
         case "price":
-          return sortOrder === "asc" ? a.price - b.price : b.price - a.price
+          return sort.order === "asc" ? a.price - b.price : b.price - a.price
         case "date":
           const dateA = new Date(a.dateOfBirth)
           const dateB = new Date(b.dateOfBirth)
-          return sortOrder === "asc"
+          return sort.order === "asc"
             ? dateA.getTime() - dateB.getTime()
             : dateB.getTime() - dateA.getTime()
         case "name":
-          return sortOrder === "asc"
+          return sort.order === "asc"
             ? a.name.localeCompare(b.name)
             : b.name.localeCompare(a.name)
         default:
           return 0
       }
     })
-  }, [filteredPets, sortBy, sortOrder])
+  }, [filteredPets, sort])
 
   const [selectedTag, setSelectedTag] = useState("all")
 
@@ -310,16 +315,14 @@ const PetListPage = () => {
     setFilteredPets(filtered)
     setCurrentPage(1)
   }
-  // Update the handler types
-  const handleSortChange = (value: SortBy) => {
-    setSortBy(value)
+  const handleSort = (newSort: {
+    category: "date" | "name" | "price"
+    order: "asc" | "desc"
+  }) => {
+    setSort(newSort)
     setCurrentPage(1)
   }
 
-  const handleSortOrderChange = (value: SortOrder) => {
-    setSortOrder(value)
-    setCurrentPage(1)
-  }
   const currentPets = sortedPets.slice(indexOfFirstPet, indexOfLastPet)
   const handlePageChange = (page: number) => setCurrentPage(page)
 
@@ -412,12 +415,7 @@ const PetListPage = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <SortDropdown
-              sortBy={sortBy}
-              sortOrder={sortOrder}
-              onSortChange={handleSortChange}
-              onSortOrderChange={handleSortOrderChange}
-            />
+            <SortDropdown currentSort={sort} onSort={handleSort} />
             <Button
               onClick={() => setFilterVisible(true)}
               type="primary"

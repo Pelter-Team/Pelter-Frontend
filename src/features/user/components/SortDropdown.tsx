@@ -1,12 +1,14 @@
 import { Dropdown, Menu } from "antd"
 import { DownOutlined } from "@ant-design/icons"
 
-interface SortDropdownProps {
-  sortBy: string
+type SortOption = {
+  category: "date" | "name" | "price"
+  order: "asc" | "desc"
+}
 
-  sortOrder: "asc" | "desc"
-  onSortChange: (category: string) => void
-  onSortOrderChange: (order: "asc" | "desc") => void
+interface SortDropdownProps {
+  currentSort: SortOption
+  onSort: (sort: SortOption) => void
 }
 
 const SORT_OPTIONS = {
@@ -17,16 +19,10 @@ const SORT_OPTIONS = {
   priceHighToLow: { category: "price", order: "desc", label: "Highest Price" },
 } as const
 
-const SortDropdown = ({
-  sortBy,
-  sortOrder,
-  onSortChange,
-  onSortOrderChange,
-}: SortDropdownProps) => {
+const SortDropdown = ({ currentSort, onSort }: SortDropdownProps) => {
   const handleMenuClick = ({ key }: { key: string }) => {
     const option = SORT_OPTIONS[key as keyof typeof SORT_OPTIONS]
-    onSortChange(option.category)
-    onSortOrderChange(option.order)
+    onSort({ category: option.category, order: option.order })
   }
 
   const sortMenu = (
@@ -40,14 +36,15 @@ const SortDropdown = ({
   )
 
   const getSortDisplayText = () => {
-    if (sortBy === "price") {
-      return `Sort by Price: ${sortOrder === "asc" ? "Low to High" : "High to Low"}`
+    const { category, order } = currentSort
+    if (category === "price") {
+      return `Sort by Price: ${order === "asc" ? "Low to High" : "High to Low"}`
     }
-    if (sortBy === "name") {
+    if (category === "name") {
       return "Sort by Alphabet"
     }
-    if (sortBy === "date") {
-      return `Sort by ${sortOrder === "desc" ? "Latest" : "Oldest"}`
+    if (category === "date") {
+      return `Sort by ${order === "desc" ? "Latest" : "Oldest"}`
     }
     return "Sort By"
   }
