@@ -1,6 +1,22 @@
 import { Dropdown, Menu } from "antd"
 import { DownOutlined } from "@ant-design/icons"
 
+interface SortDropdownProps {
+  sortBy: string
+
+  sortOrder: "asc" | "desc"
+  onSortChange: (category: string) => void
+  onSortOrderChange: (order: "asc" | "desc") => void
+}
+
+const SORT_OPTIONS = {
+  latest: { category: "date", order: "desc", label: "Latest" },
+  oldest: { category: "date", order: "asc", label: "Oldest" },
+  alphabet: { category: "name", order: "asc", label: "Alphabet" },
+  priceLowToHigh: { category: "price", order: "asc", label: "Lowest Price" },
+  priceHighToLow: { category: "price", order: "desc", label: "Highest Price" },
+} as const
+
 const SortDropdown = ({
   sortBy,
   sortOrder,
@@ -8,35 +24,16 @@ const SortDropdown = ({
   onSortOrderChange,
 }: SortDropdownProps) => {
   const handleMenuClick = ({ key }: { key: string }) => {
-    switch (key) {
-      case "latest":
-        onSortChange("date")
-        onSortOrderChange("desc")
-        break
-      case "priceLowToHigh":
-        onSortChange("price")
-        onSortOrderChange("asc")
-        break
-      case "priceHighToLow":
-        onSortChange("price")
-        onSortOrderChange("desc")
-        break
-      case "Oldest":
-        onSortChange("date")
-        onSortOrderChange("asc")
-        break
-      case "Alphabet":
-        onSortChange("name")
-        onSortOrderChange("asc")
-        break
-    }
+    const option = SORT_OPTIONS[key as keyof typeof SORT_OPTIONS]
+    onSortChange(option.category)
+    onSortOrderChange(option.order)
   }
 
   const sortMenu = (
     <Menu onClick={handleMenuClick}>
       <Menu.Item key="latest">Latest</Menu.Item>
-      <Menu.Item key="Oldest">Oldest</Menu.Item>
-      <Menu.Item key="Alphabet">Alphabet</Menu.Item>
+      <Menu.Item key="oldest">Oldest</Menu.Item>
+      <Menu.Item key="alphabet">Alphabet</Menu.Item>
       <Menu.Item key="priceLowToHigh">Lowest Price</Menu.Item>
       <Menu.Item key="priceHighToLow">Highest Price</Menu.Item>
     </Menu>
@@ -44,15 +41,13 @@ const SortDropdown = ({
 
   const getSortDisplayText = () => {
     if (sortBy === "price") {
-      return sortOrder === "asc"
-        ? "Sort by Price: Low to High"
-        : "Sort by Price: High to Low"
+      return `Sort by Price: ${sortOrder === "asc" ? "Low to High" : "High to Low"}`
     }
     if (sortBy === "name") {
       return "Sort by Alphabet"
     }
     if (sortBy === "date") {
-      return sortOrder === "desc" ? "Sort by Latest" : "Sor by Oldest"
+      return `Sort by ${sortOrder === "desc" ? "Latest" : "Oldest"}`
     }
     return "Sort By"
   }
@@ -65,4 +60,5 @@ const SortDropdown = ({
     </Dropdown>
   )
 }
+
 export default SortDropdown
