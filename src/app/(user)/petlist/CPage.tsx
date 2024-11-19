@@ -43,7 +43,6 @@ interface Pet {
     catBreed?: string
   }
 }
-
 const pets: Pet[] = [
   {
     id: "1",
@@ -260,11 +259,7 @@ const PetListPage = () => {
     category: "date",
     order: "desc",
   })
-  const [petsPerPage] = useState(8)
   const [filteredPets, setFilteredPets] = useState(pets)
-  const [displayedPets, setDisplayedPets] = useState(pets)
-  const indexOfLastPet = currentPage * petsPerPage
-  const indexOfFirstPet = indexOfLastPet - petsPerPage
   const sortedPets = useMemo(() => {
     return [...filteredPets].sort((a, b) => {
       switch (sort.category) {
@@ -285,6 +280,14 @@ const PetListPage = () => {
       }
     })
   }, [filteredPets, sort])
+  const [petsPerPage] = useState(8)
+
+  const [displayedPets, setDisplayedPets] = useState(pets)
+  const indexOfLastPet = currentPage * petsPerPage
+  const indexOfFirstPet = indexOfLastPet - petsPerPage
+  const filteredAndSortedPets = useMemo(() => {
+    return sortedPets.slice(indexOfFirstPet, indexOfLastPet)
+  }, [sortedPets, indexOfFirstPet, indexOfLastPet])
 
   const [selectedTag, setSelectedTag] = useState("all")
 
@@ -338,65 +341,54 @@ const PetListPage = () => {
     }
     foundationName?: string
   }) => {
-    let result = [...pets]
-
-    // Add foundation name filter for foundations only
-    if (filters.foundationName) {
-      result = result.filter(
-        (pet) =>
-          pet.ownerType === "Foundation" &&
+    // Use Array.reduce for cleaner filtering
+    const result = pets.reduce((filtered, pet) => {
+      // Foundation name filter
+      const matchesFoundation =
+        !filters.foundationName ||
+        (pet.ownerType === "Foundation" &&
           pet.ownerName
             .toLowerCase()
-            .includes(filters.foundationName.toLowerCase())
-      )
-    }
+            .includes(filters.foundationName.toLowerCase()))
 
-    // Filter by owner types
-    if (filters.ownerTypes.length > 0) {
-      result = result.filter((pet) =>
+      // Owner type filter
+      const matchesOwnerType =
+        filters.ownerTypes.length === 0 ||
         filters.ownerTypes.includes(pet.ownerType)
+
+      // Price range filter
+      const matchesPrice = filters.priceRange.isFree
+        ? pet.price === 0
+        : (!filters.priceRange.min || pet.price >= filters.priceRange.min) &&
+          (!filters.priceRange.max || pet.price <= filters.priceRange.max)
+
+      // Gender filter
+      const matchesGender = !filters.gender || pet.gender === filters.gender
+
+      // Pet type filter
+      const activeFilters = Object.entries(filters.petTypes).filter(
+        ([_, value]) => value
       )
-    }
+      const matchesPetType =
+        activeFilters.length === 0 ||
+        activeFilters.some(([key, value]) => pet.petType[key] === value)
 
-    // Filter by price range
-    if (filters.priceRange.isFree) {
-      result = result.filter((pet) => pet.price === 0)
-    } else if (
-      filters.priceRange.min !== undefined ||
-      filters.priceRange.max !== undefined
-    ) {
-      result = result.filter((pet) => {
-        const meetsMin =
-          filters.priceRange.min === undefined ||
-          pet.price >= filters.priceRange.min
-        const meetsMax =
-          filters.priceRange.max === undefined ||
-          pet.price <= filters.priceRange.max
-        return meetsMin && meetsMax
-      })
-    }
-
-    // Filter by gender
-    if (filters.gender) {
-      result = result.filter((pet) => pet.gender === filters.gender)
-    }
-
-    // Filter by pet types
-    const activeFilters = Object.entries(filters.petTypes).filter(
-      ([_, value]) => value
-    )
-    if (activeFilters.length) {
-      result = result.filter((pet) =>
-        activeFilters.some(
-          ([key, value]) =>
-            pet.petType[key] === value || pet.petType[key] === true
-        )
-      )
-    }
+      if (
+        matchesFoundation &&
+        matchesOwnerType &&
+        matchesPrice &&
+        matchesGender &&
+        matchesPetType
+      ) {
+        filtered.push(pet)
+      }
+      return filtered
+    }, [] as Pet[])
 
     setFilteredPets(result)
     setCurrentPage(1)
   }
+
   const handleClearFilters = () => {
     setFilteredPets(pets)
     setCurrentPage(1)

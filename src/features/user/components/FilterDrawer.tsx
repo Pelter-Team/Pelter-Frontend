@@ -8,7 +8,7 @@ import {
   Divider,
   Space,
 } from "antd"
-import { useState } from "react"
+import { useState, useCallback, SetStateAction } from "react"
 
 interface FilterValues {
   ownerTypes: string[]
@@ -31,6 +31,14 @@ interface FilterDrawerProps {
   visible: boolean
   onClose: () => void
   onFilter: (filters: FilterValues) => void
+  onClear: () => void
+}
+
+const inititalPetType = {
+  strayDog: false,
+  dogBreed: "",
+  strayCat: false,
+  catBreed: "",
 }
 
 const FilterDrawer = ({ visible, onClose, onFilter }: FilterDrawerProps) => {
@@ -42,16 +50,9 @@ const FilterDrawer = ({ visible, onClose, onFilter }: FilterDrawerProps) => {
     max: undefined,
   })
   const [gender, setGender] = useState<string>("")
-  type PetTypesState = {
-    strayDog: boolean
-    dogBreed?: string
-    strayCat: boolean
-    catBreed?: string
-  }
-
-  const [petTypes, setPetTypes] = useState<PetTypesState>({} as PetTypesState)
-
-  const handleApplyFilters = () => {
+  const [petTypes, setPetTypes] =
+    useState<FilterValues["petTypes"]>(inititalPetType)
+  const handleApplyFilters = useCallback(() => {
     onFilter({
       ownerTypes,
       priceRange,
@@ -61,7 +62,8 @@ const FilterDrawer = ({ visible, onClose, onFilter }: FilterDrawerProps) => {
         ? foundationName
         : undefined,
     })
-  }
+    onClose()
+  }, [ownerTypes, priceRange, gender, petTypes, foundationName, onFilter])
 
   const handleClearFilters = () => {
     setOwnerTypes([])
@@ -107,7 +109,7 @@ const FilterDrawer = ({ visible, onClose, onFilter }: FilterDrawerProps) => {
           {ownerTypes.includes("Foundation") && (
             <Input
               placeholder="Enter foundation name"
-              style={{ width: 200, marginLeft: 24 }}
+              className="w-[200px] ml-6"
               value={foundationName}
               onChange={(e) => setFoundationName(e.target.value)}
             />
@@ -137,7 +139,7 @@ const FilterDrawer = ({ visible, onClose, onFilter }: FilterDrawerProps) => {
         <div className="flex justify-between mt-2">
           <Input
             placeholder="MIN"
-            style={{ width: 120 }}
+            className="w-[120px]"
             value={priceRange.min}
             onChange={(e) =>
               setPriceRange((prev) => ({
@@ -149,7 +151,7 @@ const FilterDrawer = ({ visible, onClose, onFilter }: FilterDrawerProps) => {
           <span>—</span>
           <Input
             placeholder="MAX"
-            style={{ width: 120 }}
+            className="w-[120px]"
             value={priceRange.max}
             onChange={(e) =>
               setPriceRange((prev) => ({
@@ -202,7 +204,7 @@ const FilterDrawer = ({ visible, onClose, onFilter }: FilterDrawerProps) => {
             { value: "Bulldog" },
             { value: "Poodle" },
           ]}
-          style={{ width: "100%", marginTop: 8 }}
+          className="w-full mt-2"
           placeholder="e.g., Golden Retriever"
           onChange={(value) =>
             setPetTypes((prev) => ({ ...prev, dogBreed: value }))
@@ -236,7 +238,7 @@ const FilterDrawer = ({ visible, onClose, onFilter }: FilterDrawerProps) => {
             { value: "Siamese" },
             { value: "Bengal" },
           ]}
-          style={{ width: "100%", marginTop: 8 }}
+          className="w-full mt-2"
           placeholder="e.g., Persian"
           onChange={(value) =>
             setPetTypes((prev) => ({ ...prev, catBreed: value }))
@@ -247,13 +249,13 @@ const FilterDrawer = ({ visible, onClose, onFilter }: FilterDrawerProps) => {
       <Divider />
 
       <Button
-        className="bg-[#B95F5F] text-white w-full mt-4"
+        className="w-full mt-4 bg-[#B95F5F] text-white"
         onClick={handleApplyFilters}
       >
         Apply Filters
       </Button>
       <Button
-        className="text-[#B95F5F] w-full mt-2"
+        className="w-full mt-2 text-[#B95F5F]"
         onClick={handleClearFilters}
       >
         Clear All
