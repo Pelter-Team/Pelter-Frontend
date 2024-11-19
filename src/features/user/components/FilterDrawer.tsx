@@ -9,7 +9,11 @@ import {
   Space,
 } from "antd"
 import { useState, useCallback, SetStateAction } from "react"
-
+interface PriceRange {
+  isFree: boolean
+  min: number | undefined
+  max: number | undefined
+}
 interface FilterValues {
   ownerTypes: string[]
   priceRange: {
@@ -44,7 +48,7 @@ const inititalPetType = {
 const FilterDrawer = ({ visible, onClose, onFilter }: FilterDrawerProps) => {
   const [ownerTypes, setOwnerTypes] = useState<string[]>([])
   const [foundationName, setFoundationName] = useState<string>("")
-  const [priceRange, setPriceRange] = useState({
+  const [priceRange, setPriceRange] = useState<PriceRange>({
     isFree: false,
     min: undefined,
     max: undefined,
