@@ -372,10 +372,9 @@ const PetListPage = () => {
       const matchesPetType =
         activeFilters.length === 0 ||
         activeFilters.some(([key, value]) => {
-          return (
-            key in pet.petType &&
+          return
+          key in pet.petType &&
             pet.petType[key as keyof typeof pet.petType] === value
-          )
         })
       if (
         matchesFoundation &&
