@@ -14,8 +14,11 @@ interface Pet {
   price: number
 }
 
-const PetCard: React.FC<{ pet: Pet }> = ({ pet }) => {
-  const [isFavorite, setIsFavorite] = useState(false)
+const PetCard: React.FC<{ pet: Pet; isFavorited?: boolean }> = ({
+  pet,
+  isFavorited = false,
+}) => {
+  const [isFavorite, setIsFavorite] = useState(isFavorited)
 
   return (
     <Card
@@ -63,17 +66,10 @@ const PetCard: React.FC<{ pet: Pet }> = ({ pet }) => {
             <Text strong style={{ fontSize: 16, color: "#B95F5F" }}>
               {pet.name}
             </Text>
-            {isFavorite ? (
-              <HeartFilled
-                style={{ fontSize: 18, color: "#B95F5F", cursor: "pointer" }}
-                onClick={() => setIsFavorite(false)}
-              />
-            ) : (
-              <HeartOutlined
-                style={{ fontSize: 18, cursor: "pointer" }}
-                onClick={() => setIsFavorite(true)}
-              />
-            )}
+            <HeartFilled
+              style={{ fontSize: 18, color: "#B95F5F", cursor: "pointer" }}
+              onClick={() => setIsFavorite(false)}
+            />
           </div>
         }
         description={
@@ -83,5 +79,4 @@ const PetCard: React.FC<{ pet: Pet }> = ({ pet }) => {
     </Card>
   )
 }
-
 export default PetCard

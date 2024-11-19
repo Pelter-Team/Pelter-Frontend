@@ -46,12 +46,18 @@ export default function Navbar({ white }: { white?: boolean }) {
           keyboard
           footer={
             <div className="flex flex-col gap-4 bottom-0 text-lg w-full pb-4 pt-2">
-              <Link href="/" className="flex items-center hover:text-primary">
+              <Link
+                href="/petlist/favorite"
+                className="flex items-center hover:text-primary"
+              >
                 <ShoppingCartOutlined className="text-3xl hover:text-black pr-2" />
                 Shopping Cart
               </Link>
               <hr />
-              <Link href="/" className="flex items-center hover:text-primary">
+              <Link
+                href="/petlist/favorite"
+                className="flex items-center hover:text-primary"
+              >
                 <HeartOutlined className="text-3xl hover:text-black pr-2" />
                 Wish list
               </Link>
