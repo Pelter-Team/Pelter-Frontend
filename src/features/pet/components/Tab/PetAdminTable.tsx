@@ -51,10 +51,18 @@ const columns: TableProps<PetLists>["columns"] = [
   },
 ]
 
-export default function PetsTable({ data }: { data: PetLists[] | undefined }) {
+export default function PetAdminTable({
+  data,
+}: {
+  data: PetLists[] | undefined
+}) {
   return (
     <>
-      <Table<PetLists> columns={columns} dataSource={data} />
+      <Table<PetLists>
+        rowKey={(record) => record.petId}
+        columns={columns}
+        dataSource={data}
+      />
     </>
   )
 }
