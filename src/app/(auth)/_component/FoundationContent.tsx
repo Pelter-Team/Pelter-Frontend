@@ -1,4 +1,4 @@
-import { Input, Button, Form, Tabs, Upload, Checkbox, Select, Divider } from "antd";
+import { Input, Button, Form, Upload, Checkbox, Select, Divider, UploadFile } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import type { FormInstance } from "antd";
@@ -35,7 +35,7 @@ export default function FoundationContent(){
 
   const [form] = Form.useForm();
   const router = useRouter(); //navigate to success
-  const [fileList, setFileList] = useState([]); //store file that user upload
+  const [fileList, setFileList] = useState<UploadFile[]>(); //store file that user upload
   //@ts-ignore
   const handleFileChange = ({ fileList }: {fileList:any}) => {
     setFileList(fileList); // Update fileList state
@@ -47,7 +47,6 @@ export default function FoundationContent(){
         form={form}
         className="mt-10 flex-col"
         onFinish={(values) => {
-            console.log("Form submitted:", values);
             router.push("/registersuccess");
           }}  
       >

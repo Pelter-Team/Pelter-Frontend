@@ -9,7 +9,7 @@ interface SubmitButtonProps {
   form: FormInstance;
 }
 export const SubmitButton: React.FC<React.PropsWithChildren<SubmitButtonProps>> = ({form,children,}) => {
-  const [submittable, setSubmittable] = useState(false);
+  const [submittable, setSubmittable] = useState<boolean>(false);
   const values = Form.useWatch([], form);
 
   useEffect(() => {
@@ -42,7 +42,6 @@ return (
             form={form}
             className="mt-10 flex-col"
             onFinish={(values) => {
-                console.log("Form submitted:", values);
                 router.push("/registersuccess");
             }}  
           >
