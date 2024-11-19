@@ -1,8 +1,8 @@
 import { PetLists, PetStatus } from "@/core/api/pet/petContract"
 import { useQuery } from "@tanstack/react-query"
-import { PetStatusTabProps } from "../components/Tab"
+import { PetAdminStatusTabProps } from "../components/Tab/PetAdminTab"
 
-interface UseListPetProps extends PetStatusTabProps {
+interface UseListPetProps extends PetAdminStatusTabProps {
   activeTab: PetStatus
 }
 export const useListPets = ({
