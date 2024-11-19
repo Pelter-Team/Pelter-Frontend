@@ -5,20 +5,20 @@ const cards: CardTotalType[] = [
   {
     title: "Total Number of Animals",
     value: "001",
-    bgColor: "bg-[#EAF6FE]",
-    textColor: "text-[#0452AD]",
+    bgColor: "bg-[#E9C9C1]",
+    textColor: "text-[#873800]",
   },
   {
     title: "Total Number of Dogs",
     value: "200",
-    bgColor: "bg-[#F6F4FE]",
-    textColor: "text-[#4D3BB8]",
+    bgColor: "bg-[#E9C9C1]",
+    textColor: "text-[#873800]",
   },
   {
     title: "Total Number of Cats",
     value: "001",
-    bgColor: "bg-[#FFECE7]",
-    textColor: "text-[#FF5016]",
+    bgColor: "bg-[#E9C9C1]",
+    textColor: "text-[#873800]",
   },
 ]
 export default function page({}: {}) {

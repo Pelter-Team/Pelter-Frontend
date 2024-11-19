@@ -5,7 +5,7 @@ import {
   priceOptions,
   sortOptions,
 } from "@/core/api/pet/petContract"
-import PetStatusTab from "@/features/pet/components/Tab"
+import PetAdminStatusTab from "@/features/pet/components/Tab/PetAdminTab"
 import { SearchOutlined } from "@ant-design/icons"
 import { Select } from "antd"
 import { useState } from "react"
@@ -28,13 +28,13 @@ export default function Cpage({}: {}) {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex gap-2 flex-wrap ">
-        <div className="flex flex-shrink-0">
+        <div className="flex items-center flex-shrink-0">
           <DebounceInput
             onChange={(e) => setSearch(e.target.value)}
             debounceTimeout={300}
             value={search}
             placeholder="input search text"
-            className="rounded-l-md !max-w-80 !w-80 border outline-none px-2 focus:border-primary"
+            className="debounce-input"
           />
           <div className="rounded-r-md px-2 py-1 flex justify-center items-center border-r border-t border-b bg-gray-50 ">
             <SearchOutlined />
@@ -50,10 +50,10 @@ export default function Cpage({}: {}) {
           value={sortOption}
           onChange={handleSortOptionChange}
           options={sortOptions}
-          className="w-40"
+          className="w-40 h-full"
         />
       </div>
-      <PetStatusTab
+      <PetAdminStatusTab
         search={search}
         priceOption={priceOption}
         sortOption={sortOption}
