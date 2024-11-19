@@ -4,8 +4,8 @@ import {
   BarChartOutlined,
   BankOutlined,
   ProfileOutlined,
-  ShopOutlined,
   UserOutlined,
+  TrophyOutlined,
 } from "@ant-design/icons"
 
 import { Button } from "antd"
@@ -31,19 +31,19 @@ const LinkItems: LinkItemType[] = [
     path: "/admin/transactions",
   },
   {
-    title: "Pet status",
+    title: "Pet Status",
     icon: <ProfileOutlined />,
-    path: "/admin/pet-status",
-  },
-  {
-    title: "Order",
-    icon: <ShopOutlined />,
-    path: "/admin/orders",
+    path: "/admin/pets",
   },
   {
     title: "Customer Info",
     icon: <UserOutlined />,
     path: "/admin/customer",
+  },
+  {
+    title: "Verification",
+    icon: <TrophyOutlined />,
+    path: "/admin/verification",
   },
 ]
 
