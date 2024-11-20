@@ -53,6 +53,25 @@ export const petVerificationOptions = [
   { value: "Verified", label: "Verified" },
 ]
 
+const PetDetail = z.object({
+  id: z.number(),
+  user_id: z.number(),
+  transaction_id: z.number(),
+  review_id: z.array(z.number()),
+  name: z.string().min(1),
+  is_sold: z.boolean(),
+  category: z.string().min(1),
+  subcategory: z.string().min(1),
+  description: z.string().min(1),
+  is_verified: z.boolean(),
+  price: z.number().positive(),
+  image_url: z.string().url(),
+  vaccine_book_url: z.string().url().nullable().optional(),
+  created_at: z.date(),
+  updated_at: z.date(),
+})
+export type PetDetail = z.infer<typeof PetDetail>
+
 const c = initContract()
 export const petContract = c.router({
   getListPets: {
@@ -114,6 +133,17 @@ export const petContract = c.router({
     path: "/pets/graph/animal-looking-for-home",
     responses: {
       200: c.type<Response<Graph[]>>(),
+      400: c.type<Response<ErrorResponse>>(),
+    },
+  },
+  getPetId: {
+    method: "GET",
+    pathParams: c.type<{
+      petId: number
+    }>(),
+    path: "product/:petId",
+    responses: {
+      200: c.type<Response<PetDetail>>(),
       400: c.type<Response<ErrorResponse>>(),
     },
   },
