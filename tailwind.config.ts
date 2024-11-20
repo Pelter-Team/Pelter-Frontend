@@ -5,6 +5,7 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/features/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
@@ -19,13 +20,13 @@ const config: Config = {
         mainBG: "#FFFAF5",
         primary: {
           DEFAULT: "#C5705D",
-          // hover: "#AED8FB",
-          // active: "#96CFFA",
         },
         accent: {
           DEFAULT: "#873800",
         },
-        // D0B8A8
+      },
+      fontFamily: {
+        lobster: ["Lobster", "cursive"],
       },
       fontFamily: {
         lobster: ['Lobster', 'cursive'],
