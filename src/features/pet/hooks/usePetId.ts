@@ -41,7 +41,8 @@ export const mockPetId = async (): Promise<PetDetail> => {
     image_url: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba",
     created_at: new Date("2024-02-01"),
     updated_at: new Date("2024-03-01"),
-    vaccine_book_url: "https://example.com/vaccine/luna-cert.pdf",
+    vaccine_book_url:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlP9PCpci2g2Nk9n_BZTEXj1d9uZeb6kOWlQ&s",
   }
   return new Promise((resolve) => {
     setTimeout(() => {

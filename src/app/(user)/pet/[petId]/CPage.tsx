@@ -1,7 +1,7 @@
 "use client"
 
 import LoadingSpinner from "@/components/LoadingSpinner"
-import PetContract from "@/features/pet/components/Descriptions/Contract"
+import PetContract from "@/features/pet/components/Descriptions/Contact"
 import PetDescription from "@/features/pet/components/Descriptions/Pet"
 import { useAdoptPet } from "@/features/pet/hooks/useAdoptPet"
 import { usePetId } from "@/features/pet/hooks/usePetId"
