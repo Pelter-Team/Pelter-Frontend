@@ -51,7 +51,10 @@ export default function Navbar({ white }: { white?: boolean }) {
                 Shopping Cart
               </Link>
               <hr />
-              <Link href="/" className="flex items-center hover:text-primary">
+              <Link
+                href="/petlist/favorite"
+                className="flex items-center hover:text-primary"
+              >
                 <HeartOutlined className="text-3xl hover:text-black pr-2" />
                 Wish list
               </Link>
