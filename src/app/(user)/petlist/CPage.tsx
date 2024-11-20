@@ -44,7 +44,6 @@ interface PetType {
   strayCat: boolean
   catBreed?: string
 }
-
 const pets: Pet[] = [
   {
     id: "1",
@@ -371,15 +370,12 @@ const PetListPage = () => {
       const activeFilters = Object.entries(filters.petTypes).filter(
         ([_, value]) => value
       )
-
-      // pet.petType
       const matchesPetType =
         activeFilters.length === 0 ||
         activeFilters.some(([key, value]) => {
           let castTypeKey: keyof PetType = key as keyof PetType
           return pet.petType[castTypeKey] === value
         })
-
       if (
         matchesFoundation &&
         matchesOwnerType &&
