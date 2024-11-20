@@ -89,15 +89,17 @@ export default function Navbar({ white }: { white?: boolean }) {
         <Link href="/">
           <ShoppingCartOutlined className="text-3xl hover:text-black" />
         </Link>
-        <Link
-          href="/register"
-        >
-          <Button className="flex h-full py-2 px-4 border-2 border-yellow-800 bg-yellow-800 text-white justify-center items-center rounded-md hover:bg-yellow-600">Sign Up</Button>
+        <Link href="/register">
+          <Button className="flex h-full py-2 px-4 border-2 border-yellow-800 bg-yellow-800 text-white justify-center items-center rounded-md hover:bg-yellow-600">
+            Sign Up
+          </Button>
         </Link>
-        <Link
-          href="/signin"
-        >
-          <Button  className={`flex h-full py-2 px-4 border-2 justify-center items-center rounded-md ${white ? "bg-secondary border-secondary hover:bg-#E9C9C1 hover:bg-opacity-80 text-black" : "border-white hover:bg-white text-white hover:text-black"}`}>Log In</Button>
+        <Link href="/signin">
+          <Button
+            className={`flex h-full py-2 px-4 border-2 justify-center items-center rounded-md ${white ? "bg-secondary border-secondary hover:bg-#E9C9C1 hover:bg-opacity-80" : "border-white hover:bg-white"}`}
+          >
+            Log In
+          </Button>
         </Link>
       </div>
     </div>

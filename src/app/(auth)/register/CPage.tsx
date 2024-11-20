@@ -1,13 +1,12 @@
-"use client";
-import Link from "next/link";
-import Image from "next/image";
-import { Tabs } from "antd";
-import Pelter4 from "../../public/Pelter_4.png";
+"use client"
+import Link from "next/link"
+import Image from "next/image"
+import { Tabs } from "antd"
+import Pelter4 from "../../public/Pelter_4.png"
 import RegisterContent from "../_component/RegisterContent"
 import FoundationContent from "../_component/FoundationContent"
 
 export default function SignUp() {
-
   return (
     <div className="flex h-screen">
       {/* Left Section */}
@@ -19,7 +18,8 @@ export default function SignUp() {
           A place dedicated to pet lovers.
         </p>
         <p className="mt-2 text-pinktext">
-          Sign up is simple, free, and fast. One place to manage everything, and everyone.
+          Sign up is simple, free, and fast. One place to manage everything, and
+          everyone.
         </p>
         <div className="absolute bottom-0">
           <Image
@@ -43,21 +43,20 @@ export default function SignUp() {
           here.
         </p>
 
-          <Tabs
-            defaultActiveKey="individual"
-            centered
-            tabBarStyle={{ color: "#C5705D" }}
-            className="custom-tabs"
-          >
-            <Tabs.TabPane tab="Individual" key="individual">
-                <RegisterContent/>
-            </Tabs.TabPane>
-            <Tabs.TabPane tab="Foundation" key="foundation">
-                <FoundationContent/>
-            </Tabs.TabPane>
-          </Tabs>
-
+        <Tabs
+          defaultActiveKey="individual"
+          centered
+          tabBarStyle={{ color: "#C5705D" }}
+          className="custom-tabs"
+        >
+          <Tabs.TabPane tab="Individual" key="individual">
+            <RegisterContent />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="Foundation" key="foundation">
+            <FoundationContent />
+          </Tabs.TabPane>
+        </Tabs>
       </div>
     </div>
-  );
+  )
 }
