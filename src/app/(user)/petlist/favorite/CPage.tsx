@@ -1,56 +1,48 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import PetCard from "@/features/user/components/PetCard"
 import Tag from "@/features/user/components/tag"
 import { Pagination, Button, Row, Col } from "antd"
-import Image from "../../../public/Pelter_5.png"
 
-const favoritePets = [
-  {
-    id: "1",
-    image: Image,
-    name: "Luna",
-    breed: "Persian",
-    dateOfBirth: "2022-01-01",
-    price: 0,
-    color: "White",
-    description: "Friendly and playful Persian cat",
-    location: "New York",
-    ownerName: "John Smith",
-    ownerType: "Individual",
-    contact: "+1234567890",
-    review: 4.5,
-    gender: "Female",
-    vaccinationStatus: true,
-    petType: { strayDog: false, strayCat: true, catBreed: "Persian" },
-  },
-  {
-    id: "3",
-    image: Image,
-    name: "Mickey",
-    breed: "Golden Retriever",
-    dateOfBirth: "2023-03-20",
-    price: 250,
-    color: "Golden",
-    description: "Loving and well-trained Golden Retriever",
-    location: "Chicago",
-    ownerName: "Happy Paws Shelter",
-    ownerType: "Foundation",
-    contact: "+1122334455",
-    review: 4.8,
-    gender: "Male",
-    vaccinationStatus: true,
-    petType: { strayDog: false, strayCat: false, dogBreed: "Golden Retriever" },
-  },
-]
+interface Pet {
+  id: string
+  image: any
+  name: string
+  breed: string
+  dateOfBirth: string
+  price: number
+  color: string
+  description: string
+  location: string
+  ownerName: string
+  ownerType: string
+  contact: string
+  review: number
+  gender: string
+  vaccinationStatus: boolean
+  petType: {
+    strayDog?: boolean
+    strayCat?: boolean
+    dogBreed?: string
+    catBreed?: string
+  }
+}
 
 const CFavoritePetList = () => {
   const [currentPage, setCurrentPage] = useState(1)
 
-  const [filteredPets, setFilteredPets] = useState(favoritePets)
+  const [filteredPets, setFilteredPets] = useState<Pet[]>([])
   const [petsPerPage] = useState(8)
   const [selectedTag, setSelectedTag] = useState("all")
+
+  useEffect(() => {
+    const allPets: Pet[] = []
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "{}")
+    const favoritePets = allPets.filter((pet) => favorites[pet.id] === true)
+
+    setFilteredPets(favoritePets)
+  }, [])
 
   const indexOfLastPet = currentPage * petsPerPage
   const indexOfFirstPet = indexOfLastPet - petsPerPage
@@ -58,11 +50,11 @@ const CFavoritePetList = () => {
 
   const getPetCounts = () => {
     return {
-      all: favoritePets.length,
-      dogs: favoritePets.filter(
+      all: filteredPets.length,
+      dogs: filteredPets.filter(
         (pet) => pet.petType.strayDog || pet.petType.dogBreed
       ).length,
-      cats: favoritePets.filter(
+      cats: filteredPets.filter(
         (pet) => pet.petType.strayCat || pet.petType.catBreed
       ).length,
     }
@@ -70,14 +62,15 @@ const CFavoritePetList = () => {
 
   const handleTagSelect = (tag: string) => {
     setSelectedTag(tag)
-    let filtered = [...favoritePets]
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "{}")
+    let filtered = [...filteredPets]
 
     if (tag === "dogs") {
-      filtered = favoritePets.filter(
+      filtered = filteredPets.filter(
         (pet) => pet.petType.strayDog || pet.petType.dogBreed
       )
     } else if (tag === "cats") {
-      filtered = favoritePets.filter(
+      filtered = filteredPets.filter(
         (pet) => pet.petType.strayCat || pet.petType.catBreed
       )
     }
@@ -95,7 +88,7 @@ const CFavoritePetList = () => {
           <div className="flex flex-col">
             <h2 className="text-2xl font-bold">Your Wish List</h2>
             <span className="text-gray-500 text-sm">
-              {favoritePets.length} lists in total
+              {filteredPets.length} lists in total
             </span>
           </div>
           <Tag
