@@ -47,41 +47,14 @@ const favoritePets = [
 
 const CFavoritePetList = () => {
   const [currentPage, setCurrentPage] = useState(1)
-  const [sort, setSort] = useState<{
-    category: "date" | "name" | "price"
-    order: "asc" | "desc"
-  }>({
-    category: "date",
-    order: "desc",
-  })
+
   const [filteredPets, setFilteredPets] = useState(favoritePets)
   const [petsPerPage] = useState(8)
   const [selectedTag, setSelectedTag] = useState("all")
 
-  const sortedPets = useMemo(() => {
-    return [...filteredPets].sort((a, b) => {
-      switch (sort.category) {
-        case "price":
-          return sort.order === "asc" ? a.price - b.price : b.price - a.price
-        case "date":
-          const dateA = new Date(a.dateOfBirth)
-          const dateB = new Date(b.dateOfBirth)
-          return sort.order === "asc"
-            ? dateA.getTime() - dateB.getTime()
-            : dateB.getTime() - dateA.getTime()
-        case "name":
-          return sort.order === "asc"
-            ? a.name.localeCompare(b.name)
-            : b.name.localeCompare(a.name)
-        default:
-          return 0
-      }
-    })
-  }, [filteredPets, sort])
-
   const indexOfLastPet = currentPage * petsPerPage
   const indexOfFirstPet = indexOfLastPet - petsPerPage
-  const currentPets = sortedPets.slice(indexOfFirstPet, indexOfLastPet)
+  const currentPets = filteredPets.slice(indexOfFirstPet, indexOfLastPet)
 
   const getPetCounts = () => {
     return {
