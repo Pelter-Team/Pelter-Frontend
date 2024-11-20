@@ -38,7 +38,7 @@ const UserTab: React.FC<UserTabProps> = ({ search, sortOption }) => {
   }
 
   return (
-    <Tabs defaultActiveKey="1" onChange={onChangeTab}>
+    <Tabs defaultActiveKey={UserType.Individual} onChange={onChangeTab}>
       <TabPane tab={UserType.Individual} key={UserType.Individual}>
         <TabContent data={data} loading={isListUserLoading} />
       </TabPane>

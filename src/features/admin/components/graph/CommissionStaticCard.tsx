@@ -1,10 +1,10 @@
 "use client"
 import GraphSelectRange from "../GraphSelectRange"
 import { VerticalBarChart } from "./basic/Barchart"
-import LoadingSpinner from "@/components/LoadingSpinner"
 import { useGraphRange } from "../../provider/graphProvider"
+import LoadingSpinner from "@/components/LoadingSpinner"
 
-export default function WaitCard({}: {}) {
+export default function CommissionStaticCard({}: {}) {
   const { graphRange, handleGraphRangeChange, graph, isGraphLoading } =
     useGraphRange()
   if (isGraphLoading) {
@@ -12,7 +12,6 @@ export default function WaitCard({}: {}) {
       <LoadingSpinner className="flex justify-center items-center self-center" />
     )
   }
-
   return (
     <div className="flex flex-col gap-8 bg-background rounded-xl shadow-md border p-4">
       <div className="flex items-center justify-between">
@@ -24,8 +23,8 @@ export default function WaitCard({}: {}) {
           handleChange={handleGraphRangeChange}
         />
       </div>
-      {graph && graph["total-users"] && (
-        <VerticalBarChart ChartData={graph["total-users"]} />
+      {graph && graph["commission-statistic-sale"] && (
+        <VerticalBarChart ChartData={graph["commission-statistic-sale"]} />
       )}
     </div>
   )

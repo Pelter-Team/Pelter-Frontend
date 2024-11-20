@@ -36,13 +36,15 @@ interface Pet {
   review: number
   gender: string
   vaccinationStatus: boolean
-  petType: {
-    strayDog: boolean
-    dogBreed?: string
-    strayCat: boolean
-    catBreed?: string
-  }
+  petType: PetType
 }
+interface PetType {
+  strayDog: boolean
+  dogBreed?: string
+  strayCat: boolean
+  catBreed?: string
+}
+
 const pets: Pet[] = [
   {
     id: "1",
@@ -369,9 +371,14 @@ const PetListPage = () => {
       const activeFilters = Object.entries(filters.petTypes).filter(
         ([_, value]) => value
       )
+
+      // pet.petType
       const matchesPetType =
         activeFilters.length === 0 ||
-        activeFilters.some(([key, value]) => pet.petType[key] === value)
+        activeFilters.some(([key, value]) => {
+          let castTypeKey: keyof PetType = key as keyof PetType
+          return pet.petType[castTypeKey] === value
+        })
 
       if (
         matchesFoundation &&

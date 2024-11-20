@@ -24,16 +24,18 @@ export interface PetAdminStatusTabProps {
   search: string
   priceOption: PriceOption
   sortOption: SortOption
+  activeTab: PetStatus
 }
-const PetAdminStatusTab: React.FC<PetAdminStatusTabProps> = ({
+interface PetAdminStatus extends PetAdminStatusTabProps {
+  setActiveTab: React.Dispatch<React.SetStateAction<PetStatus>>
+}
+const PetAdminStatusTab: React.FC<PetAdminStatus> = ({
   search,
   priceOption,
   sortOption,
+  activeTab,
+  setActiveTab,
 }) => {
-  const [activeTab, setActiveTab] = useState<PetStatus>(
-    PetStatus.LookingForHome
-  )
-
   const { data, isLoading: getTransactionLoading } = useListPets({
     activeTab,
     search,

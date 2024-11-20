@@ -1,6 +1,8 @@
 import { initContract } from "@ts-rest/core"
 import { z } from "zod"
 import { ErrorResponse, Response, SortOption } from "../type"
+import { Graph } from "../pet/petContract"
+import { GraphSelectRangeEnumValue } from "@/features/admin/components/GraphSelectRange"
 
 export const UserListchema = z.object({
   userId: z.string(),
@@ -24,6 +26,18 @@ export const userContract = c.router({
     query: c.type<{
       sort: SortOption
       search: string
+    }>(),
+  },
+
+  getGraphTotalUser: {
+    method: "GET",
+    path: "/total-user",
+    responses: {
+      200: c.type<Response<Graph[]>>(),
+      400: c.type<Response<ErrorResponse>>(),
+    },
+    query: c.type<{
+      graphRange: keyof typeof GraphSelectRangeEnumValue
     }>(),
   },
 })

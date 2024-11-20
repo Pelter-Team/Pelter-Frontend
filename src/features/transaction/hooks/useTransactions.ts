@@ -1,5 +1,4 @@
 // import apiClient from "@/core/api/api"
-import apiClient from "@/core/api/api"
 import {
   GetTotalBenefit,
   GetTransactionsResponse,
@@ -8,10 +7,27 @@ import {
 import { useQuery } from "@tanstack/react-query"
 
 export const useTransactions = (status: TransactionStatus) => {
+  const queryFn = async () => {
+    try {
+      const transactions =
+        // await apiClient.transactionRouter.getTransactions(status)
+        await mockGetTransactions()
+      if (status === TransactionStatus.AllTransactions) {
+        return transactions
+      } else {
+        return transactions.filter(
+          (transaction) => transaction.status === status
+        )
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   const query = useQuery({
     queryKey: ["transactions", status],
-    // queryFn: () => apiClient.transactionRouter.getTransactions(status),
-    queryFn: mockGetTransactions,
+    queryFn: () => queryFn(),
+    // queryFn: mockGetTransactions,
     refetchInterval: 30 * 1000,
   })
   return query

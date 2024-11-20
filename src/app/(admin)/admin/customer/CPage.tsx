@@ -3,7 +3,6 @@ import { DebounceInput } from "@/components/DebounceInput"
 import { sortOptions } from "@/core/api/pet/petContract"
 import { SortOption } from "@/core/api/type"
 import UserTab from "@/features/user/components/Tab"
-import UserTable from "@/features/user/components/Tab/UserTable"
 import { SearchOutlined } from "@ant-design/icons"
 import { Select } from "antd"
 import { useState } from "react"
@@ -26,8 +25,8 @@ export default function Cpage({}: {}) {
             onChange={(e) => setSearch(e.target.value)}
             debounceTimeout={300}
             value={search}
-            placeholder="input search text"
-            className="rounded-l-md !max-w-80 !w-80 border outline-none px-2 focus:border-primary"
+            placeholder="Search username"
+            className="debounce-input"
           />
           <div className="rounded-r-md px-2 py-1 flex justify-center items-center border-r border-t border-b bg-gray-50 ">
             <SearchOutlined />
@@ -38,7 +37,7 @@ export default function Cpage({}: {}) {
           value={sortOption}
           onChange={handleSortOptionChange}
           options={sortOptions}
-          className="w-40"
+          className="w-40 h-full"
         />
       </div>
       <UserTab search={search} sortOption={sortOption} />

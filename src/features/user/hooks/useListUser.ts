@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 import apiClient from "@/core/api/api"
 import { SortOption } from "@/core/api/type"
 import { UserList, UserType } from "@/core/api/user/userContract"
@@ -11,13 +11,47 @@ export const useListUser = ({
   activeTab: UserType
   search: string
   sortOption: SortOption
-}): UseQueryResult<UserList[], Error> => {
+}) => {
+  const queryFn = async () => {
+    try {
+      const users = await mockListUser()
+      if (users) {
+        return (
+          users
+            .filter((user) => user.username.includes(search))
+            // .filter((user) => user.foundation === activeTab)
+            .sort((a, b) => {
+              switch (sortOption) {
+                case SortOption.SortByLatest:
+                  return (
+                    new Date(b.createdAt).getTime() -
+                    new Date(a.createdAt).getTime()
+                  )
+                case SortOption.SortByOldest:
+                  return (
+                    new Date(a.createdAt).getTime() -
+                    new Date(b.createdAt).getTime()
+                  )
+                case SortOption.AToZ:
+                  return a.username.localeCompare(b.username)
+                case SortOption.ZToA:
+                  return b.username.localeCompare(a.username)
+              }
+            })
+        )
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   const query = useQuery({
     queryKey: ["get-list-user", search, sortOption, activeTab],
     // queryFn: () => apiClient.userRouter.getUserList(sortOption, search),
-    queryFn: mockListUser,
+    queryFn: queryFn,
     refetchInterval: 30 * 1000,
   })
+
   return query
 }
 

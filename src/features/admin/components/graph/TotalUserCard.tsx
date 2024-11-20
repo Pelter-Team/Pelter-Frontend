@@ -1,10 +1,10 @@
 "use client"
 import GraphSelectRange from "../GraphSelectRange"
 import { VerticalBarChart } from "./basic/Barchart"
-import LoadingSpinner from "@/components/LoadingSpinner"
 import { useGraphRange } from "../../provider/graphProvider"
+import LoadingSpinner from "@/components/LoadingSpinner"
 
-export default function WaitCard({}: {}) {
+export default function TotalUserCard({}: {}) {
   const { graphRange, handleGraphRangeChange, graph, isGraphLoading } =
     useGraphRange()
   if (isGraphLoading) {
@@ -16,9 +16,7 @@ export default function WaitCard({}: {}) {
   return (
     <div className="flex flex-col gap-8 bg-background rounded-xl shadow-md border p-4">
       <div className="flex items-center justify-between">
-        <h6 className="text-gray-800 text-base font-semibold">
-          Total Number of Waiting Animal
-        </h6>
+        <h6 className="text-gray-800 text-base font-semibold">Total User</h6>
         <GraphSelectRange
           value={graphRange}
           handleChange={handleGraphRangeChange}

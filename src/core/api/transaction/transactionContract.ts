@@ -1,6 +1,8 @@
 import { initContract } from "@ts-rest/core"
 import { z } from "zod"
 import { ErrorResponse, Response } from "../type"
+import { Graph } from "../pet/petContract"
+import { GraphSelectRangeEnumValue } from "@/features/admin/components/GraphSelectRange"
 
 export const GetTransactionsSchema = z.object({
   transactionId: z.string(),
@@ -23,7 +25,7 @@ export const transactionContract = c.router({
     method: "GET",
     path: "/transactions",
     responses: {
-      200: c.type<Response<GetTransactionsResponse>>(),
+      200: c.type<Response<GetTransactionsResponse[]>>(),
       400: c.type<Response<ErrorResponse>>(),
     },
     query: c.type<{
@@ -37,6 +39,17 @@ export const transactionContract = c.router({
       200: c.type<Response<GetTotalBenefit>>(),
       400: c.type<Response<ErrorResponse>>(),
     },
+  },
+  getGraphStatistic: {
+    method: "GET",
+    path: "/graph-statistic",
+    responses: {
+      200: c.type<Response<Graph[]>>(),
+      400: c.type<Response<ErrorResponse>>(),
+    },
+    query: c.type<{
+      graphRange: keyof typeof GraphSelectRangeEnumValue
+    }>(),
   },
 })
 

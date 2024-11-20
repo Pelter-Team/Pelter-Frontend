@@ -5,6 +5,7 @@ import {
 } from "@/core/api/pet/petContract"
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
 import { notification } from "antd"
+import { useState } from "react"
 
 interface VerifyPetInput {
   petId: number
