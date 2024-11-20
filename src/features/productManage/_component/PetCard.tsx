@@ -1,6 +1,13 @@
-import { Card } from "../provider/PetProvider"
 import { Button } from "antd"
 import { EditOutlined } from "@ant-design/icons"
+
+interface Card {
+  name: string
+  type: string
+  description: string
+  isAdopt: boolean
+  updatedAt: string
+}
 
 export default function PetCard({ card }: { card: Card }) {
   return (
