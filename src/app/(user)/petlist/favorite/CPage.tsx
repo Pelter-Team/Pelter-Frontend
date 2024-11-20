@@ -95,7 +95,7 @@ const CFavoritePetList = () => {
           <div className="flex flex-col">
             <h2 className="text-2xl font-bold">Your Wish List</h2>
             <span className="text-gray-500 text-sm">
-              {favoritePets.length} lists in
+              {favoritePets.length} lists in total
             </span>
           </div>
           <Tag
