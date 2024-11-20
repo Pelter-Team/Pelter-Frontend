@@ -10,7 +10,11 @@ export default function UserProfile() {
         />
         <div className="mt-6 flex flex-col gap-4">
           <div className="text-4xl font-bold">Panyawut P</div>
-          <div className="text-sm line-clamp-6">Hello,I am a cat lover , please contact me via phone call. I mostly post the cat that live in Silom area. Most of them are adorable please open your heart for street cat.</div>
+          <div className="text-sm line-clamp-6">
+            Hello,I am a cat lover , please contact me via phone call. I mostly
+            post the cat that live in Silom area. Most of them are adorable
+            please open your heart for street cat.
+          </div>
         </div>
       </div>
     </>
