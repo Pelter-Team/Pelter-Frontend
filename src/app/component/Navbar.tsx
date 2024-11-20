@@ -90,8 +90,8 @@ export default function Navbar({ white }: { white?: boolean }) {
           <ShoppingCartOutlined className="text-3xl hover:text-black" />
         </Link>
         <Link
-          href="/"
-          className="flex py-2 px-4 border-2 border-yellow-800 bg-yellow-800 text-white justify-center items-center rounded-md hover:bg-yellow-700 hover:border-yellow-700"
+          href="/register"
+          className="flex py-2 px-4 border-2 border-yellow-800 bg-yellow-800 text-white justify-center items-center rounded-md hover:bg-yellow-600"
         >
           Sign Up
         </Link>
