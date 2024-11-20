@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import localFont from "next/font/local"
 import "./globals.css"
-import { ConfigProvider } from "antd"
+import { GlobalProvider } from "@/providers/globalProvider"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,20 +26,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <ConfigProvider
-        theme={{
-          token: {
-            colorPrimary: "#C5705D",
-          },
-        }}
-      >
+      <GlobalProvider>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
         >
           {/* <Navbar /> */}
           {children}
         </body>
-      </ConfigProvider>
+      </GlobalProvider>
     </html>
   )
 }

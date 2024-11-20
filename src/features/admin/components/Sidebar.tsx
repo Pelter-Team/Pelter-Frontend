@@ -4,8 +4,8 @@ import {
   BarChartOutlined,
   BankOutlined,
   ProfileOutlined,
-  ShopOutlined,
   UserOutlined,
+  TrophyOutlined,
 } from "@ant-design/icons"
 
 import { Button } from "antd"
@@ -23,33 +23,32 @@ const LinkItems: LinkItemType[] = [
   {
     title: "Overview",
     icon: <BarChartOutlined />,
-    path: "/admin",
+    path: "/admin/",
   },
   {
     title: "Transaction",
     icon: <BankOutlined />,
-    path: "/admin/transactions",
+    path: "/admin/transactions/",
   },
   {
-    title: "Pet status",
+    title: "Pet Status",
     icon: <ProfileOutlined />,
-    path: "/admin/pet-status",
-  },
-  {
-    title: "Order",
-    icon: <ShopOutlined />,
-    path: "/admin/orders",
+    path: "/admin/pets/",
   },
   {
     title: "Customer Info",
     icon: <UserOutlined />,
-    path: "/admin/customer",
+    path: "/admin/customer/",
+  },
+  {
+    title: "Verification",
+    icon: <TrophyOutlined />,
+    path: "/admin/verification/",
   },
 ]
 
 export default function Sidebar({}: {}) {
   const pathname = usePathname()
-
   return (
     <div className="w-[25vw] flex flex-col flex-1 h-full min-h-screen border-r pt-6 bg-[#F8EDE3]">
       <div className="flex flex-col gap-2 my-4 ">

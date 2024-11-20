@@ -2,21 +2,9 @@ import React from "react"
 import { Table } from "antd"
 import type { TableProps } from "antd"
 import { formatDateAdminPage } from "@/utils/formatDate"
+import { GetTransactionsResponse } from "@/core/api/transaction/transactionContract"
 
-enum Status {
-  "success",
-  "processing",
-  "cancel",
-}
-export interface DataType {
-  transactionId: string
-  createdAt: Date
-  petId: string
-  price: number
-  status: keyof typeof Status
-}
-
-const columns: TableProps<DataType>["columns"] = [
+const columns: TableProps<GetTransactionsResponse>["columns"] = [
   {
     title: "Transaction ID",
     dataIndex: "transactionId",
@@ -70,10 +58,18 @@ const columns: TableProps<DataType>["columns"] = [
   },
 ]
 
-export default function TransactionTab({ data }: { data: DataType[] }) {
+export default function TransactionTab({
+  data,
+}: {
+  data: GetTransactionsResponse[] | undefined
+}) {
   return (
     <>
-      <Table<DataType> columns={columns} dataSource={data} />
+      <Table<GetTransactionsResponse>
+        rowKey={(record) => record.petId}
+        columns={columns}
+        dataSource={data}
+      />
     </>
   )
 }

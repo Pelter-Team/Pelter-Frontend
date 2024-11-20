@@ -1,78 +1,69 @@
 import React, { useState } from "react"
 import { Tabs } from "antd"
-import TransactionTab, { DataType } from "./Table"
 import TabPane from "antd/es/tabs/TabPane"
 import LoadingSpinner from "@/components/LoadingSpinner"
+import { useTransactions } from "../../hooks/useTransactions"
+import {
+  GetTransactionsResponse,
+  TransactionStatus,
+} from "@/core/api/transaction/transactionContract"
+import TransactionTable from "./Table"
 
-const AdminTabTransaction: React.FC = () => {
-  const [loading, setLoading] = useState<boolean>(false)
+interface TabContentProps {
+  data: GetTransactionsResponse[] | undefined
+  loading: boolean
+}
 
-  const data: DataType[] = [
-    {
-      transactionId: "John Brown",
-      createdAt: new Date(),
-      petId: "New York No. 1 Lake Park",
-      price: 500,
-      status: "success",
-    },
-    {
-      transactionId: "John Brown",
-      createdAt: new Date(),
-      petId: "New York No. 1 Lake Park",
-      price: 500,
-      status: "cancel",
-    },
-    {
-      transactionId: "John Brown",
-      createdAt: new Date(),
-      petId: "New York No. 1 Lake Park",
-      price: 500,
-      status: "processing",
-    },
-  ]
-  const data2: DataType[] = [
-    {
-      transactionId: "John Brown",
-      createdAt: new Date(),
-      petId: "New York No. 1 Lake Park",
-      price: 500,
-      status: "success",
-    },
-  ]
+const TAB_CONFIG = [
+  { label: "All Transactions", value: TransactionStatus.AllTransactions },
+  { label: "Success", value: TransactionStatus.Success },
+  { label: "Processing", value: TransactionStatus.Processing },
+  { label: "Cancel", value: TransactionStatus.Cancel },
+] as const
 
-  // NOTE: I know this code is trash but if have time will rewrite later
+const TabContent: React.FC<TabContentProps> = ({ data, loading }) => {
+  if (loading) {
+    return <LoadingSpinner className="mt-8 flex justify-center" />
+  }
+
+  if (!data) {
+    return <div className="text-gray-500">No transactions found</div>
+  }
+
+  return <TransactionTable data={data} />
+}
+
+const TransactionTabs: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<TransactionStatus>(
+    TransactionStatus.AllTransactions
+  )
+
+  const { isLoading, data, error } = useTransactions(activeTab)
+
+  const handleTabChange = (key: string) => {
+    setActiveTab(key as TransactionStatus)
+  }
+
+  if (error) {
+    return (
+      <div className="text-red-500">
+        Error loading transactions: {error.message}
+      </div>
+    )
+  }
+
   return (
-    <Tabs defaultActiveKey="1">
-      <TabPane tab="All transactions" key={"1"}>
-        {loading ? (
-          <LoadingSpinner className="mt-8 flex justify-center" />
-        ) : (
-          <TransactionTab data={data} />
-        )}
-      </TabPane>
-      <TabPane tab="Success" key={"2"}>
-        {loading ? (
-          <LoadingSpinner className="mt-8 flex justify-center" />
-        ) : (
-          <TransactionTab data={data2} />
-        )}
-      </TabPane>
-      <TabPane tab="Processing" key={"3"}>
-        {loading ? (
-          <LoadingSpinner className="mt-8 flex justify-center" />
-        ) : (
-          <TransactionTab data={data} />
-        )}
-      </TabPane>
-      <TabPane tab="Cancel" key={"4"}>
-        {loading ? (
-          <LoadingSpinner className="mt-8 flex justify-center" />
-        ) : (
-          <TransactionTab data={data} />
-        )}
-      </TabPane>
+    <Tabs
+      defaultActiveKey={TransactionStatus.AllTransactions}
+      onChange={handleTabChange}
+    >
+      {TAB_CONFIG.map(({ label, value }) => (
+        <TabPane key={value} tab={label}>
+          <TabContent data={data} loading={isLoading} />
+        </TabPane>
+      ))}
     </Tabs>
   )
 }
 
-export default AdminTabTransaction
+export default TransactionTabs
