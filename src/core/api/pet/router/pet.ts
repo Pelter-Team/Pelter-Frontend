@@ -83,4 +83,19 @@ export class PetRouter extends Router<typeof apiContract> {
         )
     }
   }
+
+  async getPetId(petId: number) {
+    const response = await this.client.pet.getPetId({
+      params: { petId },
+    })
+    switch (response.status) {
+      case 200:
+        return response.body.data
+      default:
+        throw new APIError(
+          response.status,
+          "Failed to fetch pet detail by petId"
+        )
+    }
+  }
 }
