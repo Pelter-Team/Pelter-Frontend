@@ -1,4 +1,4 @@
-import Product from "./CPage"
+import Product from "./Cpage"
 
 export default function newProduct({}:{}) {
   return <Product />
