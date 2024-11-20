@@ -95,6 +95,11 @@ interface TagProps {
   counts: Record<string, number>
 }
 
+interface TagCounts {
+  id: "all" | "dogs" | "cats"
+  label: string
+}
+
 const Tag: React.FC<TagProps> = ({ selectedTag, onTagSelect, counts }) => {
   const calculateCounts = () => {
     return {
@@ -104,7 +109,7 @@ const Tag: React.FC<TagProps> = ({ selectedTag, onTagSelect, counts }) => {
     }
   }
 
-  const tags = [
+  const tags: TagCounts[] = [
     { id: "all", label: "All Pets" },
     { id: "dogs", label: "Dogs" },
     { id: "cats", label: "Cats" },

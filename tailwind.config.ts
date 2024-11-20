@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss";
+import type { Config } from "tailwindcss"
 
 const config: Config = {
   content: [
@@ -28,12 +28,9 @@ const config: Config = {
       fontFamily: {
         lobster: ["Lobster", "cursive"],
       },
-      fontFamily: {
-        lobster: ['Lobster', 'cursive'],
-      },
     },
   },
   plugins: [],
-};
+}
 
-export default config;
+export default config
