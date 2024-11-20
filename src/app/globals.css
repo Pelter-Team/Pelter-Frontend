@@ -15,4 +15,7 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  .debounce-input {
+    @apply rounded-l-md !max-w-80 !w-80 border outline-none px-2 focus:border-primary py-1 h-8 text-sm;
+  }
 }

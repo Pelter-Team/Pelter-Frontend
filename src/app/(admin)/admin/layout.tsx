@@ -8,7 +8,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
       <div className="h-full min-h-screen flex flex-col">
         <Sidebar />
       </div>
-      <div className="py-12 px-16 flex flex-col gap-8 w-full">
+      <div className="pt-12 px-16 flex flex-col gap-8 w-full">
         <div className="flex gap-3 items-center">
           <CalendarOutlined
             size={24}

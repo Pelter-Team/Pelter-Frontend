@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import { Card, Button, Typography } from "antd"
 import { HeartOutlined, HeartFilled } from "@ant-design/icons"
-import Image from "next/image"
-import { StaticImageData } from "next/image"
+import Image, { StaticImageData } from "next/image"
+
 
 const { Meta } = Card
 const { Text } = Typography
