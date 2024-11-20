@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { Card, Button, Typography } from "antd"
 import { HeartOutlined, HeartFilled } from "@ant-design/icons"
 import Image, { StaticImageData } from "next/image"
+import Link from "next/link"
 
 const { Meta } = Card
 const { Text } = Typography
@@ -18,38 +19,19 @@ const PetCard: React.FC<{ pet: Pet }> = ({ pet }) => {
 
   return (
     <Card
-      hoverable
-      style={{
-        width: 240,
-        borderRadius: 12,
-        overflow: "hidden",
-        backgroundColor: "#white",
-      }}
+      className="rounded-xl overflow-hidden bg-white w-60 hover:shadow-md"
       cover={
         <Image
           alt={pet.name}
           src={pet.image}
-          style={{
-            borderTopLeftRadius: 12,
-            borderTopRightRadius: 12,
-            height: 200,
-            objectFit: "cover",
-          }}
+          className="object-cover rounded-tr-xl rounded-tl-xl h-52"
         />
       }
       actions={[
         <Button
           key="adopt"
           type="primary"
-          style={{
-            backgroundColor: "#B95F5F",
-            borderColor: "#B95F5F",
-            borderRadius: 4,
-            width: "90%",
-            margin: "auto",
-            display: "block",
-            color: "#fff",
-          }}
+          className="bg-[#B95F5F] border-[#B95F5F] rounded-md w-[90%] mx-auto text-white"
           onClick={() => console.log(`Adopting ${pet.name}`)}
         >
           Adopt
@@ -59,17 +41,22 @@ const PetCard: React.FC<{ pet: Pet }> = ({ pet }) => {
       <Meta
         title={
           <div className="flex justify-between items-center">
-            <Text strong style={{ fontSize: 16, color: "#B95F5F" }}>
-              {pet.name}
-            </Text>
+            <Link href={`/pet/${pet.id}`}>
+              <Text
+                strong
+                className="text-base text-[#B95F5F] hover:underline "
+              >
+                {pet.name}
+              </Text>
+            </Link>
             {isFavorite ? (
               <HeartFilled
-                style={{ fontSize: 18, color: "#B95F5F", cursor: "pointer" }}
+                className="text-lg text-[#B95F5F] cursor-pointer"
                 onClick={() => setIsFavorite(false)}
               />
             ) : (
               <HeartOutlined
-                style={{ fontSize: 18, cursor: "pointer" }}
+                className="text-lg cursor-pointer"
                 onClick={() => setIsFavorite(true)}
               />
             )}

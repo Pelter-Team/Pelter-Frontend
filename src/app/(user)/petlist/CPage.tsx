@@ -427,13 +427,13 @@ const PetListPage = () => {
           </div>
         </div>
 
-        <Row gutter={[24, 32]}>
+        <div className="flex flex-wrap gap-8 items-center justify-start">
           {currentPets.map((pet) => (
-            <Col key={pet.id} xs={24} sm={12} md={8} lg={6}>
-              <PetCard pet={pet} />
-            </Col>
+            // <Col key={pet.id} xs={24} sm={12} md={8} lg={6}>
+            <PetCard pet={pet} key={pet.id} />
+            // </Col>
           ))}
-        </Row>
+        </div>
 
         <div className="flex justify-center mt-4">
           <Pagination

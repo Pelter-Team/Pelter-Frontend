@@ -29,3 +29,9 @@ body {
     @apply rounded-l-md !max-w-80 !w-80 border outline-none px-2 focus:border-primary py-1 h-8 text-sm;
   }
 }
+
+:where(.css-dev-only-do-not-override-8u70ay).ant-descriptions .ant-descriptions-header{
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
