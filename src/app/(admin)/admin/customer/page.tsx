@@ -25,7 +25,9 @@ const cards: CardTotalType[] = [
 export default function page({}: {}) {
   return (
     <>
-      <h1 className="text-gray-950 text-4xl font-semibold">Pet status</h1>
+      <h1 className="text-gray-950 text-4xl font-semibold">
+        Customer Information
+      </h1>
       <div className="flex gap-8 w-full flex-wrap">
         {cards.map((card, i) => (
           <CardTotal
