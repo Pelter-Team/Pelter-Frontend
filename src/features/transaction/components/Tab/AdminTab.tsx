@@ -1,48 +1,69 @@
 import React, { useState } from "react"
 import { Tabs } from "antd"
-import TransactionTab from "./Table"
 import TabPane from "antd/es/tabs/TabPane"
 import LoadingSpinner from "@/components/LoadingSpinner"
 import { useTransactions } from "../../hooks/useTransactions"
-import { TransactionStatus } from "@/core/api/transaction/transactionContract"
+import {
+  GetTransactionsResponse,
+  TransactionStatus,
+} from "@/core/api/transaction/transactionContract"
+import TransactionTable from "./Table"
 
-const TabContent: React.FC<{ data: any; loading: boolean }> = ({
-  data,
-  loading,
-}) => {
-  return loading ? (
-    <LoadingSpinner className="mt-8 flex justify-center" />
-  ) : (
-    <TransactionTab data={data} />
-  )
+interface TabContentProps {
+  data: GetTransactionsResponse[] | undefined
+  loading: boolean
 }
 
-const AdminTabTransaction: React.FC = () => {
+const TAB_CONFIG = [
+  { label: "All Transactions", value: TransactionStatus.AllTransactions },
+  { label: "Success", value: TransactionStatus.Success },
+  { label: "Processing", value: TransactionStatus.Processing },
+  { label: "Cancel", value: TransactionStatus.Cancel },
+] as const
+
+const TabContent: React.FC<TabContentProps> = ({ data, loading }) => {
+  if (loading) {
+    return <LoadingSpinner className="mt-8 flex justify-center" />
+  }
+
+  if (!data) {
+    return <div className="text-gray-500">No transactions found</div>
+  }
+
+  return <TransactionTable data={data} />
+}
+
+const TransactionTabs: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TransactionStatus>(
     TransactionStatus.AllTransactions
   )
 
-  const { isLoading: getTransactionLoading, data } = useTransactions(activeTab)
-  function onChangeTab(key: string) {
+  const { isLoading, data, error } = useTransactions(activeTab)
+
+  const handleTabChange = (key: string) => {
     setActiveTab(key as TransactionStatus)
   }
 
+  if (error) {
+    return (
+      <div className="text-red-500">
+        Error loading transactions: {error.message}
+      </div>
+    )
+  }
+
   return (
-    <Tabs defaultActiveKey="1" onChange={onChangeTab}>
-      <TabPane tab="All Transactions" key={TransactionStatus.AllTransactions}>
-        <TabContent data={data} loading={getTransactionLoading} />
-      </TabPane>
-      <TabPane tab="Success" key={TransactionStatus.Success}>
-        <TabContent data={data} loading={getTransactionLoading} />
-      </TabPane>
-      <TabPane tab="Processing" key={TransactionStatus.Processing}>
-        <TabContent data={data} loading={getTransactionLoading} />
-      </TabPane>
-      <TabPane tab="Cancel" key={TransactionStatus.Cancel}>
-        <TabContent data={data} loading={getTransactionLoading} />
-      </TabPane>
+    <Tabs
+      defaultActiveKey={TransactionStatus.AllTransactions}
+      onChange={handleTabChange}
+    >
+      {TAB_CONFIG.map(({ label, value }) => (
+        <TabPane key={value} tab={label}>
+          <TabContent data={data} loading={isLoading} />
+        </TabPane>
+      ))}
     </Tabs>
   )
 }
 
-export default AdminTabTransaction
+export default TransactionTabs

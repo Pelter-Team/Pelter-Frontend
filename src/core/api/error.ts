@@ -1,3 +1,4 @@
+import { ApiError } from "next/dist/server/api-utils"
 import { ErrorResponse } from "./type"
 
 export class APIError<T extends string> extends Error {

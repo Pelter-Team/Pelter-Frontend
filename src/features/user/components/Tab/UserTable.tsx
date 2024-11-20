@@ -36,7 +36,11 @@ const columns: TableProps<UserList>["columns"] = [
 export default function UserTable({ data }: { data: UserList[] | undefined }) {
   return (
     <>
-      <Table<UserList> columns={columns} dataSource={data} />
+      <Table<UserList>
+        rowKey={(record) => record.userId}
+        columns={columns}
+        dataSource={data}
+      />
     </>
   )
 }

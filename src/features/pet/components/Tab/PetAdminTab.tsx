@@ -2,10 +2,9 @@ import React, { useState } from "react"
 import { Tabs } from "antd"
 import TabPane from "antd/es/tabs/TabPane"
 import LoadingSpinner from "@/components/LoadingSpinner"
-import { TransactionStatus } from "@/core/api/transaction/transactionContract"
 import { useListPets } from "../../hooks/useListPets"
 import { PetLists, PetStatus, PriceOption } from "@/core/api/pet/petContract"
-import PetsTable from "./PetTable"
+import PetAdminTable from "./PetAdminTable"
 import { SortOption } from "@/core/api/type"
 
 const TabContent: React.FC<{
@@ -15,26 +14,28 @@ const TabContent: React.FC<{
   return loading ? (
     <LoadingSpinner className="mt-8 flex justify-center" />
   ) : data ? (
-    <PetsTable data={data} />
+    <PetAdminTable data={data} />
   ) : (
     <h6 className="text-lg text-gray-400 font-normal">No data</h6>
   )
 }
 
-export interface PetStatusTabProps {
+export interface PetAdminStatusTabProps {
   search: string
   priceOption: PriceOption
   sortOption: SortOption
+  activeTab: PetStatus
 }
-const PetStatusTab: React.FC<PetStatusTabProps> = ({
+interface PetAdminStatus extends PetAdminStatusTabProps {
+  setActiveTab: React.Dispatch<React.SetStateAction<PetStatus>>
+}
+const PetAdminStatusTab: React.FC<PetAdminStatus> = ({
   search,
   priceOption,
   sortOption,
+  activeTab,
+  setActiveTab,
 }) => {
-  const [activeTab, setActiveTab] = useState<PetStatus>(
-    PetStatus.LookingForHome
-  )
-
   const { data, isLoading: getTransactionLoading } = useListPets({
     activeTab,
     search,
@@ -47,23 +48,17 @@ const PetStatusTab: React.FC<PetStatusTabProps> = ({
 
   return (
     <Tabs defaultActiveKey="1" onChange={onChangeTab}>
-      <TabPane
-        tab={PetStatus.LookingForHome}
-        key={TransactionStatus.AllTransactions}
-      >
+      <TabPane tab={PetStatus.LookingForHome} key={PetStatus.LookingForHome}>
         <TabContent data={data} loading={getTransactionLoading} />
       </TabPane>
-      <TabPane tab={PetStatus.Adopted} key={TransactionStatus.Success}>
+      <TabPane tab={PetStatus.Adopted} key={PetStatus.Adopted}>
         <TabContent data={data} loading={getTransactionLoading} />
       </TabPane>
-      <TabPane
-        tab={PetStatus.AdoptionPending}
-        key={TransactionStatus.Processing}
-      >
+      <TabPane tab={PetStatus.AdoptionPending} key={PetStatus.AdoptionPending}>
         <TabContent data={data} loading={getTransactionLoading} />
       </TabPane>
     </Tabs>
   )
 }
 
-export default PetStatusTab
+export default PetAdminStatusTab

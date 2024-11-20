@@ -65,7 +65,11 @@ export default function TransactionTab({
 }) {
   return (
     <>
-      <Table<GetTransactionsResponse> columns={columns} dataSource={data} />
+      <Table<GetTransactionsResponse>
+        rowKey={(record) => record.petId}
+        columns={columns}
+        dataSource={data}
+      />
     </>
   )
 }
