@@ -94,14 +94,14 @@ interface TagProps {
   onTagSelect: (tag: string) => void
   counts: Record<string, number>
 }
-
 interface TagCounts {
-  id: "all" | "dogs" | "cats"
-  label: string
+  [key: string]: number
+  all: number
+  dogs: number
+  cats: number
 }
-
 const Tag: React.FC<TagProps> = ({ selectedTag, onTagSelect, counts }) => {
-  const calculateCounts = () => {
+  const calculateCounts = (): TagCounts => {
     return {
       all: counts?.all || 0,
       dogs: counts?.dogs || 0,
@@ -109,7 +109,7 @@ const Tag: React.FC<TagProps> = ({ selectedTag, onTagSelect, counts }) => {
     }
   }
 
-  const tags: TagCounts[] = [
+  const tags = [
     { id: "all", label: "All Pets" },
     { id: "dogs", label: "Dogs" },
     { id: "cats", label: "Cats" },

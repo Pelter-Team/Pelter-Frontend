@@ -3,6 +3,7 @@ import { Card, Button, Typography } from "antd"
 import { HeartOutlined, HeartFilled } from "@ant-design/icons"
 import Image, { StaticImageData } from "next/image"
 
+
 const { Meta } = Card
 const { Text } = Typography
 
