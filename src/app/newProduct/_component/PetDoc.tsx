@@ -31,7 +31,7 @@ export default function PetDoc({
     <>
       <div className={`w-full flex-col ${type == true ? "row-span-2" : ""}`}>
         <div className="text-xl font-bold  ">Pet images and documents</div>
-        <div className="bg-transparent w-full py-8 px-16 border border-black rounded-md mt-3 flex flex-col gap-3 min-h-[30rem]">
+        <div className="bg-transparent w-full py-8 px-16 border border-black rounded-md mt-3 flex flex-col gap-3 min-h-[29rem]">
           <div>
             <label className="text-base flex flex-row mb-1">
               <span className="text-red-600">＊</span>Pet images

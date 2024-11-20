@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -14,5 +14,18 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .custom-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #c5705d !important;
+  }
+  .custom-tabs .ant-tabs-ink-bar {
+    background-color: #c5705d !important;
+  }
+  .custom-tabs .ant-tabs-tab {
+    @apply flex-1 text-center;
+  }
+  .debounce-input {
+    @apply rounded-l-md !max-w-80 !w-80 border outline-none px-2 focus:border-primary py-1 h-8 text-sm;
   }
 }

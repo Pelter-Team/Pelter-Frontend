@@ -137,7 +137,7 @@ export default function Product() {
 
           <div className="w-full flex justify-end col-span-2">
             <button
-              className="w-24 h-10 p-4 bg-primary text-white rounded-md flex justify-center items-center mt-4 hover:bg-opacity-80"
+              className="w-24 h-10 p-4 bg-primary text-white rounded-md flex justify-center items-center hover:bg-opacity-80"
               disabled={!validate}
               onClick={() => setOpen(true)}
             >
@@ -222,7 +222,7 @@ export default function Product() {
           </div>
 
           {!validate && (
-            <div className="w-full flex justify-center col-span-2 text-red-500">
+            <div className="w-full flex justify-center col-span-2 text-red-500 mb-4">
               Please Input all require information
             </div>
           )}
