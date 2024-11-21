@@ -47,9 +47,6 @@ export const transactionContract = c.router({
       200: c.type<Response<TransactionWithProduct[]>>(),
       400: c.type<Response<ErrorResponse>>(),
     },
-    query: c.type<{
-      status: TransactionStatus
-    }>(),
   },
   insertTransaction: {
     method: "POST",

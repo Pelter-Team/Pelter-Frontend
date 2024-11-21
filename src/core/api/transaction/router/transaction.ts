@@ -5,12 +5,8 @@ import { TransactionStatus } from "../transactionContract"
 import { GraphSelectRangeEnumValue } from "@/features/admin/components/GraphSelectRange"
 
 export class TransactionRouter extends Router<typeof apiContract> {
-  async getTransactions(
-    status: (typeof TransactionStatus)[keyof typeof TransactionStatus]
-  ) {
-    const response = await this.client.transaction.getTransactions({
-      query: { status: status },
-    })
+  async getTransactions() {
+    const response = await this.client.transaction.getTransactions()
     switch (response.status) {
       case 200:
         return response.body.result

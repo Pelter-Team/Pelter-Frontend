@@ -10,10 +10,8 @@ import {
 import { GraphSelectRangeEnumValue } from "@/features/admin/components/GraphSelectRange"
 
 export class PetRouter extends Router<typeof apiContract> {
-  async getListPets(category: string, search: string, sort: SortOption) {
-    const response = await this.client.pet.getListPets({
-      query: { category, search, sort },
-    })
+  async getListPets() {
+    const response = await this.client.pet.getListPets()
     switch (response.status) {
       case 200:
         return response.body.result
@@ -22,14 +20,8 @@ export class PetRouter extends Router<typeof apiContract> {
     }
   }
 
-  async getListPetVerification(
-    sort: SortOption,
-    search: string,
-    status: PetVerificationStatus
-  ) {
-    const response = await this.client.pet.getListPetVerification({
-      query: { sort: sort, search: search, status },
-    })
+  async getListPetVerification() {
+    const response = await this.client.pet.getListPetVerification()
     switch (response.status) {
       case 200:
         return response.body.result
