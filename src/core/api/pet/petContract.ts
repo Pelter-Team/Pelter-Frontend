@@ -102,23 +102,18 @@ const c = initContract()
 export const petContract = c.router({
   getListPets: {
     method: "GET",
-    path: "/products",
+    path: "/products/",
     responses: {
       200: c.type<Response<PetLists[]>>(),
       400: c.type<Response<ErrorResponse>>(),
     },
-    query: c.type<{
-      category: string
-      search: string
-      sort: SortOption
-    }>(),
   },
   getPetId: {
     method: "GET",
     pathParams: c.type<{
       petId: number
     }>(),
-    path: "product/:petId",
+    path: "/product/:petId",
     responses: {
       200: c.type<Response<PetDetail>>(),
       400: c.type<Response<ErrorResponse>>(),
@@ -132,11 +127,6 @@ export const petContract = c.router({
       200: c.type<Response<PetLists[]>>(),
       400: c.type<Response<ErrorResponse>>(),
     },
-    query: c.type<{
-      sort: SortOption
-      search: string
-      status: PetVerificationStatus
-    }>(),
   },
   verificationPet: {
     method: "PATCH",
