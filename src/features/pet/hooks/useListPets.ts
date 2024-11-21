@@ -23,7 +23,7 @@ export const useListPets = ({
     if (response) {
       return (
         response
-          .filter((pet) => pet.petName.includes(search))
+          .filter((pet) => pet.name.includes(search))
           // .filter((pet) => {
           //   if(pet.price === 0 && priceOption === PriceOption.Free) {
           //     return true
@@ -33,18 +33,18 @@ export const useListPets = ({
             switch (sortOption) {
               case SortOption.SortByLatest:
                 return (
-                  new Date(b.createdAt).getTime() -
-                  new Date(a.createdAt).getTime()
+                  new Date(b.created_at).getTime() -
+                  new Date(a.created_at).getTime()
                 )
               case SortOption.SortByOldest:
                 return (
-                  new Date(a.createdAt).getTime() -
-                  new Date(b.createdAt).getTime()
+                  new Date(a.created_at).getTime() -
+                  new Date(b.created_at).getTime()
                 )
               case SortOption.AToZ:
-                return a.petName.localeCompare(b.petName)
+                return a.name.localeCompare(b.name)
               case SortOption.ZToA:
-                return b.petName.localeCompare(a.petName)
+                return b.name.localeCompare(a.name)
             }
           })
       )
@@ -63,20 +63,36 @@ export const useListPets = ({
 export const mockListPets = async (): Promise<PetLists[]> => {
   const data: PetLists[] = [
     {
-      petId: 1,
-      petName: "dog",
-      color: "black",
-      price: 1000,
-      owner: "John",
-      createdAt: new Date(),
+      id: 2,
+      user_id: 1,
+      transaction_id: 0,
+      review_id: null,
+      name: "Nepal",
+      is_sold: false,
+      category: "Dog",
+      subcategory: "Bulldog",
+      description: "Woof WOOF",
+      is_verified: false,
+      price: 2050,
+      image_url: "",
+      created_at: "2024-11-21T23:15:48.181434+07:00",
+      updated_at: "2024-11-21T23:15:48.181434+07:00",
     },
     {
-      petId: 2,
-      petName: "cat",
-      color: "white",
-      price: 2000,
-      owner: "Doe",
-      createdAt: new Date(),
+      id: 3,
+      user_id: 2,
+      transaction_id: 0,
+      review_id: null,
+      name: "Mark",
+      is_sold: false,
+      category: "Dog",
+      subcategory: "Bulldog",
+      description: "Woof WOOF",
+      is_verified: false,
+      price: 2050,
+      image_url: "",
+      created_at: "2024-11-21T23:16:22.204157+07:00",
+      updated_at: "2024-11-21T23:16:22.204157+07:00",
     },
   ]
   return new Promise((resolve) => {

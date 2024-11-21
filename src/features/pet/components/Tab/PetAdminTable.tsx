@@ -37,12 +37,14 @@ const columns: TableProps<PetLists>["columns"] = [
     title: "CreatedAt",
     dataIndex: "createdAt",
     key: "createdAt",
-    render: (_, { createdAt }) => <>{formatDateAdminPage(createdAt)}</>,
+    render: (_, { created_at }) => (
+      <>{formatDateAdminPage(new Date(created_at))}</>
+    ),
   },
   {
     title: "Detail",
-    render: (_, { petId }) => (
-      <Link href={`/${petId}`}>
+    render: (_, { id }) => (
+      <Link href={`/${id}`}>
         <Button variant="filled" type="primary">
           Details
         </Button>
@@ -59,7 +61,7 @@ export default function PetAdminTable({
   return (
     <>
       <Table<PetLists>
-        rowKey={(record) => record.petId}
+        rowKey={(record) => record.id}
         columns={columns}
         dataSource={data}
       />
