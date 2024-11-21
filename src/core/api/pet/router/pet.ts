@@ -2,7 +2,11 @@ import { APIError } from "../../error"
 import { apiContract } from "../.."
 import { Router } from "../../router"
 import { SortOption } from "../../type"
-import { PetVerificationStatus } from "../petContract"
+import {
+  CreatePetRequest,
+  PetVerificationStatus,
+  UpdatePetRequest,
+} from "../petContract"
 import { GraphSelectRangeEnumValue } from "@/features/admin/components/GraphSelectRange"
 
 export class PetRouter extends Router<typeof apiContract> {
@@ -12,7 +16,7 @@ export class PetRouter extends Router<typeof apiContract> {
     })
     switch (response.status) {
       case 200:
-        return response.body.data
+        return response.body.result
       default:
         throw new APIError(response.status, "Failed to fetch get list of pets")
     }
@@ -28,7 +32,7 @@ export class PetRouter extends Router<typeof apiContract> {
     })
     switch (response.status) {
       case 200:
-        return response.body.data
+        return response.body.result
       default:
         throw new APIError(
           response.status,
@@ -44,7 +48,7 @@ export class PetRouter extends Router<typeof apiContract> {
     })
     switch (response.status) {
       case 200:
-        return response.body.data
+        return response.body.result
       default:
         throw new APIError(response.status, "Failed to verify pet")
     }
@@ -58,7 +62,7 @@ export class PetRouter extends Router<typeof apiContract> {
     })
     switch (response.status) {
       case 200:
-        return response.body.data
+        return response.body.result
       default:
         throw new APIError(
           response.status,
@@ -75,7 +79,7 @@ export class PetRouter extends Router<typeof apiContract> {
     })
     switch (response.status) {
       case 200:
-        return response.body.data
+        return response.body.result
       default:
         throw new APIError(
           response.status,
@@ -90,12 +94,61 @@ export class PetRouter extends Router<typeof apiContract> {
     })
     switch (response.status) {
       case 200:
-        return response.body.data
+        return response.body.result
       default:
         throw new APIError(
           response.status,
           "Failed to fetch pet detail by petId"
         )
+    }
+  }
+
+  async insertPet(body: CreatePetRequest) {
+    const response = await this.client.pet.insertPet({
+      body,
+    })
+    switch (response.status) {
+      case 201:
+        return response.body.result
+      default:
+        throw new APIError(response.status, "Failed to insert pet")
+    }
+  }
+
+  async updatePet(petId: number, body: UpdatePetRequest) {
+    const response = await this.client.pet.updatePet({
+      body: body,
+      params: { petId: petId },
+    })
+    switch (response.status) {
+      case 200:
+        return response.body.result
+      default:
+        throw new APIError(response.status, "Failed to update pet")
+    }
+  }
+
+  async deletePet(petId: number) {
+    const response = await this.client.pet.deletePet({
+      params: { petId },
+    })
+    switch (response.status) {
+      case 200:
+        return response.body.result
+      default:
+        throw new APIError(response.status, "Failed to delete pet")
+    }
+  }
+
+  async deleteAdminPet(petId: number) {
+    const response = await this.client.pet.deleteAdminPet({
+      params: { petId },
+    })
+    switch (response.status) {
+      case 200:
+        return response.body.result
+      default:
+        throw new APIError(response.status, "Failed to delete admin pet")
     }
   }
 }
