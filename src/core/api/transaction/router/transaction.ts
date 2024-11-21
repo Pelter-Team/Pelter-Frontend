@@ -19,9 +19,9 @@ export class TransactionRouter extends Router<typeof apiContract> {
     }
   }
 
-  async insertTransaction(id: number) {
+  async insertTransaction(productId: number) {
     const response = await this.client.transaction.insertTransaction({
-      params: { id: id },
+      params: { id: productId },
       body: {},
     })
     switch (response.status) {
@@ -29,6 +29,36 @@ export class TransactionRouter extends Router<typeof apiContract> {
         return response.body.result
       default:
         throw new APIError(response.status, "Failed to insert transaction")
+    }
+  }
+
+  async getTransactionById(transactionId: number) {
+    const response = await this.client.transaction.getTransactionById({
+      params: { id: transactionId },
+    })
+    switch (response.status) {
+      case 200:
+        return response.body.result
+      default:
+        throw new APIError(
+          response.status,
+          "Failed to get transaction by transactionId"
+        )
+    }
+  }
+
+  async getTransactionByUserId(userId: number) {
+    const response = await this.client.transaction.getTransactionByUserId({
+      params: { id: userId },
+    })
+    switch (response.status) {
+      case 200:
+        return response.body.result
+      default:
+        throw new APIError(
+          response.status,
+          "Failed to get transaction by userId"
+        )
     }
   }
 
