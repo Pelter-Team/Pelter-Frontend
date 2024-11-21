@@ -19,7 +19,18 @@ export const GetTotalBenefitSchema = z.object({
 })
 export type GetTotalBenefit = z.infer<typeof GetTotalBenefitSchema>
 
+export const TransactionSchema = z.object({
+  id: z.number(),
+  product_id: z.number(),
+  buyer_id: z.number(),
+  seller_id: z.number(),
+  amount: z.number().positive(),
+  created_at: z.string().datetime(),
+})
+export type Transaction = z.infer<typeof TransactionSchema>
+
 const c = initContract()
+// FIXME: tranasction is not ok right now in api docs, have to fix it
 export const transactionContract = c.router({
   getTransactions: {
     method: "GET",
@@ -31,6 +42,18 @@ export const transactionContract = c.router({
     query: c.type<{
       status: TransactionStatus
     }>(),
+  },
+  insertTransaction: {
+    method: "POST",
+    body: c.type<{}>(),
+    path: "/transaction/buy/:id",
+    pathParams: c.type<{
+      id: number
+    }>(),
+    responses: {
+      201: c.type<Response<Transaction>>(),
+      400: c.type<Response<ErrorResponse>>(),
+    },
   },
   getTotalBenefitAndInncome: {
     method: "GET",

@@ -13,9 +13,22 @@ export class TransactionRouter extends Router<typeof apiContract> {
     })
     switch (response.status) {
       case 200:
-        return response.body.data
+        return response.body.result
       default:
         throw new APIError(response.status, "Failed to fetch transactions data")
+    }
+  }
+
+  async insertTransaction(id: number) {
+    const response = await this.client.transaction.insertTransaction({
+      params: { id: id },
+      body: {},
+    })
+    switch (response.status) {
+      case 201:
+        return response.body.result
+      default:
+        throw new APIError(response.status, "Failed to insert transaction")
     }
   }
 
@@ -23,7 +36,7 @@ export class TransactionRouter extends Router<typeof apiContract> {
     const response = await this.client.transaction.getTotalBenefitAndInncome()
     switch (response.status) {
       case 200:
-        return response.body.data
+        return response.body.result
       default:
         throw new APIError(
           response.status,
@@ -40,7 +53,7 @@ export class TransactionRouter extends Router<typeof apiContract> {
     })
     switch (response.status) {
       case 200:
-        return response.body.data
+        return response.body.result
       default:
         throw new APIError(
           response.status,
