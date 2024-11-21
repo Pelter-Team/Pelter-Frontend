@@ -3,15 +3,23 @@ import { z } from "zod"
 import { ErrorResponse, Response, SortOption } from "../type"
 import { GraphSelectRangeEnumValue } from "@/features/admin/components/GraphSelectRange"
 
-export const PetListSchhema = z.object({
-  petId: z.number(),
-  petName: z.string(),
-  color: z.string(),
+export const PetListSchema = z.object({
+  id: z.number(),
+  user_id: z.number(),
+  transaction_id: z.number(),
+  review_id: z.null(),
+  name: z.string(),
+  is_sold: z.boolean(),
+  category: z.string(),
+  subcategory: z.string(),
+  description: z.string(),
+  is_verified: z.boolean(),
   price: z.number(),
-  owner: z.string(),
-  createdAt: z.date(),
+  image_url: z.string(),
+  created_at: z.string().datetime(),
+  updated_at: z.string().datetime(),
 })
-export type PetLists = z.infer<typeof PetListSchhema>
+export type PetLists = z.infer<typeof PetListSchema>
 
 export enum PriceOption {
   Free = "Free",
@@ -34,6 +42,24 @@ export const PetListVerificationSchema = z.object({
   createdAt: z.date(),
 })
 export type PetListVerification = z.infer<typeof PetListVerificationSchema>
+
+export const CreatePetRequestSchema = z.object({
+  name: z.string(),
+  category: z.string(),
+  subcategory: z.string(),
+  description: z.string(),
+  price: z.number(),
+  image_url: z.string(),
+  vaccine_book_url: z.string(),
+})
+export type CreatePetRequest = z.infer<typeof CreatePetRequestSchema>
+
+export const UpdatePetRequestSchema = z.object({
+  is_sold: z.boolean().default(false),
+  is_verified: z.boolean().default(true),
+  price: z.number().min(0).default(0),
+})
+export type UpdatePetRequest = z.infer<typeof UpdatePetRequestSchema>
 
 export const Graph = z.object({
   key: z.string(),
@@ -76,29 +102,31 @@ const c = initContract()
 export const petContract = c.router({
   getListPets: {
     method: "GET",
-    path: "/pets",
+    path: "/products/",
     responses: {
       200: c.type<Response<PetLists[]>>(),
       400: c.type<Response<ErrorResponse>>(),
     },
-    query: c.type<{
-      category: string
-      search: string
-      sort: SortOption
-    }>(),
   },
-  getListPetVerification: {
+  getPetId: {
     method: "GET",
-    path: "/pets/verification",
+    pathParams: c.type<{
+      petId: number
+    }>(),
+    path: "/product/:petId",
     responses: {
-      200: c.type<Response<PetListVerification[]>>(),
+      200: c.type<Response<PetDetail>>(),
       400: c.type<Response<ErrorResponse>>(),
     },
-    query: c.type<{
-      sort: SortOption
-      search: string
-      status: PetVerificationStatus
-    }>(),
+  },
+  // RECHECK: can replace with getListPets?
+  getListPetVerification: {
+    method: "GET",
+    path: "/products",
+    responses: {
+      200: c.type<Response<PetLists[]>>(),
+      400: c.type<Response<ErrorResponse>>(),
+    },
   },
   verificationPet: {
     method: "PATCH",
@@ -114,6 +142,50 @@ export const petContract = c.router({
       petId: number
     }>(),
   },
+  insertPet: {
+    method: "POST",
+    body: c.type<CreatePetRequest>(),
+    path: "/product/add",
+    responses: {
+      201: c.type<Response<PetLists>>(),
+      400: c.type<Response<ErrorResponse>>(),
+    },
+  },
+  updatePet: {
+    method: "PUT",
+    body: c.type<UpdatePetRequest>(),
+    pathParams: c.type<{
+      petId: number
+    }>(),
+    path: "/product/:petId",
+    responses: {
+      200: c.type<Response<PetLists>>(),
+      400: c.type<Response<ErrorResponse>>(),
+    },
+  },
+  deletePet: {
+    method: "DELETE",
+    pathParams: c.type<{
+      petId: number
+    }>(),
+    path: "/product/:petId",
+    responses: {
+      200: c.type<Response<string>>(),
+      400: c.type<Response<ErrorResponse>>(),
+    },
+  },
+  deleteAdminPet: {
+    method: "DELETE",
+    pathParams: c.type<{
+      petId: number
+    }>(),
+    path: "/product/admin/:petId",
+    responses: {
+      200: c.type<Response<string>>(),
+      400: c.type<Response<ErrorResponse>>(),
+    },
+  },
+  // TODO: Mix will implement this in backend
   getGraphAdoptAnimal: {
     method: "GET",
     query: c.type<{
@@ -133,17 +205,6 @@ export const petContract = c.router({
     path: "/pets/graph/animal-looking-for-home",
     responses: {
       200: c.type<Response<Graph[]>>(),
-      400: c.type<Response<ErrorResponse>>(),
-    },
-  },
-  getPetId: {
-    method: "GET",
-    pathParams: c.type<{
-      petId: number
-    }>(),
-    path: "product/:petId",
-    responses: {
-      200: c.type<Response<PetDetail>>(),
       400: c.type<Response<ErrorResponse>>(),
     },
   },

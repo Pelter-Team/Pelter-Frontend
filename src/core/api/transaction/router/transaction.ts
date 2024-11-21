@@ -5,17 +5,56 @@ import { TransactionStatus } from "../transactionContract"
 import { GraphSelectRangeEnumValue } from "@/features/admin/components/GraphSelectRange"
 
 export class TransactionRouter extends Router<typeof apiContract> {
-  async getTransactions(
-    status: (typeof TransactionStatus)[keyof typeof TransactionStatus]
-  ) {
-    const response = await this.client.transaction.getTransactions({
-      query: { status: status },
+  async getTransactions() {
+    const response = await this.client.transaction.getTransactions()
+    switch (response.status) {
+      case 200:
+        return response.body.result
+      default:
+        throw new APIError(response.status, "Failed to fetch transactions data")
+    }
+  }
+
+  async insertTransaction(productId: number) {
+    const response = await this.client.transaction.insertTransaction({
+      params: { id: productId },
+      body: {},
+    })
+    switch (response.status) {
+      case 201:
+        return response.body.result
+      default:
+        throw new APIError(response.status, "Failed to insert transaction")
+    }
+  }
+
+  async getTransactionById(transactionId: number) {
+    const response = await this.client.transaction.getTransactionById({
+      params: { id: transactionId },
     })
     switch (response.status) {
       case 200:
-        return response.body.data
+        return response.body.result
       default:
-        throw new APIError(response.status, "Failed to fetch transactions data")
+        throw new APIError(
+          response.status,
+          "Failed to get transaction by transactionId"
+        )
+    }
+  }
+
+  async getTransactionByUserId(userId: number) {
+    const response = await this.client.transaction.getTransactionByUserId({
+      params: { id: userId },
+    })
+    switch (response.status) {
+      case 200:
+        return response.body.result
+      default:
+        throw new APIError(
+          response.status,
+          "Failed to get transaction by userId"
+        )
     }
   }
 
@@ -23,7 +62,7 @@ export class TransactionRouter extends Router<typeof apiContract> {
     const response = await this.client.transaction.getTotalBenefitAndInncome()
     switch (response.status) {
       case 200:
-        return response.body.data
+        return response.body.result
       default:
         throw new APIError(
           response.status,
@@ -40,7 +79,7 @@ export class TransactionRouter extends Router<typeof apiContract> {
     })
     switch (response.status) {
       case 200:
-        return response.body.data
+        return response.body.result
       default:
         throw new APIError(
           response.status,
