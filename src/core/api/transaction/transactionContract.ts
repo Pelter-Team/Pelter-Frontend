@@ -1,8 +1,9 @@
 import { initContract } from "@ts-rest/core"
 import { z } from "zod"
 import { ErrorResponse, Response } from "../type"
-import { Graph } from "../pet/petContract"
+import { Graph, PetListSchema } from "../pet/petContract"
 import { GraphSelectRangeEnumValue } from "@/features/admin/components/GraphSelectRange"
+import PetContract from "@/features/pet/components/Descriptions/Contact"
 
 export const GetTransactionsSchema = z.object({
   transactionId: z.string(),
@@ -29,14 +30,22 @@ export const TransactionSchema = z.object({
 })
 export type Transaction = z.infer<typeof TransactionSchema>
 
+export const TransactionWithProductSchema = z.object({
+  product: PetListSchema,
+  ...TransactionSchema.shape,
+})
+
+export type TransactionWithProduct = z.infer<
+  typeof TransactionWithProductSchema
+>
+
 const c = initContract()
-// FIXME: tranasction is not ok right now in api docs, have to fix it
 export const transactionContract = c.router({
   getTransactions: {
     method: "GET",
     path: "/transactions",
     responses: {
-      200: c.type<Response<GetTransactionsResponse[]>>(),
+      200: c.type<Response<TransactionWithProduct[]>>(),
       400: c.type<Response<ErrorResponse>>(),
     },
     query: c.type<{
@@ -52,6 +61,28 @@ export const transactionContract = c.router({
     }>(),
     responses: {
       201: c.type<Response<Transaction>>(),
+      400: c.type<Response<ErrorResponse>>(),
+    },
+  },
+  getTransactionById: {
+    method: "GET",
+    path: "/transaction/:id",
+    pathParams: c.type<{
+      id: number
+    }>(),
+    responses: {
+      200: c.type<Response<Transaction>>(),
+      400: c.type<Response<ErrorResponse>>(),
+    },
+  },
+  getTransactionByUserId: {
+    method: "GET",
+    path: "/transaction/user/:id",
+    pathParams: c.type<{
+      id: number
+    }>(),
+    responses: {
+      200: c.type<Response<TransactionWithProduct>>(),
       400: c.type<Response<ErrorResponse>>(),
     },
   },
