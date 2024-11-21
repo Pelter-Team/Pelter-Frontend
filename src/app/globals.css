@@ -17,21 +17,21 @@ body {
   }
 
   .custom-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
-    color: #C5705D !important;
+    color: #c5705d !important;
   }
   .custom-tabs .ant-tabs-ink-bar {
-    background-color: #C5705D !important;
+    background-color: #c5705d !important;
   }
   .custom-tabs .ant-tabs-tab {
     @apply flex-1 text-center;
   }
   .debounce-input {
     @apply rounded-l-md !max-w-80 !w-80 border outline-none px-2 focus:border-primary py-1 h-8 text-sm;
-
   }
 }
 
-:where(.css-dev-only-do-not-override-8u70ay).ant-descriptions .ant-descriptions-header{
+:where(.css-dev-only-do-not-override-8u70ay).ant-descriptions
+  .ant-descriptions-header {
   display: flex;
   align-items: center;
   margin-bottom: 8px;
