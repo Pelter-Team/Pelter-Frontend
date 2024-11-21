@@ -3,7 +3,6 @@ import { z } from "zod"
 import { ErrorResponse, Response } from "../type"
 import { Graph, PetListSchema } from "../pet/petContract"
 import { GraphSelectRangeEnumValue } from "@/features/admin/components/GraphSelectRange"
-import PetContract from "@/features/pet/components/Descriptions/Contact"
 
 export const GetTransactionsSchema = z.object({
   transactionId: z.string(),

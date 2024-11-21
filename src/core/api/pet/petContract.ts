@@ -2,7 +2,6 @@ import { initContract } from "@ts-rest/core"
 import { z } from "zod"
 import { ErrorResponse, Response, SortOption } from "../type"
 import { GraphSelectRangeEnumValue } from "@/features/admin/components/GraphSelectRange"
-import { Create } from "sharp"
 
 export const PetListSchema = z.object({
   id: z.number(),
