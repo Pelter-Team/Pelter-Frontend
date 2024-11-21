@@ -44,7 +44,7 @@ interface PetType {
   strayCat: boolean
   catBreed?: string
 }
-const pets: Pet[] = [
+export const pets: Pet[] = [
   {
     id: "1",
     image: Image,

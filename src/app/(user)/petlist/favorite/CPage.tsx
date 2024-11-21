@@ -1,9 +1,10 @@
 "use client"
-
 import { useState, useMemo, useEffect } from "react"
 import PetCard from "@/features/user/components/PetCard"
 import Tag from "@/features/user/components/tag"
-import { Pagination, Button, Row, Col } from "antd"
+import { Pagination, Row, Col } from "antd"
+import { useParams } from "next/navigation"
+import { pets } from "@/app/(user)/petlist/CPage"
 
 interface Pet {
   id: string
@@ -31,15 +32,18 @@ interface Pet {
 
 const CFavoritePetList = () => {
   const [currentPage, setCurrentPage] = useState(1)
-
   const [filteredPets, setFilteredPets] = useState<Pet[]>([])
   const [petsPerPage] = useState(8)
   const [selectedTag, setSelectedTag] = useState("all")
 
   useEffect(() => {
-    const allPets: Pet[] = []
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "{}")
-    const favoritePets = allPets.filter((pet) => favorites[pet.id] === true)
+    // Retrieve favorites from local storage
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]")
+
+    // Filter pets based on favorites
+    const favoritePets = pets.filter((pet) =>
+      favorites.includes(Number(pet.id))
+    )
 
     setFilteredPets(favoritePets)
   }, [])
@@ -62,15 +66,18 @@ const CFavoritePetList = () => {
 
   const handleTagSelect = (tag: string) => {
     setSelectedTag(tag)
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "{}")
-    let filtered = [...filteredPets]
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]")
+    const allFavoritePets = pets.filter((pet) =>
+      favorites.includes(Number(pet.id))
+    )
 
+    let filtered = [...allFavoritePets]
     if (tag === "dogs") {
-      filtered = filteredPets.filter(
+      filtered = allFavoritePets.filter(
         (pet) => pet.petType.strayDog || pet.petType.dogBreed
       )
     } else if (tag === "cats") {
-      filtered = filteredPets.filter(
+      filtered = allFavoritePets.filter(
         (pet) => pet.petType.strayCat || pet.petType.catBreed
       )
     }
@@ -97,7 +104,6 @@ const CFavoritePetList = () => {
             counts={getPetCounts()}
           />
         </div>
-
         <Row gutter={[24, 32]}>
           {currentPets.map((pet) => (
             <Col key={pet.id} xs={24} sm={12} md={8} lg={6}>
@@ -105,7 +111,6 @@ const CFavoritePetList = () => {
             </Col>
           ))}
         </Row>
-
         <div className="flex justify-center mt-4">
           <Pagination
             current={currentPage}
