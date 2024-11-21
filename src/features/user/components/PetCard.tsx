@@ -16,19 +16,37 @@ interface Pet {
 
 const PetCard: React.FC<{ pet: Pet }> = ({ pet }) => {
   const [isFavorite, setIsFavorite] = useState(false)
+
   useEffect(() => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "{}")
-    setIsFavorite(!!favorites[pet.id])
+    const storedFavorites = localStorage.getItem("favorites")
+    const favorites = storedFavorites ? JSON.parse(storedFavorites) : []
+    setIsFavorite(
+      Array.isArray(favorites) && favorites.includes(Number(pet.id))
+    )
   }, [pet.id])
 
   const toggleFavorite = () => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "{}")
-    const newFavorites = {
-      ...favorites,
-      [pet.id]: !isFavorite,
+    const storedFavorites = localStorage.getItem("favorites")
+    const favorites = storedFavorites
+      ? JSON.parse(storedFavorites)
+      : ([] as number[])
+
+    if (!Array.isArray(favorites)) {
+      const newFavorites = [Number(pet.id)] as number[]
+      localStorage.setItem("favorites", JSON.stringify(newFavorites))
+      setIsFavorite(true)
+      return
     }
 
-    localStorage.setItem("favorites", JSON.stringify(newFavorites))
+    if (isFavorite) {
+      const newFavorites = favorites.filter(
+        (id) => id !== Number(pet.id)
+      ) as number[]
+      localStorage.setItem("favorites", JSON.stringify(newFavorites))
+    } else {
+      favorites.push(Number(pet.id))
+      localStorage.setItem("favorites", JSON.stringify(favorites))
+    }
     setIsFavorite(!isFavorite)
   }
   return (
