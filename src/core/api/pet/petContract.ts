@@ -4,7 +4,7 @@ import { ErrorResponse, Response, SortOption } from "../type"
 import { GraphSelectRangeEnumValue } from "@/features/admin/components/GraphSelectRange"
 import { Create } from "sharp"
 
-export const PetListSchhema = z.object({
+export const PetListSchema = z.object({
   id: z.number(),
   user_id: z.number(),
   transaction_id: z.number(),
@@ -20,7 +20,7 @@ export const PetListSchhema = z.object({
   created_at: z.string().datetime(),
   updated_at: z.string().datetime(),
 })
-export type PetLists = z.infer<typeof PetListSchhema>
+export type PetLists = z.infer<typeof PetListSchema>
 
 export enum PriceOption {
   Free = "Free",
