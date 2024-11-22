@@ -30,8 +30,10 @@ export const TransactionSchema = z.object({
 export type Transaction = z.infer<typeof TransactionSchema>
 
 export const TransactionWithProductSchema = z.object({
-  product: PetListSchema,
   ...TransactionSchema.shape,
+  is_verified: z.boolean(),
+  is_sold: z.boolean(),
+  price: z.number().positive(),
 })
 
 export type TransactionWithProduct = z.infer<
