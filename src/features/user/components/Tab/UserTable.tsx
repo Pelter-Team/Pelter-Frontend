@@ -7,8 +7,8 @@ import { UserList } from "@/core/api/user/userContract"
 const columns: TableProps<UserList>["columns"] = [
   {
     title: "UserID",
-    dataIndex: "userId",
-    key: "userId",
+    dataIndex: "user_id",
+    key: "user_id",
   },
   {
     title: "UserName",
@@ -17,19 +17,17 @@ const columns: TableProps<UserList>["columns"] = [
   },
   {
     title: "Phone",
-    key: "phone",
-    dataIndex: "phone",
+    render: (_, { phone }) => <>{phone ? phone : "No data provided"}</>,
   },
   {
     title: "Address",
-    key: "address",
-    dataIndex: "address",
+    render: (_, { address }) => <>{address ? address : "No data provided"}</>,
   },
   {
     title: "CreatedAt",
-    dataIndex: "createdAt",
-    key: "createdAt",
-    render: (_, { createdAt }) => <>{formatDateAdminPage(createdAt)}</>,
+    render: (_, { created_at }) => (
+      <>{formatDateAdminPage(new Date(created_at))}</>
+    ),
   },
 ]
 

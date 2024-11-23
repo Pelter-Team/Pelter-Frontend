@@ -107,7 +107,6 @@ export const transactionContract = c.router({
 
 export enum TransactionStatus {
   AllTransactions = "all",
-  Success = "success",
-  Processing = "processing",
-  Cancel = "cancel",
+  VerifyPet = "verify-pet",
+  NotVerifyPet = "not-verify-pet",
 }

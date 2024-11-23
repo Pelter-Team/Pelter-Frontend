@@ -1,12 +1,17 @@
 import { useQuery } from "@tanstack/react-query"
 import { GraphSelectRangeEnumValue } from "../components/GraphSelectRange"
 import { Graph } from "@/core/api/pet/petContract"
+import apiClient from "@/core/api/api"
+import { getDateRanges } from "@/utils/formatDate"
 
 export interface AdminGraph {
   "adopt-animal": Graph[]
   "animal-looking-for-home": Graph[]
   "commission-statistic-sale": Graph[]
   "total-users": Graph[]
+  totalAnimal: number
+  totalDog: number
+  totalCat: number
 }
 
 export const useDashboardGraph = ({
@@ -17,22 +22,67 @@ export const useDashboardGraph = ({
   const queryFn = async (
     graphRange: keyof typeof GraphSelectRangeEnumValue
   ) => {
-    // const graphAdopt = await apiClient.petRouter.getGraphAdoptAnimal(graphRange)
-    // const graphAnimalLookingForHome =
-    //   await apiClient.petRouter.getGraphAnimalLookingForHome(graphRange)
-    // const totalUser = await apiClient.userRouter.getGraphTotalUser(graphRange)
-    // const commission =
-    //   await apiClient.transactionRouter.getGraphStatistic(graphRange)
-    const graphAdopt = await mockDashboardGraph()
-    const graphAnimalLookingForHome = await mockDashboardGraph()
-    const commission = await mockDashboardGraph()
-    const totalUser = await mockDashboardGraph()
+    const transactions = await apiClient.transactionRouter.getTransactions()
+    const pets = await apiClient.petRouter.getListPets()
+    const users = await apiClient.userRouter.getUserList()
+    const dateRanges = getDateRanges(graphRange)
+
+    const totalAnimal = pets.length
+    let totalDog = 0
+    let totalCat = 0
+
+    const totalTransactions = dateRanges.map(({ start, end, label }) => ({
+      key: label,
+      value: transactions
+        .filter((transaction) => {
+          const createdAt = new Date(transaction.created_at)
+          return createdAt >= start && createdAt < end
+        })
+        .reduce((acc, curr) => acc + curr.amount, 0),
+    }))
+
+    const petAdopted = pets.filter((pet) => {
+      if (pet.category.toLowerCase() === "dog") {
+        totalDog++
+      } else if (pet.category.toLowerCase() === "cat") {
+        totalCat++
+      }
+      return pet.is_sold === true
+    })
+    const petLookingForHome = pets.filter((pet) => pet.is_sold === false)
+
+    const totalPetAdopted = dateRanges.map(({ start, end, label }) => ({
+      key: label,
+      value: petAdopted.filter((pet) => {
+        const createdAt = new Date(pet.created_at)
+        return createdAt >= start && createdAt < end
+      }).length,
+    }))
+
+    const totalPetLookingForHome = dateRanges.map(({ start, end, label }) => ({
+      key: label,
+      value: petLookingForHome.filter((pet) => {
+        const createdAt = new Date(pet.created_at)
+        return createdAt >= start && createdAt < end
+      }).length,
+    }))
+
+    const totalUsers = dateRanges.map(({ start, end, label }) => ({
+      key: label,
+      value: users.filter((user) => {
+        const createdAt = new Date(user.created_at)
+        return createdAt >= start && createdAt < end
+      }).length,
+    }))
 
     const graph: AdminGraph = {
-      "adopt-animal": graphAdopt,
-      "animal-looking-for-home": graphAnimalLookingForHome,
-      "commission-statistic-sale": commission,
-      "total-users": totalUser,
+      "adopt-animal": totalPetAdopted,
+      "animal-looking-for-home": totalPetLookingForHome,
+      "commission-statistic-sale": totalTransactions,
+      "total-users": totalUsers,
+      totalAnimal,
+      totalCat,
+      totalDog,
     }
 
     return graph

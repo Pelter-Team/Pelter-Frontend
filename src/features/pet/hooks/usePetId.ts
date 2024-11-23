@@ -8,8 +8,8 @@ interface UseListPetIdProps {
 export const usePetId = ({ petId }: UseListPetIdProps) => {
   const queryFn = async () => {
     try {
-      //   const result = await apiClient.petRouter.getPetId(petId)
-      const result = await mockPetId()
+      const result = await apiClient.petRouter.getPetId(petId)
+      // const result = await mockPetId()
       return result
     } catch (error) {
       console.error(error)

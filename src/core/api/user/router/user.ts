@@ -40,14 +40,9 @@ export class UserRouter extends Router<typeof apiContract> {
     }
   }
 
-  async getUserList(sort: SortOption, search: string): Promise<UserList[]> {
+  async getUserList(): Promise<UserList[]> {
     // status: (typeof TransactionStatus)[keyof typeof TransactionStatus]
-    const response = await this.client.user.getUserList({
-      query: {
-        sort: sort,
-        search: search,
-      },
-    })
+    const response = await this.client.user.getUserList()
     switch (response.status) {
       case 200:
         return response.body.result

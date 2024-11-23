@@ -1,22 +1,22 @@
 // import apiClient from "@/core/api/api"
+import apiClient from "@/core/api/api"
 import {
   GetTotalBenefit,
-  GetTransactionsResponse,
   TransactionStatus,
+  TransactionWithProduct,
 } from "@/core/api/transaction/transactionContract"
 import { useQuery } from "@tanstack/react-query"
 
 export const useTransactions = (status: TransactionStatus) => {
   const queryFn = async () => {
     try {
-      const transactions =
-        // await apiClient.transactionRouter.getTransactions(status)
-        await mockGetTransactions()
+      const transactions = await apiClient.transactionRouter.getTransactions()
+      // const transactions = await mockGetTransactions()
       if (status === TransactionStatus.AllTransactions) {
         return transactions
       } else {
         return transactions.filter(
-          (transaction) => transaction.status === status
+          (t) => t.is_verified === (status === TransactionStatus.VerifyPet)
         )
       }
     } catch (error) {
@@ -33,28 +33,18 @@ export const useTransactions = (status: TransactionStatus) => {
   return query
 }
 
-export const mockGetTransactions = (): Promise<GetTransactionsResponse[]> => {
-  const data: GetTransactionsResponse[] = [
+export const mockGetTransactions = (): Promise<TransactionWithProduct[]> => {
+  const data: TransactionWithProduct[] = [
     {
-      transactionId: "John Brown",
-      createdAt: new Date(),
-      petId: 1,
-      price: 500,
-      status: "success",
-    },
-    {
-      transactionId: "John Brown",
-      createdAt: new Date(),
-      petId: 2,
-      price: 500,
-      status: "cancel",
-    },
-    {
-      transactionId: "John Brown",
-      createdAt: new Date(),
-      petId: 3,
-      price: 500,
-      status: "processing",
+      id: 1,
+      product_id: 1,
+      buyer_id: 2,
+      seller_id: 1,
+      amount: 2050,
+      created_at: "2024-11-21 23:16:28.995955 +0700 +07",
+      price: 2050,
+      is_verified: false,
+      is_sold: true,
     },
   ]
   return new Promise((resolve) => {
@@ -64,14 +54,26 @@ export const mockGetTransactions = (): Promise<GetTransactionsResponse[]> => {
   })
 }
 
-export const useTotalBenefitAndIncome = () => {
-  const query = useQuery({
-    queryKey: ["get-total-benefit-and-income"],
-    // queryFn: apiClient.transactionRouter.getTotalBenefitAndInncome,
-    queryFn: mockGetTotalBenefitAndInncome,
-    refetchInterval: 30 * 1000,
-  })
-  return query
+export const useTotalBenefitAndIncome = (
+  transactions: TransactionWithProduct[]
+) => {
+  if (!transactions) {
+    return {
+      totalBenefit: 0,
+      totalIncome: 0,
+    }
+  }
+
+  const totalIncome = transactions.reduce(
+    (sum, transaction) => sum + transaction.amount,
+    0
+  )
+  const totalBenefit = totalIncome * 0.05 // 5% of total income
+
+  return {
+    totalBenefit,
+    totalIncome,
+  }
 }
 
 export const mockGetTotalBenefitAndInncome = (): Promise<GetTotalBenefit> => {

@@ -1,8 +1,6 @@
 import apiClient from "@/core/api/api"
-import {
-  PetListVerification,
-  PetVerificationStatus,
-} from "@/core/api/pet/petContract"
+import { PetLists, PetVerificationStatus } from "@/core/api/pet/petContract"
+import { queryClient } from "@/providers/queryProvider"
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
 import { notification } from "antd"
 
@@ -16,7 +14,10 @@ export const useVerificationPet = () => {
 
   const flowFn = async ({ petId, status }: VerifyPetInput) => {
     try {
-      const response = await apiClient.petRouter.verifyPet(petId, status)
+      const response = await apiClient.petRouter.verifyPet(
+        petId,
+        status === PetVerificationStatus.Verified ? true : false
+      )
 
       return { response: response }
     } catch (error) {
@@ -31,11 +32,16 @@ export const useVerificationPet = () => {
   }
 
   const mutation: UseMutationResult<
-    { response: PetListVerification },
+    { response: PetLists },
     Error,
     VerifyPetInput
   > = useMutation({
     mutationFn: flowFn,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["get-list-pet-verification"],
+      })
+    },
   })
 
   return {

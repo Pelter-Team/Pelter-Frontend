@@ -1,6 +1,6 @@
 import { initContract } from "@ts-rest/core"
 import { z } from "zod"
-import { ErrorResponse, Response, SortOption } from "../type"
+import { ErrorResponse, Response } from "../type"
 import { GraphSelectRangeEnumValue } from "@/features/admin/components/GraphSelectRange"
 
 export const PetListSchema = z.object({
@@ -9,6 +9,7 @@ export const PetListSchema = z.object({
   transaction_id: z.number(),
   review_id: z.null(),
   name: z.string(),
+  owner: z.string(),
   is_sold: z.boolean(),
   category: z.string(),
   subcategory: z.string(),
@@ -16,32 +17,23 @@ export const PetListSchema = z.object({
   is_verified: z.boolean(),
   price: z.number(),
   image_url: z.string(),
+  vaccine_book_url: z.string().or(z.null()),
   created_at: z.string().datetime(),
   updated_at: z.string().datetime(),
 })
 export type PetLists = z.infer<typeof PetListSchema>
 
 export enum PriceOption {
+  All = "All",
   Free = "Free",
   Commercial = "Commercial",
 }
 
 export enum PetStatus {
-  LookingForHome = "Looking For Home",
+  All = "All",
   AdoptionPending = "Adoption Pending",
   Adopted = "Adopted",
 }
-
-export const PetListVerificationSchema = z.object({
-  petId: z.number(),
-  petName: z.string(),
-  color: z.string(),
-  bread: z.string(),
-  document: z.string().optional(),
-  pedIdUrl: z.string().optional(),
-  createdAt: z.date(),
-})
-export type PetListVerification = z.infer<typeof PetListVerificationSchema>
 
 export const CreatePetRequestSchema = z.object({
   name: z.string(),
@@ -68,15 +60,13 @@ export const Graph = z.object({
 export type Graph = z.infer<typeof Graph>
 
 export enum PetVerificationStatus {
-  Request = "Request",
-  Declined = "Declined",
+  Pending = "Pending",
   Verified = "Verified",
 }
 
 export const petVerificationOptions = [
-  { value: "Request", label: "Request" },
-  { value: "Declined", label: "Declined" },
-  { value: "Verified", label: "Verified" },
+  { value: PetVerificationStatus.Pending, label: "Pending" },
+  { value: PetVerificationStatus.Verified, label: "Verified" },
 ]
 
 const PetDetail = z.object({
@@ -93,8 +83,8 @@ const PetDetail = z.object({
   price: z.number().positive(),
   image_url: z.string().url(),
   vaccine_book_url: z.string().url().nullable().optional(),
-  created_at: z.date(),
-  updated_at: z.date(),
+  created_at: z.string().date(),
+  updated_at: z.string().date(),
 })
 export type PetDetail = z.infer<typeof PetDetail>
 
@@ -130,13 +120,13 @@ export const petContract = c.router({
   },
   verificationPet: {
     method: "PATCH",
-    path: "/pets/verification/:petId",
+    path: "/product/verification/:petId",
     responses: {
-      200: c.type<Response<PetListVerification>>(),
+      200: c.type<Response<PetLists>>(),
       400: c.type<Response<ErrorResponse>>(),
     },
     body: c.type<{
-      status: PetVerificationStatus
+      is_verified: boolean
     }>(),
     pathParams: c.type<{
       petId: number
@@ -214,8 +204,9 @@ export const priceOptions: {
   value: keyof typeof PriceOption
   label: keyof typeof PriceOption
 }[] = [
-  { value: "Free", label: "Free" },
-  { value: "Commercial", label: "Commercial" },
+  { value: PriceOption.All, label: "All" },
+  { value: PriceOption.Free, label: "Free" },
+  { value: PriceOption.Commercial, label: "Commercial" },
 ]
 
 export const sortOptions = [

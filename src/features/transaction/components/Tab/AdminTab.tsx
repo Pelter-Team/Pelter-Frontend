@@ -4,21 +4,20 @@ import TabPane from "antd/es/tabs/TabPane"
 import LoadingSpinner from "@/components/LoadingSpinner"
 import { useTransactions } from "../../hooks/useTransactions"
 import {
-  GetTransactionsResponse,
   TransactionStatus,
+  TransactionWithProduct,
 } from "@/core/api/transaction/transactionContract"
 import TransactionTable from "./Table"
 
 interface TabContentProps {
-  data: GetTransactionsResponse[] | undefined
+  data: TransactionWithProduct[] | undefined
   loading: boolean
 }
 
 const TAB_CONFIG = [
   { label: "All Transactions", value: TransactionStatus.AllTransactions },
-  { label: "Success", value: TransactionStatus.Success },
-  { label: "Processing", value: TransactionStatus.Processing },
-  { label: "Cancel", value: TransactionStatus.Cancel },
+  { label: "Verify", value: TransactionStatus.VerifyPet },
+  { label: "Not-Verify", value: TransactionStatus.NotVerifyPet },
 ] as const
 
 const TabContent: React.FC<TabContentProps> = ({ data, loading }) => {

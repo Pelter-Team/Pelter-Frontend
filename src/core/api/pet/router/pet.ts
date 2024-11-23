@@ -1,12 +1,7 @@
 import { APIError } from "../../error"
 import { apiContract } from "../.."
 import { Router } from "../../router"
-import { SortOption } from "../../type"
-import {
-  CreatePetRequest,
-  PetVerificationStatus,
-  UpdatePetRequest,
-} from "../petContract"
+import { CreatePetRequest, UpdatePetRequest } from "../petContract"
 import { GraphSelectRangeEnumValue } from "@/features/admin/components/GraphSelectRange"
 
 export class PetRouter extends Router<typeof apiContract> {
@@ -33,9 +28,9 @@ export class PetRouter extends Router<typeof apiContract> {
     }
   }
 
-  async verifyPet(petId: number, status: PetVerificationStatus) {
+  async verifyPet(petId: number, is_verified: boolean) {
     const response = await this.client.pet.verificationPet({
-      body: { status: status },
+      body: { is_verified: is_verified },
       params: { petId: petId },
     })
     switch (response.status) {

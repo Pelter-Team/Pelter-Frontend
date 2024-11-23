@@ -9,7 +9,8 @@ export const UserListchema = z.object({
   username: z.string(),
   phone: z.string(),
   address: z.string(),
-  createdAt: z.date(),
+  role: z.enum(["admin", "customer", "foundation", "seller"]),
+  created_at: z.date(),
 })
 
 export type UserList = z.infer<typeof UserListchema>
@@ -83,15 +84,11 @@ export const userContract = c.router({
   },
   getUserList: {
     method: "GET",
-    path: "/customer-info",
+    path: "/admin/users",
     responses: {
       200: c.type<Response<UserList[]>>(),
       400: c.type<Response<ErrorResponse>>(),
     },
-    query: c.type<{
-      sort: SortOption
-      search: string
-    }>(),
   },
   getGraphTotalUser: {
     method: "GET",
@@ -107,6 +104,7 @@ export const userContract = c.router({
 })
 
 export enum UserType {
-  Individual = "Individual",
-  Foundation = "Foundation",
+  All = "all",
+  Customer = "customer",
+  Foundation = "foundation",
 }

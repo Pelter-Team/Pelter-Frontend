@@ -25,7 +25,7 @@ export default function Cpage({}: {}) {
             onChange={(e) => setSearch(e.target.value)}
             debounceTimeout={300}
             value={search}
-            placeholder="input search text"
+            placeholder="Search by petname"
             className="debounce-input"
           />
           <div className="h-full rounded-r-md px-2 py-1 flex justify-center items-center border-r border-t border-b bg-gray-50 ">
