@@ -2,17 +2,26 @@ import { APIError } from "../../error"
 import { apiContract } from "../.."
 import { Router } from "../../router"
 import { SortOption } from "../../type"
-import { LoginResponse, RegisterRequest, UserList } from "../userContract"
+import {
+  LoginResponse,
+  RegisterRequest,
+  UserList,
+  UserResponse,
+} from "../userContract"
 import { GraphSelectRangeEnumValue } from "@/features/admin/components/GraphSelectRange"
+import { ApiError } from "next/dist/server/api-utils"
 
 export class UserRouter extends Router<typeof apiContract> {
-  async login(username: string, password: string): Promise<LoginResponse> {
+  async login(email: string, password: string): Promise<LoginResponse> {
     const response = await this.client.user.login({
-      body: { username: username, password: password },
+      body: { email: email, password: password },
     })
     switch (response.status) {
       case 200:
         return response.body.result
+      case 400:
+        console.log("hello 400", response.body)
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to login")
     }
@@ -37,6 +46,16 @@ export class UserRouter extends Router<typeof apiContract> {
         return response.body.result
       default:
         throw new APIError(response.status, "Failed to logout")
+    }
+  }
+
+  async me(): Promise<UserResponse> {
+    const response = await this.client.user.me()
+    switch (response.status) {
+      case 200:
+        return response.body.result
+      default:
+        throw new APIError(response.status, "Failed to get me")
     }
   }
 

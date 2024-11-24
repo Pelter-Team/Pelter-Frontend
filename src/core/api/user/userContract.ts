@@ -15,6 +15,15 @@ export const UserListchema = z.object({
 
 export type UserList = z.infer<typeof UserListchema>
 
+export const User = z.object({
+  userId: z.number(),
+  username: z.string(),
+  role: z.enum(["admin", "customer", "foundation", "seller"]),
+  profileUrl: z.string().nullable(),
+})
+
+export type UserResponse = z.infer<typeof User>
+
 export const LoginResponseSchema = z.object({
   userId: z.number(),
   firstname: z.string().min(1),
@@ -57,12 +66,12 @@ export const userContract = c.router({
     method: "POST",
     path: "/auth/login",
     body: c.type<{
-      username: string
+      email: string
       password: string
     }>(),
     responses: {
       200: c.type<Response<LoginResponse>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
   },
   register: {
@@ -71,7 +80,7 @@ export const userContract = c.router({
     body: c.type<RegisterRequest>(),
     responses: {
       201: c.type<Response<RegisterResponse>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
   },
   logout: {
@@ -79,7 +88,15 @@ export const userContract = c.router({
     path: "/auth/logout",
     responses: {
       200: c.type<Response<string>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
+    },
+  },
+  me: {
+    method: "GET",
+    path: "/auth/me",
+    responses: {
+      200: c.type<Response<UserResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
   },
   getUserList: {
@@ -87,7 +104,7 @@ export const userContract = c.router({
     path: "/admin/users",
     responses: {
       200: c.type<Response<UserList[]>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
   },
   getGraphTotalUser: {
@@ -95,7 +112,7 @@ export const userContract = c.router({
     path: "/total-user",
     responses: {
       200: c.type<Response<Graph[]>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
     query: c.type<{
       graphRange: keyof typeof GraphSelectRangeEnumValue
