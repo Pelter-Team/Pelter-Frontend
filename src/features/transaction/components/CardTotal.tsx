@@ -1,15 +1,28 @@
 "use client"
 
 import LoadingSpinner from "@/components/LoadingSpinner"
-import { useTotalBenefitAndIncome } from "../hooks/useTransactions"
+import {
+  useTotalBenefitAndIncome,
+  useTransactions,
+} from "../hooks/useTransactions"
 import { formatNumber } from "@/utils/formatNumber"
+import {
+  TransactionStatus,
+  TransactionWithProduct,
+} from "@/core/api/transaction/transactionContract"
+import { useMemo } from "react"
 
 export default function CardTotal({}) {
-  const { data, isLoading: isTotalBILoading } = useTotalBenefitAndIncome()
+  const { data: transactions, isLoading: isTransactionLoading } =
+    useTransactions(TransactionStatus.AllTransactions)
+
+  const totalData = useMemo(() => {
+    return useTotalBenefitAndIncome(transactions as TransactionWithProduct[])
+  }, [transactions])
 
   return (
     <div className="flex gap-8 w-full flex-wrap">
-      {isTotalBILoading || !data ? (
+      {isTransactionLoading || !totalData ? (
         <div className="flex justify-center items-center w-full">
           <LoadingSpinner />
         </div>
@@ -25,9 +38,8 @@ export default function CardTotal({}) {
               <h6
                 className={`text-start  text-4xl font-semibold text-[#0452AD]`}
               >
-                {formatNumber(data.totalBenefit)}฿
+                {formatNumber(totalData.totalBenefit)}฿
               </h6>
-              <h6 className="text-end text-base font-medium">per month</h6>
             </div>
           </div>
 
@@ -41,9 +53,8 @@ export default function CardTotal({}) {
               <h6
                 className={`text-start  text-4xl font-semibold text-[#4D3BB8]`}
               >
-                {formatNumber(data.totalIncome)}฿
+                {formatNumber(totalData.totalIncome)}฿
               </h6>
-              <h6 className="text-end text-base font-medium">per month</h6>
             </div>
           </div>
         </div>

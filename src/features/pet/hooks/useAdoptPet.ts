@@ -1,8 +1,5 @@
 import apiClient from "@/core/api/api"
-import {
-  PetListVerification,
-  PetVerificationStatus,
-} from "@/core/api/pet/petContract"
+import { PetVerificationStatus } from "@/core/api/pet/petContract"
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
 import { notification } from "antd"
 
@@ -15,7 +12,7 @@ export const useAdoptPet = () => {
 
   const flowFn = async ({ petId }: VerifyPetInput) => {
     try {
-      //   const response = await apiClient.petRouter.verifyPet(petId)
+      // const response = await apiClient.petRouter.verifyPet(petId)
 
       //   return { response: response }
       return {}

@@ -44,7 +44,7 @@ export default function PetDescription({ petId }: { petId: number }) {
         className: descClassName,
         children: (
           <p className={childrenTextClassName}>
-            {formatDateAdminPage(pet.created_at)}
+            {formatDateAdminPage(new Date(pet.created_at))}
           </p>
         ),
       },
@@ -106,7 +106,7 @@ export default function PetDescription({ petId }: { petId: number }) {
         items={petDesc}
       />
       <Modal
-        title="Basic Modal"
+        title=""
         open={isModalOpen}
         onOk={() => setIsModalOpen((prev) => !prev)}
         onCancel={() => setIsModalOpen(false)}

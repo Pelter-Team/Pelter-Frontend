@@ -5,13 +5,10 @@ import LoadingSpinner from "@/components/LoadingSpinner"
 import { SortOption } from "@/core/api/type"
 import { useListPetVerification } from "../../hooks/useListPetVerification"
 import PetAdminVerificationTable from "./PetAdminVerificationTable"
-import {
-  PetListVerification,
-  PetVerificationStatus,
-} from "@/core/api/pet/petContract"
+import { PetLists, PetVerificationStatus } from "@/core/api/pet/petContract"
 
 const TabContent: React.FC<{
-  data: PetListVerification[] | undefined
+  data: PetLists[] | undefined
   loading: boolean
   status: PetVerificationStatus
 }> = ({ data, loading, status }) => {
@@ -33,7 +30,7 @@ const PetAdminVerificationTab: React.FC<PetAdminVerificationTabProps> = ({
   sortOption,
 }) => {
   const [activeTab, setActiveTab] = useState<PetVerificationStatus>(
-    PetVerificationStatus.Request
+    PetVerificationStatus.Pending
   )
 
   const { data, isLoading: isListPetVerificationLoading } =
@@ -49,7 +46,7 @@ const PetAdminVerificationTab: React.FC<PetAdminVerificationTabProps> = ({
 
   return (
     <Tabs
-      defaultActiveKey={PetVerificationStatus.Verified}
+      defaultActiveKey={PetVerificationStatus.Pending}
       onChange={onChangeTab}
     >
       {Object.values(PetVerificationStatus).map((status) => (

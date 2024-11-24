@@ -17,13 +17,11 @@ import { formatNumber } from "@/utils/formatNumber"
 
 export default function Cpage({}: {}) {
   const [search, setSearch] = useState<string>("")
-  const [priceOption, setPriceOption] = useState<PriceOption>(PriceOption.Free)
+  const [priceOption, setPriceOption] = useState<PriceOption>(PriceOption.All)
   const [sortOption, setSortOption] = useState<SortOption>(
     SortOption.SortByLatest
   )
-  const [activeTab, setActiveTab] = useState<PetStatus>(
-    PetStatus.LookingForHome
-  )
+  const [activeTab, setActiveTab] = useState<PetStatus>(PetStatus.All)
 
   const { data } = useListPets({
     activeTab,
@@ -48,13 +46,17 @@ export default function Cpage({}: {}) {
     },
     {
       title: "Total Number of Dogs",
-      value: formatNumber(data?.length ?? 0),
+      value: formatNumber(
+        data?.filter((pet) => pet.category.toLowerCase() === "dog").length ?? 0
+      ),
       bgColor: "bg-[#E9C9C1]",
       textColor: "text-[#873800]",
     },
     {
       title: "Total Number of Cats",
-      value: formatNumber(data?.length ?? 0),
+      value: formatNumber(
+        data?.filter((pet) => pet.category.toLowerCase() === "cat").length ?? 0
+      ),
       bgColor: "bg-[#E9C9C1]",
       textColor: "text-[#873800]",
     },
@@ -81,7 +83,7 @@ export default function Cpage({}: {}) {
               onChange={(e) => setSearch(e.target.value)}
               debounceTimeout={300}
               value={search}
-              placeholder="input search text"
+              placeholder="Search by pet name"
               className="debounce-input"
             />
             <div className="rounded-r-md px-2 py-1 flex justify-center items-center border-r border-t border-b bg-gray-50 ">
