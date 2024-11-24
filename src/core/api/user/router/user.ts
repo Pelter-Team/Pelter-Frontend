@@ -20,7 +20,6 @@ export class UserRouter extends Router<typeof apiContract> {
       case 200:
         return response.body.result
       case 400:
-        console.log("hello 400", response.body)
         throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to login")
