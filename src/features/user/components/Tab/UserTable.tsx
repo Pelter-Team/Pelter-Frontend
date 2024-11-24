@@ -20,6 +20,10 @@ const columns: TableProps<UserList>["columns"] = [
     render: (_, { phone }) => <>{phone ? phone : "No data provided"}</>,
   },
   {
+    title: "Role",
+    render: (_, { role }) => <>{role}</>,
+  },
+  {
     title: "Address",
     render: (_, { address }) => <>{address ? address : "No data provided"}</>,
   },

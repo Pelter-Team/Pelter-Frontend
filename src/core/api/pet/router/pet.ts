@@ -3,6 +3,7 @@ import { apiContract } from "../.."
 import { Router } from "../../router"
 import { CreatePetRequest, UpdatePetRequest } from "../petContract"
 import { GraphSelectRangeEnumValue } from "@/features/admin/components/GraphSelectRange"
+import { ApiError } from "next/dist/server/api-utils"
 
 export class PetRouter extends Router<typeof apiContract> {
   async getListPets() {
@@ -10,6 +11,8 @@ export class PetRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 200:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to fetch get list of pets")
     }
@@ -20,6 +23,8 @@ export class PetRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 200:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(
           response.status,
@@ -36,6 +41,8 @@ export class PetRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 200:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to verify pet")
     }
@@ -50,6 +57,8 @@ export class PetRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 200:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(
           response.status,
@@ -67,6 +76,8 @@ export class PetRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 200:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(
           response.status,
@@ -82,6 +93,8 @@ export class PetRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 200:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(
           response.status,
@@ -97,6 +110,8 @@ export class PetRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 201:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to insert pet")
     }
@@ -110,6 +125,8 @@ export class PetRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 200:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to update pet")
     }
@@ -122,6 +139,8 @@ export class PetRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 200:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to delete pet")
     }
@@ -134,6 +153,8 @@ export class PetRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 200:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to delete admin pet")
     }

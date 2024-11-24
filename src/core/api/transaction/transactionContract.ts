@@ -47,7 +47,7 @@ export const transactionContract = c.router({
     path: "/transactions",
     responses: {
       200: c.type<Response<TransactionWithProduct[]>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
   },
   insertTransaction: {
@@ -59,7 +59,7 @@ export const transactionContract = c.router({
     }>(),
     responses: {
       201: c.type<Response<Transaction>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
   },
   getTransactionById: {
@@ -70,7 +70,7 @@ export const transactionContract = c.router({
     }>(),
     responses: {
       200: c.type<Response<Transaction>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
   },
   getTransactionByUserId: {
@@ -81,7 +81,7 @@ export const transactionContract = c.router({
     }>(),
     responses: {
       200: c.type<Response<TransactionWithProduct>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
   },
   getTotalBenefitAndInncome: {
@@ -89,7 +89,7 @@ export const transactionContract = c.router({
     path: "/transactions/total",
     responses: {
       200: c.type<Response<GetTotalBenefit>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
   },
   getGraphStatistic: {
@@ -97,7 +97,7 @@ export const transactionContract = c.router({
     path: "/graph-statistic",
     responses: {
       200: c.type<Response<Graph[]>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
     query: c.type<{
       graphRange: keyof typeof GraphSelectRangeEnumValue

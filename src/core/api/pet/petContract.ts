@@ -95,7 +95,7 @@ export const petContract = c.router({
     path: "/products/",
     responses: {
       200: c.type<Response<PetLists[]>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
   },
   getPetId: {
@@ -106,7 +106,7 @@ export const petContract = c.router({
     path: "/product/:petId",
     responses: {
       200: c.type<Response<PetDetail>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
   },
   // RECHECK: can replace with getListPets?
@@ -115,7 +115,7 @@ export const petContract = c.router({
     path: "/products",
     responses: {
       200: c.type<Response<PetLists[]>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
   },
   verificationPet: {
@@ -123,7 +123,7 @@ export const petContract = c.router({
     path: "/product/verification/:petId",
     responses: {
       200: c.type<Response<PetLists>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
     body: c.type<{
       is_verified: boolean
@@ -138,7 +138,7 @@ export const petContract = c.router({
     path: "/product/add",
     responses: {
       201: c.type<Response<PetLists>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
   },
   updatePet: {
@@ -150,7 +150,7 @@ export const petContract = c.router({
     path: "/product/:petId",
     responses: {
       200: c.type<Response<PetLists>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
   },
   deletePet: {
@@ -161,7 +161,7 @@ export const petContract = c.router({
     path: "/product/:petId",
     responses: {
       200: c.type<Response<string>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
   },
   deleteAdminPet: {
@@ -172,7 +172,7 @@ export const petContract = c.router({
     path: "/product/admin/:petId",
     responses: {
       200: c.type<Response<string>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
   },
   // TODO: Mix will implement this in backend
@@ -184,7 +184,7 @@ export const petContract = c.router({
     path: "/pets/graph/adopt-animal",
     responses: {
       200: c.type<Response<Graph[]>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
   },
   getGraphAnimalLookingForHome: {
@@ -195,7 +195,7 @@ export const petContract = c.router({
     path: "/pets/graph/animal-looking-for-home",
     responses: {
       200: c.type<Response<Graph[]>>(),
-      400: c.type<Response<ErrorResponse>>(),
+      400: c.type<ErrorResponse>(),
     },
   },
 })

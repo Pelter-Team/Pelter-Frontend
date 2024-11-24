@@ -7,19 +7,25 @@ import {
   Select,
   Divider,
   UploadFile,
+  notification,
 } from "antd"
 import { UploadOutlined } from "@ant-design/icons"
 import Link from "next/link"
 import type { FormInstance } from "antd"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { useRegister } from "@/features/auth/hooks/useRegister"
+import { RegisterFormData } from "./RegisterContent"
+import { useUser } from "@/features/auth/provider/UserContext"
+import cloudinary from "@/core/cloudinary"
 
 interface SubmitButtonProps {
   form: FormInstance
+  isLoading?: boolean
 }
 export const SubmitButton: React.FC<
   React.PropsWithChildren<SubmitButtonProps>
-> = ({ form, children }) => {
+> = ({ form, children, isLoading }) => {
   const [submittable, setSubmittable] = useState(false)
   const values = Form.useWatch([], form)
 
@@ -32,6 +38,7 @@ export const SubmitButton: React.FC<
 
   return (
     <Button
+      loading={isLoading}
       type="primary"
       htmlType="submit"
       disabled={!submittable}
@@ -41,27 +48,78 @@ export const SubmitButton: React.FC<
     </Button>
   )
 }
-
+interface RegisterFoundation extends RegisterFormData {
+  address: string
+}
 export default function FoundationContent() {
+  const { setUserState } = useUser?.()!
+  const router = useRouter()
+  const [api, contextHolder] = notification.useNotification()
+  const { registerFlow, error, isPending } = useRegister()
+
   const [form] = Form.useForm()
-  const router = useRouter() //navigate to success
   const [fileList, setFileList] = useState<UploadFile[]>() //store file that user upload
+
   //@ts-ignore
   const handleFileChange = ({ fileList }: { fileList: any }) => {
     setFileList(fileList) // Update fileList state
   }
 
+  const onFinish = async (values: RegisterFoundation) => {
+    try {
+      const { email, password, firstname, phone, address } = values
+
+      if (!fileList || fileList.length === 0) {
+        throw Error("Please upload your foundation document")
+      }
+
+      const [file] = fileList
+      if (!file.originFileObj) {
+        throw Error("Invalid file object")
+      }
+      const uploadResponse = await cloudinary.uploadToCloudinary(
+        file.originFileObj
+      )
+      const documentUrl = uploadResponse.secure_url
+
+      const { response } = await registerFlow({
+        email,
+        password,
+        name: firstname,
+        role: "foundation",
+        surname: "foundation",
+        phone_number: phone,
+        address: address,
+        profile_url: documentUrl,
+      })
+
+      api.success({ message: "Register success" })
+      setUserState({
+        user: {
+          profileUrl: response.profileUrl,
+          userId: response.userId,
+          role: response.role,
+          username: response.firstname,
+        },
+      })
+      router.push("/registersuccess")
+    } catch (error) {
+      console.error("Login error:", error)
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred"
+      api.error({
+        message: "Failed to login",
+        description: errorMessage,
+      })
+    }
+  }
+
   return (
     <>
-      <Form
-        form={form}
-        className="mt-10 flex-col"
-        onFinish={(values) => {
-          router.push("/registersuccess")
-        }}
-      >
+      {contextHolder}
+      <Form form={form} className="mt-10 flex-col" onFinish={onFinish}>
         <Form.Item
-          name="foundationName"
+          name="firstname"
           rules={[{ required: true, message: "* Required Field" }]}
         >
           <Input placeholder="Foundation name" />
@@ -138,7 +196,9 @@ export default function FoundationContent() {
         </Form.Item>
 
         <Form.Item className="mt-4 class">
-          <SubmitButton form={form}>Register</SubmitButton>
+          <SubmitButton isLoading={isPending} form={form}>
+            Register
+          </SubmitButton>
         </Form.Item>
       </Form>
     </>
