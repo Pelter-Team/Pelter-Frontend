@@ -4,8 +4,8 @@ import { CalendarOutlined } from "@ant-design/icons"
 
 export default function layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex">
-      <div className="h-full min-h-screen flex flex-col">
+    <div className="flex min-h-screen">
+      <div className="flex flex-col">
         <Sidebar />
       </div>
       <div className="pt-12 px-16 flex flex-col gap-8 w-full">

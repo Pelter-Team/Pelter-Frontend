@@ -33,6 +33,8 @@ export class UserRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 201:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to register")
     }
@@ -43,6 +45,8 @@ export class UserRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 200:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to logout")
     }
@@ -53,6 +57,8 @@ export class UserRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 200:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to get me")
     }
@@ -64,6 +70,8 @@ export class UserRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 200:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to fetch transactions data")
     }
@@ -78,6 +86,8 @@ export class UserRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 200:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to fetch transactions data")
     }

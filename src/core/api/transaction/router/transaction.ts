@@ -3,6 +3,7 @@ import { apiContract } from "../.."
 import { Router } from "../../router"
 import { TransactionStatus } from "../transactionContract"
 import { GraphSelectRangeEnumValue } from "@/features/admin/components/GraphSelectRange"
+import { ApiError } from "next/dist/server/api-utils"
 
 export class TransactionRouter extends Router<typeof apiContract> {
   async getTransactions() {
@@ -10,6 +11,8 @@ export class TransactionRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 200:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to fetch transactions data")
     }
@@ -23,6 +26,8 @@ export class TransactionRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 201:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to insert transaction")
     }
@@ -35,6 +40,8 @@ export class TransactionRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 200:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(
           response.status,
@@ -50,6 +57,8 @@ export class TransactionRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 200:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(
           response.status,
@@ -63,6 +72,8 @@ export class TransactionRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 200:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(
           response.status,
@@ -80,6 +91,8 @@ export class TransactionRouter extends Router<typeof apiContract> {
     switch (response.status) {
       case 200:
         return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(
           response.status,
