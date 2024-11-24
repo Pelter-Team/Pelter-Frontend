@@ -1,12 +1,53 @@
 "use client"
 import Link from "next/link"
 import Image from "next/image"
-import { Input, Button, Form } from "antd"
+import { Input, Button, Form, notification } from "antd"
 import Pelter4 from "../../public/Pelter_4.png"
+import { useLogin } from "@/features/auth/hooks/useLogin"
+import { useUser } from "@/features/auth/provider/UserContext"
+import { useRouter } from "next/navigation"
+
+interface SignInFormData {
+  email: string
+  password: string
+}
 
 export default function SignIn() {
+  const { setUserState } = useUser?.()!
+  const [api, contextHolder] = notification.useNotification()
+
+  const router = useRouter()
+  const { loginFlow, error, isPending } = useLogin()
+  const onFinish = async (values: SignInFormData) => {
+    try {
+      const { email, password } = values
+      const { response } = await loginFlow({ email, password })
+      setUserState({
+        user: {
+          profileUrl: response.profileUrl,
+          userId: response.userId,
+          role: response.role,
+          username: response.firstname,
+        },
+      })
+
+      api.success({ message: "Login success" })
+
+      router.push("/loginsuccess")
+    } catch (error) {
+      console.error("Login error:", error)
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred"
+      api.error({
+        message: "Failed to login",
+        description: errorMessage,
+      })
+    }
+  }
+
   return (
     <div className="flex h-screen">
+      {contextHolder}
       {/* Left Section */}
       <div className="w-1/2 bg-[#E9C9C1] p-8">
         <h2 className="text-3xl font-semibold text-browntext font-lobster mt-7">
@@ -41,7 +82,7 @@ export default function SignIn() {
           your account.
         </p>
 
-        <Form className="w-3/4 mt-10">
+        <Form onFinish={onFinish} className="w-3/4 mt-10">
           {/* mail */}
           <Form.Item
             name="email"
@@ -57,12 +98,16 @@ export default function SignIn() {
             <Input.Password placeholder="Password" />
           </Form.Item>
           {/* Forget password */}
-          <div className="flex justify-between text-sm text-lightpinktext">
-            <Link href="/forgot-password">Forgot Password?</Link>
-          </div>
+          <Link
+            href="/forgot-password"
+            className="text-sm text-lightpinktext hover:text-primary"
+          >
+            Forgot Password?
+          </Link>
           {/* button */}
           <Form.Item className="mt-4">
             <Button
+              loading={isPending}
               type="primary"
               htmlType="submit"
               className="w-full bg-pinktext hover:bg-gray-400"
