@@ -2,6 +2,7 @@
 import { PropsWithChildren } from "react"
 import { QueryProvider } from "./queryProvider"
 import { ConfigProvider } from "antd"
+import { UserProvider } from "@/features/auth/provider/UserContext"
 
 export const GlobalProvider: React.FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -12,7 +13,9 @@ export const GlobalProvider: React.FC<PropsWithChildren> = ({ children }) => {
         },
       }}
     >
-      <QueryProvider>{children}</QueryProvider>
+      <QueryProvider>
+        <UserProvider>{children}</UserProvider>
+      </QueryProvider>
     </ConfigProvider>
   )
 }
