@@ -3,8 +3,8 @@ export interface Response<T> {
   success: boolean
 }
 
-export interface ErrorResponse extends Response<null> {
-  error: string
+export interface ErrorResponse<T = string> extends Response<null> {
+  error: T
 }
 
 export enum SortOption {
