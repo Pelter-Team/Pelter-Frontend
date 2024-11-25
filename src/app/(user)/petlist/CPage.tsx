@@ -44,13 +44,6 @@ const petsPerPage = 8
 const PetListPage = () => {
   const [filterVisible, setFilterVisible] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
-  const [sort, setSort] = useState<{
-    category: "date" | "name" | "price"
-    order: "asc" | "desc"
-  }>({
-    category: "date",
-    order: "desc",
-  })
 
   const [filterState, setFilterState] =
     useState<FilterState>(initialFilterState)
@@ -157,14 +150,6 @@ const PetListPage = () => {
   if (!pets) return
   const indexOfLastPet = currentPage * petsPerPage
   const indexOfFirstPet = indexOfLastPet - petsPerPage
-
-  const handleSort = (newSort: {
-    category: "date" | "name" | "price"
-    order: "asc" | "desc"
-  }) => {
-    setSort(newSort)
-    setCurrentPage(1)
-  }
 
   const currentPets = filteredPets!.slice(indexOfFirstPet, indexOfLastPet)
   const handlePageChange = (page: number) => setCurrentPage(page)
