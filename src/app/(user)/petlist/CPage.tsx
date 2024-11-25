@@ -12,6 +12,7 @@ import { useListPets } from "@/features/pet/hooks/useListPets"
 import { PetLists, PetStatus, PriceOption } from "@/core/api/pet/petContract"
 import { SortOption } from "@/core/api/type"
 import LoadingSpinner from "@/components/LoadingSpinner"
+import { useSearchParams } from "next/navigation";
 export interface FilterState {
   ownerType: "all" | "customer" | "foundation"
   priceRange: {
@@ -44,9 +45,13 @@ const petsPerPage = 8
 const PetListPage = () => {
   const [filterVisible, setFilterVisible] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
+  const searchParams = useSearchParams();
+  const free = searchParams.get("free") === "true";
 
-  const [filterState, setFilterState] =
-    useState<FilterState>(initialFilterState)
+  const [filterState, setFilterState] = useState<FilterState>({
+    ...initialFilterState,
+    priceRange: { ...initialFilterState.priceRange, isFree: free },
+  });
 
   // it can be better if we just change this useListPets into useSomething that we can custom our queryKey
   const { data: pets, isLoading: isListPetLoading } = useListPets({
