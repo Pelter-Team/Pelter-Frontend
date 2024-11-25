@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import PetCard from "@/features/user/components/PetCard"
 import SortDropdown from "@/features/user/components/SortDropdown"
 import FilterDrawer from "@/features/user/components/FilterDrawer"
@@ -8,249 +8,40 @@ import Tag from "@/features/user/components/tag"
 import { Pagination, Button, Row, Col } from "antd"
 import Image from "../../public/Pelter_5.png"
 import { useMemo } from "react"
-
-enum SortBy {
-  DATE = "date",
-  PRICE = "price",
-  NAME = "name",
+import { useListPets } from "@/features/pet/hooks/useListPets"
+import { PetLists, PetStatus, PriceOption } from "@/core/api/pet/petContract"
+import { SortOption } from "@/core/api/type"
+import LoadingSpinner from "@/components/LoadingSpinner"
+export interface FilterState {
+  ownerType: "all" | "customer" | "foundation"
+  priceRange: {
+    isFree: boolean
+    min: number | undefined
+    max: number | undefined
+  }
+  selectedTag: "all" | "Dog" | "Cat"
+  orderBy: string
+  subCategory: string
+  isVerify: "all" | "verified" | "unverified"
+  isSold: "all" | "sold" | "unsold"
 }
 
-enum SortOrder {
-  ASC = "asc",
-  DESC = "desc",
+const initialFilterState: FilterState = {
+  ownerType: "all",
+  priceRange: {
+    isFree: false,
+    min: undefined,
+    max: undefined,
+  },
+  selectedTag: "all",
+  orderBy: "latest",
+  subCategory: "",
+  isVerify: "all",
+  isSold: "all",
 }
 
-interface Pet {
-  id: string
-  image: any
-  name: string
-  breed: string
-  dateOfBirth: string
-  price: number
-  color: string
-  description: string
-  location: string
-  ownerName: string
-  ownerType: string
-  contact: string
-  review: number
-  gender: string
-  vaccinationStatus: boolean
-  petType: PetType
-}
-interface PetType {
-  strayDog: boolean
-  dogBreed?: string
-  strayCat: boolean
-  catBreed?: string
-}
-const pets: Pet[] = [
-  {
-    id: "1",
-    image: Image,
-    name: "Luna",
-    breed: "Persian",
-    dateOfBirth: "2022-01-01",
-    price: 0,
-
-    color: "White",
-    description: "Friendly and playful Persian cat",
-    location: "New York",
-    ownerName: "John Smith",
-    ownerType: "Individual",
-    contact: "+1234567890",
-    review: 4.5,
-    gender: "Female",
-    vaccinationStatus: true,
-    petType: { strayDog: false, strayCat: true, catBreed: "Persian" },
-  },
-  {
-    id: "2",
-    image: Image,
-    name: "Jidrid",
-    breed: "Mixed",
-    dateOfBirth: "2023-02-15",
-    price: 180,
-
-    color: "Brown",
-    description: "Energetic stray dog looking for a home",
-    location: "Los Angeles",
-    ownerName: "Gugugaga foundation",
-    ownerType: "Foundation",
-    contact: "+1987654321",
-    review: 4.2,
-    gender: "Male",
-    vaccinationStatus: true,
-    petType: { strayDog: true, strayCat: false },
-  },
-  {
-    id: "3",
-    image: Image,
-    name: "Mickey",
-    breed: "Golden Retriever",
-    dateOfBirth: "2023-03-20",
-    price: 250,
-
-    color: "Golden",
-    description: "Loving and well-trained Golden Retriever",
-    location: "Chicago",
-    ownerName: "Happy Paws Shelter",
-    ownerType: "Foundation",
-    contact: "+1122334455",
-    review: 4.8,
-    gender: "Male",
-    vaccinationStatus: true,
-    petType: { strayDog: false, strayCat: false, dogBreed: "Golden Retriever" },
-  },
-  {
-    id: "4",
-    image: Image,
-    name: "Bella",
-    breed: "Siamese",
-    dateOfBirth: "2022-11-30",
-    price: 0,
-
-    color: "Cream",
-    description: "Elegant Siamese cat with blue eyes",
-    location: "Miami",
-    ownerName: "Sarah Johnson",
-    ownerType: "Individual",
-    contact: "+1445566778",
-    review: 4.6,
-    gender: "Female",
-    vaccinationStatus: true,
-    petType: { strayDog: false, strayCat: true, catBreed: "Siamese" },
-  },
-  {
-    id: "5",
-    image: Image,
-    name: "Rocky",
-    breed: "Mixed",
-    dateOfBirth: "2023-05-10",
-    price: 150,
-    color: "Black and White",
-    description: "Playful stray dog with lots of energy",
-    location: "Seattle",
-    ownerName: "Paws Foundation",
-    ownerType: "Foundation",
-    contact: "+1667788990",
-    review: 4.3,
-    gender: "Male",
-    vaccinationStatus: false,
-    petType: { strayDog: true, strayCat: false },
-  },
-  {
-    id: "6",
-    image: Image,
-    name: "Chasha",
-    breed: "Persian",
-    dateOfBirth: "2023-01-15",
-    price: 200,
-    color: "White",
-    description: "Elegant Persian cat with a gentle personality",
-    location: "Boston",
-    ownerName: "Feline Friends",
-    ownerType: "Foundation",
-    contact: "+1223344556",
-    review: 4.7,
-    gender: "Female",
-    vaccinationStatus: true,
-    petType: { strayDog: false, strayCat: false, catBreed: "Persian" },
-  },
-  {
-    id: "7",
-    image: Image,
-    name: "Charlie",
-    breed: "Labrador",
-    dateOfBirth: "2023-04-20",
-    price: 300,
-    color: "Chocolate",
-    description: "Friendly Labrador puppy, great with kids",
-    location: "Denver",
-    ownerName: "Happy Tails",
-    ownerType: "Foundation",
-    contact: "+1334455667",
-    review: 4.9,
-    gender: "Male",
-    vaccinationStatus: true,
-    petType: { strayDog: false, strayCat: false, dogBreed: "Labrador" },
-  },
-  {
-    id: "8",
-    image: Image,
-    name: "Milo",
-    breed: "Mixed",
-    dateOfBirth: "2023-02-28",
-    price: 0,
-    color: "Orange",
-    description: "Sweet stray cat seeking forever home",
-    location: "Portland",
-    ownerName: "Cat Haven",
-    ownerType: "Foundation",
-    contact: "+1445566778",
-    review: 4.4,
-    gender: "Male",
-    vaccinationStatus: true,
-    petType: { strayDog: false, strayCat: true },
-  },
-  {
-    id: "9",
-    image: Image,
-    name: "Bella",
-    breed: "Siamese",
-    dateOfBirth: "2023-03-15",
-    price: 250,
-    color: "Cream",
-    description: "Elegant Siamese cat with blue eyes",
-    location: "Miami",
-    ownerName: "Kitty Palace",
-    ownerType: "Individual",
-    contact: "+1556677889",
-    review: 4.6,
-    gender: "Female",
-    vaccinationStatus: true,
-    petType: { strayDog: false, strayCat: false, catBreed: "Siamese" },
-  },
-  {
-    id: "10",
-    image: Image,
-    name: "Max",
-    breed: "German Shepherd",
-    dateOfBirth: "2023-06-01",
-    price: 400,
-    color: "Black and Tan",
-    description: "Intelligent German Shepherd puppy",
-    location: "Chicago",
-    ownerName: "Elite K9",
-    ownerType: "Foundation",
-    contact: "+1667788990",
-    review: 4.8,
-    gender: "Male",
-    vaccinationStatus: true,
-    petType: { strayDog: false, strayCat: false, dogBreed: "German Shepherd" },
-  },
-  {
-    id: "11",
-    image: Image,
-    name: "Whiskers",
-    breed: "Mixed",
-    dateOfBirth: "2023-01-10",
-    price: 0,
-    color: "Gray",
-    description: "Friendly stray cat with unique markings",
-    location: "Austin",
-    ownerName: "Rescue Paws",
-    ownerType: "Foundation",
-    contact: "+1778899001",
-    review: 4.2,
-    gender: "Female",
-    vaccinationStatus: false,
-    petType: { strayDog: false, strayCat: true },
-  },
-]
-
+const petsPerPage = 8
 const PetListPage = () => {
-  const [foundationName, setFoundationName] = useState("")
   const [filterVisible, setFilterVisible] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [sort, setSort] = useState<{
@@ -260,65 +51,113 @@ const PetListPage = () => {
     category: "date",
     order: "desc",
   })
-  const [filteredPets, setFilteredPets] = useState(pets)
-  const sortedPets = useMemo(() => {
-    return [...filteredPets].sort((a, b) => {
-      switch (sort.category) {
-        case "price":
-          return sort.order === "asc" ? a.price - b.price : b.price - a.price
-        case "date":
-          const dateA = new Date(a.dateOfBirth)
-          const dateB = new Date(b.dateOfBirth)
-          return sort.order === "asc"
-            ? dateA.getTime() - dateB.getTime()
-            : dateB.getTime() - dateA.getTime()
-        case "name":
-          return sort.order === "asc"
-            ? a.name.localeCompare(b.name)
-            : b.name.localeCompare(a.name)
-        default:
-          return 0
-      }
-    })
-  }, [filteredPets, sort])
-  const [petsPerPage] = useState(8)
 
-  const [displayedPets, setDisplayedPets] = useState(pets)
+  const [filterState, setFilterState] =
+    useState<FilterState>(initialFilterState)
+
+  // it can be better if we just change this useListPets into useSomething that we can custom our queryKey
+  const { data: pets, isLoading: isListPetLoading } = useListPets({
+    activeTab: PetStatus.All,
+    priceOption: PriceOption.All,
+    sortOption: SortOption.SortByLatest,
+    search: "",
+  })
+  const filteredPets = useMemo(() => {
+    setCurrentPage(1)
+    return (
+      pets
+        ?.filter((pet) => {
+          const ownerTypeCondition =
+            filterState.ownerType === "all"
+              ? true
+              : pet.role === filterState.ownerType
+
+          const selectedTagCondition =
+            filterState.selectedTag === "all"
+              ? true
+              : pet.category === filterState.selectedTag
+
+          const matchesPrice = filterState.priceRange.isFree
+            ? pet.price === 0
+            : (!filterState.priceRange.min ||
+                pet.price >= filterState.priceRange.min) &&
+              (!filterState.priceRange.max ||
+                pet.price <= filterState.priceRange.max)
+
+          const matchSubCategory =
+            filterState.subCategory.length === 0
+              ? true
+              : pet.subcategory.includes(filterState.subCategory)
+
+          const isVerifyCondition =
+            filterState.isVerify === "all"
+              ? true
+              : filterState.isVerify === "verified"
+                ? pet.is_verified
+                : !pet.is_verified
+
+          const isSoldCondition =
+            filterState.isSold === "all"
+              ? true
+              : filterState.isSold === "sold"
+                ? pet.is_sold
+                : !pet.is_sold
+
+          return (
+            ownerTypeCondition &&
+            selectedTagCondition &&
+            matchesPrice &&
+            matchSubCategory &&
+            isVerifyCondition &&
+            isSoldCondition
+          )
+        })
+        .sort((a, b) => {
+          switch (filterState.orderBy) {
+            case "priceLowToHigh":
+              return a.price - b.price
+            case "priceHighToLow":
+              return b.price - a.price
+            case "latest":
+              return (
+                new Date(b.created_at).getTime() -
+                new Date(a.created_at).getTime()
+              )
+            case "oldest":
+              return (
+                new Date(a.created_at).getTime() -
+                new Date(b.created_at).getTime()
+              )
+            case "alphabet":
+              return a.name.localeCompare(b.name)
+            default:
+              return 0
+          }
+        }) ?? []
+    )
+  }, [pets, filterState])
+
+  const petCount = useMemo(() => {
+    return {
+      all: filteredPets?.length ?? 0,
+      dogs: filteredPets?.filter((pet) => pet.category === "Dog").length ?? 0,
+      cats: filteredPets?.filter((pet) => pet.category === "Cat").length ?? 0,
+    }
+  }, [filteredPets])
+
+  const subCategoryOptions = useMemo(() => {
+    const uniqueSubcategories = Array.from(
+      new Set(pets?.map((pet) => pet.subcategory).flat() ?? [])
+    )
+    return uniqueSubcategories.map((category) => ({
+      value: category,
+      label: category,
+    }))
+  }, [pets])
+  if (!pets) return
   const indexOfLastPet = currentPage * petsPerPage
   const indexOfFirstPet = indexOfLastPet - petsPerPage
-  const filteredAndSortedPets = useMemo(() => {
-    return sortedPets.slice(indexOfFirstPet, indexOfLastPet)
-  }, [sortedPets, indexOfFirstPet, indexOfLastPet])
 
-  const [selectedTag, setSelectedTag] = useState("all")
-
-  const getPetCounts = () => {
-    return {
-      all: pets.length,
-      dogs: pets.filter((pet) => pet.petType.strayDog || pet.petType.dogBreed)
-        .length,
-      cats: pets.filter((pet) => pet.petType.strayCat || pet.petType.catBreed)
-        .length,
-    }
-  }
-
-  const handleTagSelect = (tag: string) => {
-    setSelectedTag(tag)
-    let filtered = [...pets]
-
-    if (tag === "dogs") {
-      filtered = pets.filter(
-        (pet) => pet.petType.strayDog || pet.petType.dogBreed
-      )
-    } else if (tag === "cats") {
-      filtered = pets.filter(
-        (pet) => pet.petType.strayCat || pet.petType.catBreed
-      )
-    }
-
-    setFilteredPets(filtered)
-    setCurrentPage(1)
-  }
   const handleSort = (newSort: {
     category: "date" | "name" | "price"
     order: "asc" | "desc"
@@ -327,74 +166,22 @@ const PetListPage = () => {
     setCurrentPage(1)
   }
 
-  const currentPets = sortedPets.slice(indexOfFirstPet, indexOfLastPet)
+  const currentPets = filteredPets!.slice(indexOfFirstPet, indexOfLastPet)
   const handlePageChange = (page: number) => setCurrentPage(page)
 
-  const handleFilter = (filters: {
-    ownerTypes: string[]
-    priceRange: { isFree: boolean; min?: number; max?: number }
-    gender: string
-    petTypes: {
-      strayDog: boolean
-      dogBreed?: string
-      strayCat: boolean
-      catBreed?: string
-    }
-    foundationName?: string
-  }) => {
-    // Use Array.reduce for cleaner filtering
-    const result = pets.reduce((filtered, pet) => {
-      // Foundation name filter
-      const matchesFoundation =
-        !filters.foundationName ||
-        (pet.ownerType === "Foundation" &&
-          pet.ownerName
-            .toLowerCase()
-            .includes(filters.foundationName.toLowerCase()))
-
-      // Owner type filter
-      const matchesOwnerType =
-        filters.ownerTypes.length === 0 ||
-        filters.ownerTypes.includes(pet.ownerType)
-
-      // Price range filter
-      const matchesPrice = filters.priceRange.isFree
-        ? pet.price === 0
-        : (!filters.priceRange.min || pet.price >= filters.priceRange.min) &&
-          (!filters.priceRange.max || pet.price <= filters.priceRange.max)
-
-      // Gender filter
-      const matchesGender = !filters.gender || pet.gender === filters.gender
-
-      // Pet type filter
-      const activeFilters = Object.entries(filters.petTypes).filter(
-        ([_, value]) => value
-      )
-      const matchesPetType =
-        activeFilters.length === 0 ||
-        activeFilters.some(([key, value]) => {
-          let castTypeKey: keyof PetType = key as keyof PetType
-          return pet.petType[castTypeKey] === value
-        })
-      if (
-        matchesFoundation &&
-        matchesOwnerType &&
-        matchesPrice &&
-        matchesGender &&
-        matchesPetType
-      ) {
-        filtered.push(pet)
-      }
-      return filtered
-    }, [] as Pet[])
-
-    setFilteredPets(result)
+  const handleClearFilters = () => {
+    setFilterState(initialFilterState)
     setCurrentPage(1)
   }
 
-  const handleClearFilters = () => {
-    setFilteredPets(pets)
-    setCurrentPage(1)
+  if (isListPetLoading) {
+    return (
+      <div className="container mx-auto ">
+        <div className="flex items-center justify-center self-center min-h-screen">
+          <LoadingSpinner />
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -403,14 +190,21 @@ const PetListPage = () => {
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center">
             <Tag
-              selectedTag={selectedTag}
-              onTagSelect={handleTagSelect}
-              counts={getPetCounts()}
+              selectedTag={filterState.selectedTag}
+              onTagSelect={(tag) =>
+                // @ts-ignore FIXME: i know this need to be enum
+                setFilterState((prev) => ({ ...prev, selectedTag: tag }))
+              }
+              counts={petCount}
             />
           </div>
-
           <div className="flex items-center gap-4">
-            <SortDropdown currentSort={sort} onSort={handleSort} />
+            <SortDropdown
+              currentSort={filterState.orderBy}
+              onSort={(key) =>
+                setFilterState((prev) => ({ ...prev, orderBy: key }))
+              }
+            />
             <Button
               onClick={() => setFilterVisible(true)}
               type="primary"
@@ -421,24 +215,41 @@ const PetListPage = () => {
             <FilterDrawer
               visible={filterVisible}
               onClose={() => setFilterVisible(false)}
-              onFilter={handleFilter}
+              setFilterState={setFilterState}
+              filterState={filterState}
               onClear={handleClearFilters}
+              subCategoryOptions={subCategoryOptions}
             />
           </div>
         </div>
 
         <div className="flex flex-wrap gap-8 items-center justify-start">
-          {currentPets.map((pet) => (
-            // <Col key={pet.id} xs={24} sm={12} md={8} lg={6}>
-            <PetCard pet={pet} key={pet.id} />
-            // </Col>
-          ))}
+          {currentPets.length === 0 ? (
+            <h6 className="text-lg font-normal text-gray-600 mx-auto py-4">
+              No data found
+            </h6>
+          ) : (
+            currentPets.map((pet) => (
+              // <Col key={pet.id} xs={24} sm={12} md={8} lg={6}>
+              <PetCard
+                pet={{
+                  id: pet.id,
+                  image: pet.image_url,
+                  name: pet.name,
+                  price: pet.price,
+                  is_sold: pet.is_sold,
+                }}
+                key={pet.id}
+              />
+              // </Col>
+            ))
+          )}
         </div>
 
         <div className="flex justify-center mt-4">
           <Pagination
             current={currentPage}
-            total={filteredPets.length}
+            total={filteredPets?.length ?? 0}
             pageSize={petsPerPage}
             onChange={handlePageChange}
             showSizeChanger={false}
