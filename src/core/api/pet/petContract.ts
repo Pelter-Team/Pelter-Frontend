@@ -12,6 +12,7 @@ export const PetListSchema = z.object({
   owner: z.string(),
   is_sold: z.boolean(),
   category: z.string(),
+  role: z.string(),
   subcategory: z.string(),
   description: z.string(),
   is_verified: z.boolean(),
