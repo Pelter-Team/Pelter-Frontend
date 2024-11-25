@@ -134,6 +134,7 @@ export function PetPreview({
         fileList={fileList}
         onPreview={handlePreview}
         onChange={handleChange}
+        maxCount={1}
       />
 
       {previewImage && (

@@ -7,6 +7,7 @@ import PetDoc from "./_component/PetDoc"
 import Link from "next/link"
 import { PetPreview } from "./_component/PetUpload"
 import type { GetProp, UploadProps, UploadFile } from "antd"
+import { useAddPet } from "@/features/productManage/_component/hooks/useAddPet" 
 import { message, Modal } from "antd"
 
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0]

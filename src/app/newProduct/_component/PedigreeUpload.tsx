@@ -64,7 +64,7 @@ export default function PetUpload({
 
   return (
     <div className="flex flex-row gap-6 px-4">
-      <Upload {...props} showUploadList={false} className="mt-2">
+      <Upload {...props} showUploadList={false}  maxCount={1} className="mt-2">
         <Button icon={<UploadOutlined />}>Upload</Button>
       </Upload>
       <Upload {...props} />
