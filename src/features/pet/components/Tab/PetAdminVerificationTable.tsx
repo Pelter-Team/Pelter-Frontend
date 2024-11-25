@@ -1,27 +1,32 @@
 import React, { useState } from "react"
-import { Button, Select, Table, Popconfirm, message } from "antd"
+import {
+  Select,
+  Table,
+  Popconfirm,
+  message,
+  Modal,
+  Image as ImageAntd,
+} from "antd"
 import type { TableProps } from "antd"
 import { formatDateAdminPage } from "@/utils/formatDate"
 import {
-  PetListVerification,
+  PetLists,
   petVerificationOptions,
   PetVerificationStatus,
 } from "@/core/api/pet/petContract"
-import Link from "next/link"
-import Image from "next/image"
 import { useVerificationPet } from "../../hooks/useVerifyPet"
 
 export default function PetAdminVerificationTable({
   data,
 }: {
-  data: PetListVerification[] | undefined
+  data: PetLists[] | undefined
 }) {
-  const { verificationFlow } = useVerificationPet()
   const [selectedStatus, setSelectedStatus] = useState<{
     petId: number
     status: string
   } | null>(null)
 
+  const { verificationFlow } = useVerificationPet()
   const handleStatusChange = (petId: number, value: string) => {
     setSelectedStatus({ petId, status: value })
   }
@@ -45,56 +50,61 @@ export default function PetAdminVerificationTable({
     setSelectedStatus(null)
   }
 
-  const columns: TableProps<PetListVerification>["columns"] = [
+  const columns: TableProps<PetLists>["columns"] = [
     {
       title: "Pet ID",
-      dataIndex: "petId",
-      key: "petId",
-    },
-    {
-      title: "CreatedAt",
-      dataIndex: "createdAt",
-      key: "createdAt",
-      render: (_, { createdAt }) => <>{formatDateAdminPage(createdAt)}</>,
+      dataIndex: "id",
+      key: "id",
     },
     {
       title: "PetName",
-      dataIndex: "petName",
-      key: "petName",
+      dataIndex: "name",
+      key: "name",
     },
     {
-      title: "bread",
-      key: "bread",
-      dataIndex: "bread",
+      title: "Category",
+      key: "category",
+      dataIndex: "category",
     },
     {
-      title: "color",
-      key: "color",
-      dataIndex: "color",
+      title: "Subcategory",
+      key: "subcategory",
+      dataIndex: "subcategory",
+    },
+    {
+      title: "CreatedAt",
+      render: (_, { created_at }) => (
+        <>{formatDateAdminPage(new Date(created_at))}</>
+      ),
     },
     {
       title: "Document",
       key: "document",
-      render: (_, { document }) => (
-        <Image
-          // @/public/Pelter-Logo.png
-          src={document!}
-          width={40}
-          height={40}
-          alt="document-image"
-          className="mx-auto"
-        />
-      ),
+      render: (_, { vaccine_book_url }) => {
+        if (vaccine_book_url) {
+          return (
+            <ImageAntd
+              src={vaccine_book_url}
+              width={40}
+              height={40}
+              alt="document-image"
+              className="mx-auto"
+            />
+          )
+        } else {
+          return <h6>No vaccine book url</h6>
+        }
+      },
       align: "center",
       dataIndex: "document",
     },
     {
       title: "Verify",
-      render: (_, { petId }) => (
+      render: (_, { id, is_verified }) => (
         <Popconfirm
           title="Change Verification Status"
           description="Are you sure you want to change the verification status?"
-          open={selectedStatus?.petId === petId}
+          open={selectedStatus?.petId === id}
           onConfirm={handleConfirm}
           onCancel={handleCancel}
           okText="Yes"
@@ -102,8 +112,13 @@ export default function PetAdminVerificationTable({
         >
           <Select
             options={petVerificationOptions}
-            onChange={(value: string) => handleStatusChange(petId, value)}
+            onChange={(value: string) => handleStatusChange(id, value)}
             className="w-32"
+            value={
+              is_verified
+                ? PetVerificationStatus.Verified
+                : PetVerificationStatus.Pending
+            }
           />
         </Popconfirm>
       ),
@@ -111,10 +126,12 @@ export default function PetAdminVerificationTable({
   ]
 
   return (
-    <Table<PetListVerification>
-      rowKey={(record) => record.petId}
-      columns={columns}
-      dataSource={data}
-    />
+    <>
+      <Table<PetLists>
+        rowKey={(record) => record.id}
+        columns={columns}
+        dataSource={data}
+      />
+    </>
   )
 }

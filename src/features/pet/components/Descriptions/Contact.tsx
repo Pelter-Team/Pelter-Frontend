@@ -6,13 +6,13 @@ export default function PetContract({ petId }: { petId: number }) {
   const { data: pet } = usePetId({ petId })
 
   if (!pet) {
-    return <h6>Contract data not found</h6>
+    return <h6>Contact data not found</h6>
   }
 
   const petDesc: DescriptionsProps["items"] = [
     {
       key: "1",
-      label: "Pet ID",
+      label: "Owner Name",
       span: 3,
       className: descClassName,
       labelStyle: labelStyle,
@@ -20,7 +20,7 @@ export default function PetContract({ petId }: { petId: number }) {
     },
     {
       key: "2",
-      label: "Breed",
+      label: "Contact",
       span: 3,
       className: descClassName,
       labelStyle: labelStyle,

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { Tabs } from "antd"
 import TabPane from "antd/es/tabs/TabPane"
 import LoadingSpinner from "@/components/LoadingSpinner"
@@ -19,6 +19,11 @@ const TabContent: React.FC<{
     <h6 className="text-lg text-gray-400 font-normal">No data</h6>
   )
 }
+const TAB_CONFIG = [
+  { label: "All", value: PetStatus.All },
+  { label: "Adopted", value: PetStatus.Adopted },
+  { label: "Adopt pending", value: PetStatus.AdoptionPending },
+] as const
 
 export interface PetAdminStatusTabProps {
   search: string
@@ -36,7 +41,7 @@ const PetAdminStatusTab: React.FC<PetAdminStatus> = ({
   activeTab,
   setActiveTab,
 }) => {
-  const { data, isLoading: getTransactionLoading } = useListPets({
+  const { data, isLoading: isGetListPetsLoading } = useListPets({
     activeTab,
     search,
     priceOption,
@@ -48,15 +53,11 @@ const PetAdminStatusTab: React.FC<PetAdminStatus> = ({
 
   return (
     <Tabs defaultActiveKey="1" onChange={onChangeTab}>
-      <TabPane tab={PetStatus.LookingForHome} key={PetStatus.LookingForHome}>
-        <TabContent data={data} loading={getTransactionLoading} />
-      </TabPane>
-      <TabPane tab={PetStatus.Adopted} key={PetStatus.Adopted}>
-        <TabContent data={data} loading={getTransactionLoading} />
-      </TabPane>
-      <TabPane tab={PetStatus.AdoptionPending} key={PetStatus.AdoptionPending}>
-        <TabContent data={data} loading={getTransactionLoading} />
-      </TabPane>
+      {TAB_CONFIG.map(({ label, value }) => (
+        <TabPane key={value} tab={label}>
+          <TabContent data={data} loading={isGetListPetsLoading} />
+        </TabPane>
+      ))}
     </Tabs>
   )
 }

@@ -1,15 +1,18 @@
-import { Input, Button, Form, Checkbox, Select } from "antd"
+import { Input, Button, Form, Checkbox, Select, notification } from "antd"
 import { useState, useEffect } from "react"
 import type { FormInstance } from "antd"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { useUser } from "@/features/auth/provider/UserContext"
+import { useRegister } from "@/features/auth/hooks/useRegister"
 
 interface SubmitButtonProps {
   form: FormInstance
+  isLoading?: boolean
 }
 export const SubmitButton: React.FC<
   React.PropsWithChildren<SubmitButtonProps>
-> = ({ form, children }) => {
+> = ({ form, children, isLoading }) => {
   const [submittable, setSubmittable] = useState<boolean>(false)
   const values = Form.useWatch([], form)
 
@@ -26,25 +29,62 @@ export const SubmitButton: React.FC<
       htmlType="submit"
       disabled={!submittable}
       className="w-full text-white bg-browntext"
+      loading={isLoading}
     >
       {children}
     </Button>
   )
 }
-
+export interface RegisterFormData {
+  firstname: string
+  lastname: string
+  email: string
+  password: string
+  phone: string
+}
 export default function RegisterContent() {
   const [form] = Form.useForm()
-  const router = useRouter() //navigate to success
+  const { setUserState } = useUser?.()!
+  const [api, contextHolder] = notification.useNotification()
+
+  const router = useRouter()
+  const { registerFlow, error, isPending } = useRegister()
+  const onFinish = async (values: RegisterFormData) => {
+    try {
+      const { email, password, firstname, lastname, phone } = values
+      const { response } = await registerFlow({
+        email,
+        password,
+        name: firstname,
+        role: "customer",
+        surname: lastname,
+        phone_number: phone,
+      })
+      api.success({ message: "Register success" })
+      setUserState({
+        user: {
+          profileUrl: response.profileUrl,
+          userId: response.userId,
+          role: response.role,
+          username: response.firstname,
+        },
+      })
+      router.push("/registersuccess")
+    } catch (error) {
+      console.error("Login error:", error)
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred"
+      api.error({
+        message: "Failed to login",
+        description: errorMessage,
+      })
+    }
+  }
 
   return (
     <>
-      <Form
-        form={form}
-        className="mt-10 flex-col"
-        onFinish={(values) => {
-          router.push("/registersuccess")
-        }}
-      >
+      {contextHolder}
+      <Form form={form} className="mt-10 flex-col" onFinish={onFinish}>
         <Form.Item
           name="firstname"
           rules={[{ required: true, message: "* Required Field" }]}
@@ -106,7 +146,9 @@ export default function RegisterContent() {
           </Checkbox>
         </Form.Item>
         <Form.Item className="mt-4 class">
-          <SubmitButton form={form}>Register</SubmitButton>
+          <SubmitButton isLoading={isPending} form={form}>
+            Register
+          </SubmitButton>
         </Form.Item>
       </Form>
     </>

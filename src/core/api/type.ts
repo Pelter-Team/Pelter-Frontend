@@ -1,11 +1,10 @@
 export interface Response<T> {
-  data: T
-  msg: string
+  result: T
+  success: boolean
 }
 
-export interface ErrorResponse<T = string> {
-  code: T
-  msg: string
+export interface ErrorResponse<T = string> extends Response<null> {
+  error: T
 }
 
 export enum SortOption {

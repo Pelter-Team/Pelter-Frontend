@@ -14,23 +14,32 @@ export const useListUser = ({
 }) => {
   const queryFn = async () => {
     try {
-      const users = await mockListUser()
+      const users = await apiClient.userRouter.getUserList()
+      // const users = await mockListUser()
       if (users) {
         return (
           users
-            .filter((user) => user.username.includes(search))
+            .filter((user) => {
+              const searchCondition: boolean = user.username.includes(search)
+
+              const roleCondition: boolean =
+                activeTab === UserType.All ||
+                (user.role as UserType) === activeTab
+
+              return searchCondition && roleCondition
+            })
             // .filter((user) => user.foundation === activeTab)
             .sort((a, b) => {
               switch (sortOption) {
                 case SortOption.SortByLatest:
                   return (
-                    new Date(b.createdAt).getTime() -
-                    new Date(a.createdAt).getTime()
+                    new Date(b.created_at).getTime() -
+                    new Date(a.created_at).getTime()
                   )
                 case SortOption.SortByOldest:
                   return (
-                    new Date(a.createdAt).getTime() -
-                    new Date(b.createdAt).getTime()
+                    new Date(a.created_at).getTime() -
+                    new Date(b.created_at).getTime()
                   )
                 case SortOption.AToZ:
                   return a.username.localeCompare(b.username)
@@ -60,18 +69,20 @@ export const mockListUser = async (): Promise<UserList[]> => {
     {
       address:
         "126 Pracha Uthit Rd., Bang Mod, Thung Khru, Bangkok 10140, Thailand.",
-      createdAt: new Date(),
+      created_at: new Date(),
       phone: "0948652696",
       userId: "123214",
       username: "mix",
+      role: "customer",
     },
     {
       address:
         "126 Pracha Uthit Rd., Bang Mod, Thung Khru, Bangkok 10140, Thailand.",
-      createdAt: new Date(),
+      created_at: new Date(),
       phone: "0948652696",
       userId: "123214",
       username: "mix",
+      role: "foundation",
     },
   ]
   return new Promise((resolve) => {
@@ -79,4 +90,43 @@ export const mockListUser = async (): Promise<UserList[]> => {
       resolve(data)
     }, 2000)
   })
+}
+
+export const useUserCount = () => {
+  const { data: users } = useListUser({
+    activeTab: UserType.All,
+    search: "",
+    sortOption: SortOption.SortByLatest,
+  })
+
+  const calculateTotals = () => {
+    if (!users) {
+      return {
+        total: 0,
+        totalCustomer: 0,
+        totalFoundation: 0,
+      }
+    }
+
+    const total = users.length
+    const totalCustomer = users.filter(
+      (user) => user.role === UserType.Customer
+    ).length
+    const totalFoundation = users.filter(
+      (user) => user.role === UserType.Foundation
+    ).length
+    return {
+      total: total,
+      totalCustomer: totalCustomer,
+      totalFoundation: totalFoundation,
+    }
+  }
+
+  const query = useQuery({
+    queryKey: ["get-user-count"],
+    queryFn: calculateTotals,
+    refetchInterval: 30 * 1000,
+  })
+
+  return query
 }

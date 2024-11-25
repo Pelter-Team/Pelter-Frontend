@@ -15,19 +15,19 @@ export default function Cpage({}: {}) {
   const cards: CardTotalType[] = [
     {
       title: "Total Number of Animals",
-      value: formatNumber(graph?.["adopt-animal"]?.length || 0),
+      value: formatNumber(graph?.totalAnimal ?? 0),
       bgColor: "bg-[#E9C9C1]",
       textColor: "text-[#873800]",
     },
     {
       title: "Total Number of Dogs",
-      value: formatNumber(graph?.["animal-looking-for-home"]?.length || 0),
+      value: formatNumber(graph?.totalDog ?? 0),
       bgColor: "bg-[#E9C9C1]",
       textColor: "text-[#873800]",
     },
     {
       title: "Total Number of Cats",
-      value: formatNumber(graph?.["animal-looking-for-home"]?.length || 0),
+      value: formatNumber(graph?.totalCat ?? 0),
       bgColor: "bg-[#E9C9C1]",
       textColor: "text-[#873800]",
     },

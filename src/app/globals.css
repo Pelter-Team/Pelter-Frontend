@@ -30,7 +30,8 @@ body {
   }
 }
 
-:where(.css-dev-only-do-not-override-8u70ay).ant-descriptions .ant-descriptions-header{
+:where(.css-dev-only-do-not-override-8u70ay).ant-descriptions
+  .ant-descriptions-header {
   display: flex;
   align-items: center;
   margin-bottom: 8px;

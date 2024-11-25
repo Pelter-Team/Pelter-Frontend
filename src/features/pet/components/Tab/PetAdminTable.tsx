@@ -8,18 +8,18 @@ import Link from "next/link"
 const columns: TableProps<PetLists>["columns"] = [
   {
     title: "Pet ID",
-    dataIndex: "petId",
-    key: "petId",
+    dataIndex: "id",
+    key: "id",
   },
   {
     title: "PetName",
-    dataIndex: "petName",
-    key: "petName",
+    dataIndex: "name",
+    key: "name",
   },
   {
-    title: "color",
-    key: "color",
-    dataIndex: "color",
+    title: "Category",
+    key: "category",
+    dataIndex: "category",
   },
   {
     title: "Price",
@@ -34,15 +34,51 @@ const columns: TableProps<PetLists>["columns"] = [
     dataIndex: "owner",
   },
   {
+    title: "Status",
+    align: "center",
+    render: (_, { is_sold }) => {
+      return (
+        <div
+          className={`
+        ${is_sold ? "border-green-500 text-green-500 hover:bg-green-100" : "border-red-500 text-red-500 hover:bg-red-100"}
+        px-3 py-0.5 border rounded-full text-center w-fit mx-auto`}
+        >
+          <h6 className="text-sm font-normal ">
+            {is_sold ? "Adopted" : "Not pending"}
+          </h6>
+        </div>
+      )
+    },
+  },
+  {
+    title: "Verify",
+    align: "center",
+    render: (_, { is_verified }) => {
+      return (
+        <div
+          className={`
+        ${is_verified ? "border-green-500 text-green-500 hover:bg-green-100" : "border-red-500 text-red-500 hover:bg-red-100"}
+        px-3 py-0.5 border rounded-full text-center w-fit mx-auto`}
+        >
+          <h6 className="text-sm font-normal ">
+            {is_verified ? "Verified" : "Not Verified"}
+          </h6>
+        </div>
+      )
+    },
+  },
+  {
     title: "CreatedAt",
     dataIndex: "createdAt",
     key: "createdAt",
-    render: (_, { createdAt }) => <>{formatDateAdminPage(createdAt)}</>,
+    render: (_, { created_at }) => (
+      <>{formatDateAdminPage(new Date(created_at))}</>
+    ),
   },
   {
     title: "Detail",
-    render: (_, { petId }) => (
-      <Link href={`/${petId}`}>
+    render: (_, { id }) => (
+      <Link href={`/pet/${id}`}>
         <Button variant="filled" type="primary">
           Details
         </Button>
@@ -59,7 +95,7 @@ export default function PetAdminTable({
   return (
     <>
       <Table<PetLists>
-        rowKey={(record) => record.petId}
+        rowKey={(record) => record.id}
         columns={columns}
         dataSource={data}
       />

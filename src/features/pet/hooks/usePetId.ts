@@ -8,8 +8,8 @@ interface UseListPetIdProps {
 export const usePetId = ({ petId }: UseListPetIdProps) => {
   const queryFn = async () => {
     try {
-      //   const result = await apiClient.petRouter.getPetId(petId)
-      const result = await mockPetId()
+      const result = await apiClient.petRouter.getPetId(petId)
+      // const result = await mockPetId()
       return result
     } catch (error) {
       console.error(error)
@@ -39,9 +39,10 @@ export const mockPetId = async (): Promise<PetDetail> => {
     is_verified: true,
     price: 1200,
     image_url: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba",
-    created_at: new Date("2024-02-01"),
-    updated_at: new Date("2024-03-01"),
-    vaccine_book_url: "https://example.com/vaccine/luna-cert.pdf",
+    created_at: new Date("2024-02-01").toString(),
+    updated_at: new Date("2024-03-01").toString(),
+    vaccine_book_url:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlP9PCpci2g2Nk9n_BZTEXj1d9uZeb6kOWlQ&s",
   }
   return new Promise((resolve) => {
     setTimeout(() => {

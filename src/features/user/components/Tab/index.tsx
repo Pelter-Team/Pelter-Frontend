@@ -19,13 +19,18 @@ const TabContent: React.FC<{
     <h6 className="text-lg text-gray-400 font-normal">No data</h6>
   )
 }
+const TAB_CONFIG = [
+  { label: "All", value: UserType.All },
+  { label: "Customer", value: UserType.Customer },
+  { label: "Foundation", value: UserType.Foundation },
+] as const
 
 export interface UserTabProps {
   search: string
   sortOption: SortOption
 }
 const UserTab: React.FC<UserTabProps> = ({ search, sortOption }) => {
-  const [activeTab, setActiveTab] = useState<UserType>(UserType.Individual)
+  const [activeTab, setActiveTab] = useState<UserType>(UserType.All)
 
   const { data, isLoading: isListUserLoading } = useListUser({
     activeTab,
@@ -38,13 +43,12 @@ const UserTab: React.FC<UserTabProps> = ({ search, sortOption }) => {
   }
 
   return (
-    <Tabs defaultActiveKey={UserType.Individual} onChange={onChangeTab}>
-      <TabPane tab={UserType.Individual} key={UserType.Individual}>
-        <TabContent data={data} loading={isListUserLoading} />
-      </TabPane>
-      <TabPane tab={UserType.Foundation} key={UserType.Foundation}>
-        <TabContent data={data} loading={isListUserLoading} />
-      </TabPane>
+    <Tabs defaultActiveKey={UserType.All} onChange={onChangeTab}>
+      {TAB_CONFIG.map(({ label, value }) => (
+        <TabPane key={value} tab={label}>
+          <TabContent data={data} loading={isListUserLoading} />
+        </TabPane>
+      ))}
     </Tabs>
   )
 }
