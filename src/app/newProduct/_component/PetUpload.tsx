@@ -55,6 +55,10 @@ export default function PetUpload({
     setFileList(newFileList)
   }
 
+  const handleFileChange = ({ fileList }: { fileList: any }) => {
+    setFileList(fileList) 
+  }
+
   const props: UploadProps = {
     accept: ".jpg,.jpeg,.png",
     name: "file",
@@ -63,6 +67,7 @@ export default function PetUpload({
     fileList,
     beforeUpload,
     onRemove: handleRemove,
+    onChange: handleFileChange,
     showUploadList: {
       extra: ({ size = 0 }) => (
         <span style={{ color: "#cccccc" }}>

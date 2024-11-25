@@ -7,7 +7,10 @@ import PetDoc from "./_component/PetDoc"
 import Link from "next/link"
 import { PetPreview } from "./_component/PetUpload"
 import type { GetProp, UploadProps, UploadFile } from "antd"
-import { useAddPet } from "@/features/productManage/_component/hooks/useAddPet" 
+import { notification } from "antd"
+import { useAddPet } from "@/features/productManage/_component/hooks/useAddPet"
+import cloudinary from "@/core/cloudinary"
+import { useRouter } from "next/navigation"
 import { message, Modal } from "antd"
 
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0]
@@ -28,6 +31,9 @@ export default function Product() {
   const [vaccine, setVaccine] = useState("")
   const [term, setTerm] = useState<boolean>()
   const [open, setOpen] = useState(false)
+  const { createPet, isPending, error } = useAddPet()
+  const [api, contextHolder] = notification.useNotification()
+  const router = useRouter()
 
   const validate =
     name !== "" &&
@@ -37,28 +43,67 @@ export default function Product() {
     animal !== "" &&
     (!type || (pedigree.length > 0 && vaccine !== "" && id !== "" && cost > 0))
 
-  const handleUpload = () => {
-    const formData = new FormData()
-    petList.forEach((file) => {
-      formData.append("files[]", file as FileType)
-    })
-    setUploading(true)
-    fetch("", {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then(() => {
-        setPetList([])
-        message.success("upload successfully.")
-      })
-      .catch(() => {
-        message.error("upload failed.")
-      })
-      .finally(() => {
-        setUploading(false)
-      })
-  }
+    const handleUpload = async () => {
+      try {
+        if (!petList || petList.length === 0) {
+          throw Error("Please upload your pet's image")
+        }
+    
+        const filePet = petList[0]
+    
+        if (!filePet.originFileObj) {
+          throw Error("Invalid pet file object")
+        }
+    
+        let documentUrlPed = ""
+        if (cost > 0) {
+          if (!pedigree || pedigree.length === 0) {
+            throw Error("Please upload the pedigree document")
+          }
+    
+          const filePedi = pedigree[0]
+    
+          if (!filePedi.originFileObj) {
+            throw Error("Invalid pedigree file object")
+          }
+    
+          const uploadResponsePed = await cloudinary.uploadToCloudinary(
+            filePedi.originFileObj
+          )
+          documentUrlPed = uploadResponsePed.secure_url
+        }
+    
+        const uploadResponsePet = await cloudinary.uploadToCloudinary(
+          filePet.originFileObj
+        )
+        const documentUrlPet = uploadResponsePet.secure_url
+    
+        const { response } = await createPet({
+          name,
+          is_sold: false,
+          category: animal,
+          subcategory: breed,
+          description,
+          is_verified: false,
+          price: cost || 0,
+          image_url: documentUrlPet!,
+          vaccine_book_url: documentUrlPed || "-"
+        })
+    
+        api.success({ message: "Add Pet successfully" })
+        setOpen(false)
+        router.push("/productManage")
+      } catch (error) {
+        console.error("Add pet error:", error)
+        const errorMessage =
+          error instanceof Error ? error.message : "Unknown error occurred"
+        api.error({
+          message: "Failed to add pet",
+          description: errorMessage,
+        })
+      }
+    }
+    
 
   return (
     <>
@@ -164,8 +209,8 @@ export default function Product() {
                   <div className="border-t border-gray-200"></div>
                   <button
                     className="w-24 h-10 p-4 bg-primary text-white rounded-md flex justify-center items-center mt-4 hover:bg-opacity-80 ml-auto"
-                    disabled={validate}
-                    onClick={() => setOpen(false)}
+                    disabled={!validate}
+                    onClick={() => handleUpload()}
                   >
                     Confirm
                   </button>
@@ -210,7 +255,7 @@ export default function Product() {
                     ) : (
                       <p className="text-gray-400">None</p>
                     )}
-                    <p className="font-bold w-20">Price:</p>
+                    <p className="font-bold w-fit">Price:</p>
                     {type && cost > 0 ? <p>{cost}</p> : <p>Free</p>}
                   </div>
                   <div className="flex flex-row gap-8">
