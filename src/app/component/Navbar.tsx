@@ -88,7 +88,10 @@ export default function Navbar({ white }: { white?: boolean }) {
                 Wish list
               </Link>
               <hr />
-              <Link href="/" className="flex items-center hover:text-primary">
+              <Link
+                href="/signin"
+                className="flex items-center hover:text-primary"
+              >
                 <UserOutlined className="text-3xl hover:text-black pr-2" />
                 Login
               </Link>
@@ -97,12 +100,12 @@ export default function Navbar({ white }: { white?: boolean }) {
         >
           <div className="flex flex-col gap-4 text-lg">
             {menu.map((item, index) => (
-              <p key={index} className="group relative items-center flex">
+              <div key={index} className="group relative items-center flex">
                 <div className="group-hover:flex hidden border-4 border-primary absolute -translate-x-[1.9rem] w-3 h-3 rounded-full"></div>
                 <Link className="hover:text-primary" href={item.link}>
                   {item.name}
                 </Link>
-              </p>
+              </div>
             ))}
           </div>
         </Drawer>
