@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Card, Button, Typography } from "antd"
 import { HeartOutlined, HeartFilled } from "@ant-design/icons"
 import Image, { StaticImageData } from "next/image"
@@ -18,6 +18,38 @@ interface Pet {
 const PetCard: React.FC<{ pet: Pet }> = ({ pet }) => {
   const [isFavorite, setIsFavorite] = useState(false)
 
+  useEffect(() => {
+    const storedFavorites = localStorage.getItem("favorites")
+    const favorites = storedFavorites ? JSON.parse(storedFavorites) : []
+    setIsFavorite(
+      Array.isArray(favorites) && favorites.includes(Number(pet.id))
+    )
+  }, [pet.id])
+
+  const toggleFavorite = () => {
+    const storedFavorites = localStorage.getItem("favorites")
+    const favorites = storedFavorites
+      ? JSON.parse(storedFavorites)
+      : ([] as number[])
+
+    if (!Array.isArray(favorites)) {
+      const newFavorites = [Number(pet.id)] as number[]
+      localStorage.setItem("favorites", JSON.stringify(newFavorites))
+      setIsFavorite(true)
+      return
+    }
+
+    if (isFavorite) {
+      const newFavorites = favorites.filter(
+        (id) => id !== Number(pet.id)
+      ) as number[]
+      localStorage.setItem("favorites", JSON.stringify(newFavorites))
+    } else {
+      favorites.push(Number(pet.id))
+      localStorage.setItem("favorites", JSON.stringify(favorites))
+    }
+    setIsFavorite(!isFavorite)
+  }
   return (
     <Card
       className="rounded-xl overflow-hidden bg-white w-60 hover:shadow-md relative"
@@ -51,22 +83,19 @@ const PetCard: React.FC<{ pet: Pet }> = ({ pet }) => {
         title={
           <div className="flex justify-between items-center">
             <Link href={`/pet/${pet.id}`}>
-              <Text
-                strong
-                className="text-base text-[#B95F5F] hover:underline "
-              >
+              <Text strong className="text-base text-[#B95F5F] hover:underline">
                 {pet.name}
               </Text>
             </Link>
             {isFavorite ? (
               <HeartFilled
                 className="text-lg text-[#B95F5F] cursor-pointer"
-                onClick={() => setIsFavorite(false)}
+                onClick={toggleFavorite}
               />
             ) : (
               <HeartOutlined
                 className="text-lg cursor-pointer"
-                onClick={() => setIsFavorite(true)}
+                onClick={toggleFavorite}
               />
             )}
           </div>
