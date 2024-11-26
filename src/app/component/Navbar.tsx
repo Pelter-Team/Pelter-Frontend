@@ -2,25 +2,41 @@
 
 import Link from "next/link"
 import { useState } from "react"
-import { Drawer, Button, MenuProps, Dropdown } from "antd"
+import { Drawer, Button, MenuProps, Dropdown, notification } from "antd"
 import {
   SearchOutlined,
   MenuOutlined,
   HeartOutlined,
   UserOutlined,
+  LogoutOutlined,
+  PlusCircleOutlined,
+  ControlOutlined,
+  HomeOutlined,
 } from "@ant-design/icons"
 import { useUser } from "@/features/auth/provider/UserContext"
 import Image from "next/image"
+import { useLogout } from "@/features/auth/hooks/useLogout"
 
 export default function Navbar({ white }: { white?: boolean }) {
   const [open, setOpen] = useState(false)
-  const { userState } = useUser?.()!
-
+  const { userState, setUserState } = useUser?.()!
+  const [api, contextHolder] = notification.useNotification()
+  const { logoutFlow } = useLogout()
   const menu = [
     { name: "Home", link: "/" },
     { name: "Shop", link: "/petlist" },
     { name: "Register your pet / stray", link: "/newProduct" },
   ]
+
+  const handleLogout = async () => {
+    try {
+      await logoutFlow()
+      api.success({ message: "Success to logout" })
+      setUserState({ user: undefined })
+    } catch (error) {
+      api.error({ message: "Failed to logout" })
+    }
+  }
 
   const showDrawer = () => {
     setOpen(true)
@@ -29,32 +45,33 @@ export default function Navbar({ white }: { white?: boolean }) {
   const onClose = () => {
     setOpen(false)
   }
+
   // TODO: add the correct links
   const items: MenuProps["items"] = [
     {
-      key: "1",
-      label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
-        >
-          1st menu item
-        </a>
-      ),
+      key: "home",
+      label: <Link href="/">Home</Link>,
+      icon: <HomeOutlined />,
     },
     {
-      key: "2",
-      label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.aliyun.com"
-        >
-          2nd menu item (disabled)
-        </a>
-      ),
-      disabled: true,
+      key: "register-pet",
+      label: <Link href="/newProduct/">Register Pet</Link>,
+      icon: <PlusCircleOutlined />,
+    },
+    {
+      key: "manage-pet",
+      label: <Link href="/productManage">Manage Pet</Link>,
+      icon: <ControlOutlined />,
+    },
+    {
+      key: "favorite",
+      label: <Link href="/petlist/favorite">Favorite</Link>,
+      icon: <HeartOutlined />,
+    },
+    {
+      key: "logout",
+      label: <button onClick={handleLogout}>Logout</button>,
+      icon: <LogoutOutlined />,
     },
   ]
 
@@ -64,6 +81,7 @@ export default function Navbar({ white }: { white?: boolean }) {
         white ? "text-primary" : "bg-transparent text-white"
       }`}
     >
+      {contextHolder}
       <div className="flex flex-row gap-6 items-center">
         <MenuOutlined
           className="text-2xl hover:text-black cursor-pointer"
@@ -76,18 +94,31 @@ export default function Navbar({ white }: { white?: boolean }) {
           keyboard
           footer={
             <div className="flex flex-col gap-4 bottom-0 text-lg w-full pb-4 pt-2">
-              <Link href="/favorite" className="flex items-center hover:text-primary">
+              <Link
+                href="/petlist/favorite"
+                className="flex items-center hover:text-primary"
+              >
                 <HeartOutlined className="text-3xl hover:text-black pr-2" />
                 Wish list
               </Link>
               <hr />
-              <Link
-                href="/signin"
-                className="flex items-center hover:text-primary"
-              >
-                <UserOutlined className="text-3xl hover:text-black pr-2" />
-                Login
-              </Link>
+              {userState.user ? (
+                <div
+                  onClick={handleLogout}
+                  className="flex items-center hover:text-primary"
+                >
+                  <LogoutOutlined className="text-3xl hover:text-black pr-2" />
+                  Signout
+                </div>
+              ) : (
+                <Link
+                  href="/signin"
+                  className="flex items-center hover:text-primary"
+                >
+                  <UserOutlined className="text-3xl hover:text-black pr-2" />
+                  Login
+                </Link>
+              )}
             </div>
           }
         >
@@ -114,7 +145,7 @@ export default function Navbar({ white }: { white?: boolean }) {
           <SearchOutlined className="text-3xl hover:text-black" />
         </Link>
 
-        {userState ? (
+        {userState.user ? (
           <Dropdown menu={{ items }}>
             <Image
               src={

@@ -115,6 +115,7 @@ export const useUserCount = () => {
     const totalFoundation = users.filter(
       (user) => user.role === UserType.Foundation
     ).length
+
     return {
       total: total,
       totalCustomer: totalCustomer,

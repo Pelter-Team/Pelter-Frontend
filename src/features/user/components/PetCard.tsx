@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Card, Button, Typography } from "antd"
 import { HeartOutlined, HeartFilled } from "@ant-design/icons"
-import Image, { StaticImageData } from "next/image"
+import Image from "next/image"
 import Link from "next/link"
 
 const { Meta } = Card
@@ -15,7 +15,10 @@ interface Pet {
   is_sold: boolean
 }
 
-const PetCard: React.FC<{ pet: Pet }> = ({ pet }) => {
+const PetCard: React.FC<{
+  pet: Pet
+  onRemoveFav?: (petId: number) => void
+}> = ({ pet, onRemoveFav }) => {
   const [isFavorite, setIsFavorite] = useState(false)
 
   useEffect(() => {
@@ -44,6 +47,7 @@ const PetCard: React.FC<{ pet: Pet }> = ({ pet }) => {
         (id) => id !== Number(pet.id)
       ) as number[]
       localStorage.setItem("favorites", JSON.stringify(newFavorites))
+      if (onRemoveFav) onRemoveFav(Number(pet.id))
     } else {
       favorites.push(Number(pet.id))
       localStorage.setItem("favorites", JSON.stringify(favorites))
@@ -57,13 +61,13 @@ const PetCard: React.FC<{ pet: Pet }> = ({ pet }) => {
         <Image
           alt={pet.name}
           src={pet.image}
-          className="object-cover rounded-tr-xl rounded-tl-xl"
+          className="object-cover rounded-tr-xl rounded-tl-xl max-w-60 max-h-64"
           width={240}
-          height={208}
+          height={256}
         />
       }
       actions={[
-        <Link href={`/pet/${pet.id}`}>
+        <Link href={`/pet/${pet.id}`} key={"adopt"}>
           <Button
             key="adopt"
             type="primary"

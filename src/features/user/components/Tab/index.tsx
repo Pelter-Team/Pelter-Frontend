@@ -37,7 +37,6 @@ const UserTab: React.FC<UserTabProps> = ({ search, sortOption }) => {
     sortOption,
     search,
   })
-
   function onChangeTab(key: string) {
     setActiveTab(key as UserType)
   }
