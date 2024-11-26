@@ -1,6 +1,5 @@
-import { Button, Modal } from "antd"
+import { Button } from "antd"
 import { EditOutlined } from "@ant-design/icons"
-import { useState } from "react"
 
 interface Card {
   id: number
@@ -48,7 +47,12 @@ export default function PetCard({
             </span>
             {card.isAdopt ? "Adopted" : "Looking for home"}
           </div>
-          Updated on {card.updatedAt}
+          Updated on{" "}
+          {new Intl.DateTimeFormat("en-US", {
+            month: "long",
+            day: "2-digit",
+            year: "numeric",
+          }).format(new Date(card.updatedAt))}
         </div>
 
         <hr className="mt-2 border-t-2 border-gray-300 w-full" />

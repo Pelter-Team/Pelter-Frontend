@@ -7,7 +7,7 @@ import PetDoc from "./_component/PetDoc"
 import Link from "next/link"
 import { PetPreview } from "./_component/PetUpload"
 import type { GetProp, UploadProps, UploadFile } from "antd"
-import { notification } from "antd"
+import { Button, notification } from "antd"
 import { useAddPet } from "@/features/productManage/_component/hooks/useAddPet"
 import cloudinary from "@/core/cloudinary"
 import { useRouter } from "next/navigation"
@@ -24,6 +24,7 @@ export default function Product() {
   const [resource, setResource] = useState("")
   const [type, setType] = useState<boolean>(false)
   const [id, setId] = useState("")
+  const [loading, setLoading] = useState<boolean>(false)
   const [cost, setCost] = useState<number>(0)
   const [uploading, setUploading] = useState(false)
   const [petList, setPetList] = useState<UploadFile[]>([])
@@ -41,69 +42,71 @@ export default function Product() {
     petList.length > 0 &&
     term === true &&
     animal !== "" &&
-    (!type || (pedigree.length > 0 && vaccine !== "" && id !== "" && cost > 0))
-
-    const handleUpload = async () => {
-      try {
-        if (!petList || petList.length === 0) {
-          throw Error("Please upload your pet's image")
-        }
-    
-        const filePet = petList[0]
-    
-        if (!filePet.originFileObj) {
-          throw Error("Invalid pet file object")
-        }
-    
-        let documentUrlPed = ""
-        if (cost > 0) {
-          if (!pedigree || pedigree.length === 0) {
-            throw Error("Please upload the pedigree document")
-          }
-    
-          const filePedi = pedigree[0]
-    
-          if (!filePedi.originFileObj) {
-            throw Error("Invalid pedigree file object")
-          }
-    
-          const uploadResponsePed = await cloudinary.uploadToCloudinary(
-            filePedi.originFileObj
-          )
-          documentUrlPed = uploadResponsePed.secure_url
-        }
-    
-        const uploadResponsePet = await cloudinary.uploadToCloudinary(
-          filePet.originFileObj
-        )
-        const documentUrlPet = uploadResponsePet.secure_url
-    
-        const { response } = await createPet({
-          name,
-          is_sold: false,
-          category: animal,
-          subcategory: breed,
-          description,
-          is_verified: false,
-          price: cost || 0,
-          image_url: documentUrlPet!,
-          vaccine_book_url: documentUrlPed || "-"
-        })
-    
-        api.success({ message: "Add Pet successfully" })
-        setOpen(false)
-        router.push("/productManage")
-      } catch (error) {
-        console.error("Add pet error:", error)
-        const errorMessage =
-          error instanceof Error ? error.message : "Unknown error occurred"
-        api.error({
-          message: "Failed to add pet",
-          description: errorMessage,
-        })
+    (!type || (pedigree.length > 0 && id !== "" && cost > 0))
+  const handleUpload = async () => {
+    try {
+      setLoading(true)
+      if (!petList || petList.length === 0) {
+        throw Error("Please upload your pet's image")
       }
+
+      const filePet = petList[0]
+
+      if (!filePet.originFileObj) {
+        throw Error("Invalid pet file object")
+      }
+
+      let documentUrlPed = ""
+
+      if (cost > 0) {
+        if (!pedigree || pedigree.length === 0) {
+          throw Error("Please upload the pedigree document")
+        }
+
+        const filePedi = pedigree[0]
+
+        if (!filePedi.originFileObj) {
+          throw Error("Invalid pedigree file object")
+        }
+
+        const uploadResponsePed = await cloudinary.uploadToCloudinary(
+          filePedi.originFileObj
+        )
+        documentUrlPed = uploadResponsePed.secure_url
+      }
+
+      const uploadResponsePet = await cloudinary.uploadToCloudinary(
+        filePet.originFileObj
+      )
+      const documentUrlPet = uploadResponsePet.secure_url
+
+      const { response } = await createPet({
+        name,
+        is_sold: false,
+        category: animal,
+        subcategory: breed,
+        description,
+        is_verified: false,
+        price: cost || 0,
+        image_url: documentUrlPet!,
+        vaccine_book_url: documentUrlPed || "-",
+      })
+
+      api.success({ message: "Add Pet successfully" })
+      setOpen(false)
+      router.push("/productManage")
+    } catch (error) {
+      console.error("Add pet error:", error)
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred"
+      api.error({
+        message: "Failed to add pet",
+        description: errorMessage,
+      })
+    } finally {
+      setLoading(false)
     }
-    
+  }
 
   return (
     <>
@@ -207,13 +210,15 @@ export default function Product() {
               footer={[
                 <div className="w-full flex flex-col" key="footer">
                   <div className="border-t border-gray-200"></div>
-                  <button
+                  <Button
                     className="w-24 h-10 p-4 bg-primary text-white rounded-md flex justify-center items-center mt-4 hover:bg-opacity-80 ml-auto"
                     disabled={!validate}
                     onClick={() => handleUpload()}
+                    type="primary"
+                    loading={loading}
                   >
-                    Confirm
-                  </button>
+                    {loading ? "Loading" : "Submit"}
+                  </Button>
                 </div>,
               ]}
             >
@@ -221,8 +226,6 @@ export default function Product() {
                 <div className="px-11 py-7 flex flex-col gap-3 text-base">
                   <div className="flex flex-row gap-8">
                     <p className="font-bold">Your Information</p>
-                    <p>หมูเด้ง</p>
-                    <p>012-345-6789</p>
                   </div>
                   <div className="flex flex-row gap-8">
                     <p className="font-bold">Name:</p>

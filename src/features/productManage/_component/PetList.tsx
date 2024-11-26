@@ -132,7 +132,7 @@ export default function PetList() {
 
       <Modal
         footer={null}
-        title={`You updating status of pet ${selectPet.name}`}
+        title={`Is ${selectPet.name} adopted`}
         open={open}
         onClose={() => setOpen((prev) => false)}
         onCancel={() => setOpen((prev) => false)}
@@ -146,7 +146,7 @@ export default function PetList() {
             <Radio value={"no"}>No</Radio>
           </Radio.Group>
           <Popconfirm
-            title={`Are you sure you want to update status is sold ${selectPet.name} ?`}
+            title={`Are you sure you want to update status of  ${selectPet.name} ?`}
             description="This action will update status is sold of pet"
             onConfirm={() => handleSubmit()}
             okText="Yes"
@@ -193,20 +193,26 @@ export default function PetList() {
         <div className="flex flex-col overflow-y-scroll h-[calc(100%-8rem)]">
           {isLoading && <Spin size="large" />}
           {error && <div className="text-red-500">{error.message}</div>}
-          {filteredPets?.map((pet) => (
-            <PetCard
-              key={pet.id}
-              card={{
-                id: pet.id,
-                name: pet.name,
-                type: pet.category,
-                description: pet.description,
-                isAdopt: pet.is_sold,
-                updatedAt: pet.updated_at.toISOString(),
-              }}
-              handleOpen={handleOpen}
-            />
-          ))}
+          {filteredPets ? (
+            filteredPets?.map((pet) => (
+              <PetCard
+                key={pet.id}
+                card={{
+                  id: pet.id,
+                  name: pet.name,
+                  type: pet.category,
+                  description: pet.description,
+                  isAdopt: pet.is_sold,
+                  updatedAt: pet.updated_at.toISOString(),
+                }}
+                handleOpen={handleOpen}
+              />
+            ))
+          ) : (
+            <h6 className="text-lg font-normal text-gray-600 mx-auto py-4">
+              No data found
+            </h6>
+          )}
         </div>
       </div>
     </>

@@ -1,4 +1,5 @@
 import { useUser } from "@/features/auth/provider/UserContext"
+import { PhoneOutlined } from "@ant-design/icons"
 import { Image } from "antd"
 
 export default function UserProfile() {
@@ -15,7 +16,18 @@ export default function UserProfile() {
           }
         />
         <div className="mt-6 flex flex-col gap-4">
-          <div className="text-4xl font-bold">{userState.user?.username}</div>
+          <div className="text-4xl font-bold">
+            {userState.user?.username}{" "}
+            {userState.user?.surname
+              ? userState.user.surname.slice(0, 1) + "."
+              : ""}
+          </div>
+          {userState.user?.phone && (
+            <div className="flex ">
+              <PhoneOutlined className="rotate-90" />
+              <h6 className="text-sm font-normal">{userState.user.phone}</h6>
+            </div>
+          )}
           {/* <div className="text-sm line-clamp-6">
             Hello,I am a cat lover, please contact me via phone call. I mostly
             post the cat that live in Silom area. Most of them are adorable

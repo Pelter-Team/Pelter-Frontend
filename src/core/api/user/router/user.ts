@@ -5,6 +5,7 @@ import { SortOption } from "../../type"
 import {
   LoginResponse,
   RegisterRequest,
+  RegisterResponse,
   UserList,
   UserResponse,
 } from "../userContract"
@@ -26,7 +27,7 @@ export class UserRouter extends Router<typeof apiContract> {
     }
   }
 
-  async register(body: RegisterRequest): Promise<LoginResponse> {
+  async register(body: RegisterRequest): Promise<RegisterResponse> {
     const response = await this.client.user.register({
       body: body,
     })

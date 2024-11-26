@@ -24,8 +24,8 @@ export default function WaitCard({}: {}) {
           handleChange={handleGraphRangeChange}
         />
       </div>
-      {graph && graph["total-users"] && (
-        <VerticalBarChart ChartData={graph["total-users"]} />
+      {graph && graph["animal-looking-for-home"] && (
+        <VerticalBarChart ChartData={graph["animal-looking-for-home"]} />
       )}
     </div>
   )

@@ -9,7 +9,7 @@ export interface GraphSelectRangeOption {
   label: string
 }
 let defaultOptions: GraphSelectRangeOption[] = [
-  { value: "dayly", label: "Dayly" },
+  { value: "dayly", label: "Daily" },
   { value: "monthly", label: "Monthly" },
   { value: "annual", label: "Annual" },
 ]

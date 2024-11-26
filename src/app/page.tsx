@@ -70,7 +70,10 @@ export default function Home() {
           </Link>
 
           <Link
-            href="petlist"
+            href={{
+              pathname: "/petlist",
+              query: { free: "false" },
+            }}
             className="relative w-2/5 h-full flex items-center justify-center duration-200 ease-in-out hover:scale-105"
           >
             <Image

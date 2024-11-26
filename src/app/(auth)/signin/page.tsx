@@ -28,6 +28,8 @@ export default function SignIn() {
           userId: response.userId,
           role: response.role,
           username: response.firstname,
+          surname: response.surname,
+          phone: response.phone || "",
         },
       })
 

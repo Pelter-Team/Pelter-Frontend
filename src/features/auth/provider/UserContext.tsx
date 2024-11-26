@@ -20,6 +20,8 @@ export type UserData = {
   role: "admin" | "customer" | "foundation" | "seller"
   username: string
   profileUrl: string
+  surname: string
+  phone?: string
 }
 
 interface UserState {
@@ -41,6 +43,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     // }
     user: undefined,
   })
+
   // TODO: remove this console before commit
   console.log(userState)
   const handleGetUser = async () => {
@@ -51,6 +54,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       }
     }
   }
+
   useEffect(() => {
     handleGetUser()
   }, [userState.user])

@@ -121,6 +121,9 @@ export const petContract = c.router({
     path: "/products/user",
     responses: {
       200: c.type<Response<MyPet[]>>(),
+      400: c.type<ErrorResponse>(),
+    },
+  },
   getFavPets: {
     method: "POST",
     body: c.type<{

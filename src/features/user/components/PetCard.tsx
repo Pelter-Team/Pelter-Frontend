@@ -61,7 +61,7 @@ const PetCard: React.FC<{
         <Image
           alt={pet.name}
           src={pet.image}
-          className="object-cover rounded-tr-xl rounded-tl-xl max-w-60 max-h-64"
+          className="object-cover rounded-tr-xl rounded-tl-xl max-w-60 max-h-64 min-w-60 min-h-64"
           width={240}
           height={256}
         />

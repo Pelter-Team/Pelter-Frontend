@@ -20,6 +20,8 @@ export const User = z.object({
   username: z.string(),
   role: z.enum(["admin", "customer", "foundation", "seller"]),
   profileUrl: z.string().nullable(),
+  phone: z.string().or(z.null()),
+  surname: z.string(),
 })
 
 export type UserResponse = z.infer<typeof User>
@@ -31,6 +33,7 @@ export const LoginResponseSchema = z.object({
   email: z.string().email(),
   profileUrl: z.string().url().nullable(),
   role: z.enum(["admin", "customer", "foundation", "seller"]),
+  phone: z.string().or(z.null()),
 })
 
 export type LoginResponse = z.infer<typeof LoginResponseSchema>
@@ -41,6 +44,7 @@ export const RegisterRequestSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters long"),
   phone_number: z.string().optional(),
+  phone: z.string().optional(),
   profile_url: z.string().url("Invalid URL").optional(),
   role: z.enum(["admin", "customer", "foundation", "seller"]),
   address: z.string().optional(),
@@ -56,6 +60,7 @@ export const RegisterResponseSchema = z.object({
   email: z.string().email(),
   profileUrl: z.string().url().nullable(),
   role: z.enum(["admin", "customer", "foundation", "seller"]),
+  phone: z.string().optional(),
 })
 
 export type RegisterResponse = z.infer<typeof RegisterResponseSchema>

@@ -12,6 +12,7 @@ import {
   PlusCircleOutlined,
   ControlOutlined,
   HomeOutlined,
+  ProfileOutlined,
 } from "@ant-design/icons"
 import { useUser } from "@/features/auth/provider/UserContext"
 import Image from "next/image"
@@ -47,7 +48,7 @@ export default function Navbar({ white }: { white?: boolean }) {
   }
 
   // TODO: add the correct links
-  const items: MenuProps["items"] = [
+  let items: MenuProps["items"] = [
     {
       key: "home",
       label: <Link href="/">Home</Link>,
@@ -74,6 +75,15 @@ export default function Navbar({ white }: { white?: boolean }) {
       icon: <LogoutOutlined />,
     },
   ]
+
+  if (userState.user?.role === "admin") {
+    const logoutIndex = items.findIndex((item) => item?.key === "logout")
+    items.splice(logoutIndex, 0, {
+      key: "admin",
+      label: <Link href="/admin">Admin</Link>,
+      icon: <ProfileOutlined />,
+    })
+  }
 
   return (
     <div

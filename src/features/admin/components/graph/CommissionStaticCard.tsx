@@ -16,7 +16,7 @@ export default function CommissionStaticCard({}: {}) {
     <div className="flex flex-col gap-8 bg-background rounded-xl shadow-md border p-4">
       <div className="flex items-center justify-between">
         <h6 className="text-gray-800 text-base font-semibold">
-          Total Number of Waiting Animal
+          Commission Statistic Sales
         </h6>
         <GraphSelectRange
           value={graphRange}

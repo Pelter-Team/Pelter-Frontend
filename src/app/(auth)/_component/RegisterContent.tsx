@@ -67,6 +67,8 @@ export default function RegisterContent() {
           userId: response.userId,
           role: response.role,
           username: response.firstname,
+          phone: response.phone || "",
+          surname: response.surname,
         },
       })
       router.push("/registersuccess")
