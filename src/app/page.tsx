@@ -49,7 +49,10 @@ export default function Home() {
         </div>
         <div className="flex flex-row gap-8 justify-center h-full w-full">
           <Link
-            href="/"
+            href={{
+              pathname: "/petlist",
+              query: { free: "true" },
+            }}
             className="relative w-2/5 h-full flex items-center justify-center duration-200 ease-in-out hover:scale-105"
           >
             <Image
@@ -67,7 +70,7 @@ export default function Home() {
           </Link>
 
           <Link
-            href="/"
+            href="petlist"
             className="relative w-2/5 h-full flex items-center justify-center duration-200 ease-in-out hover:scale-105"
           >
             <Image

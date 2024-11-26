@@ -70,6 +70,7 @@ export const mockListPets = async (): Promise<PetLists[]> => {
     {
       id: 2,
       user_id: 1,
+      role: "user",
       owner: "Mix",
       transaction_id: 0,
       review_id: null,
@@ -88,6 +89,7 @@ export const mockListPets = async (): Promise<PetLists[]> => {
     {
       id: 3,
       user_id: 2,
+      role: "user",
       owner: "Mix",
       transaction_id: 0,
       review_id: null,
