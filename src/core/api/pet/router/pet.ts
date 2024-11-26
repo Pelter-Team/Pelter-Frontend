@@ -17,6 +17,21 @@ export class PetRouter extends Router<typeof apiContract> {
         throw new APIError(response.status, "Failed to fetch get list of pets")
     }
   }
+  async getFavPets(petIds: number[]) {
+    const response = await this.client.pet.getFavPets({
+      body: {
+        productIds: petIds,
+      },
+    })
+    switch (response.status) {
+      case 200:
+        return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
+      default:
+        throw new APIError(response.status, "Failed to fetch get favorite pets")
+    }
+  }
 
   async getListPetVerification() {
     const response = await this.client.pet.getListPetVerification()

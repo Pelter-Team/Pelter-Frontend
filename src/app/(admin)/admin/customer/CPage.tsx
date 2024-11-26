@@ -5,10 +5,11 @@ import { SortOption } from "@/core/api/type"
 import UserTab from "@/features/user/components/Tab"
 import { SearchOutlined } from "@ant-design/icons"
 import { Select } from "antd"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import CardTotal, { CardTotalType } from "@/features/admin/components/CardTotal"
-import { useUserCount } from "@/features/user/hooks/useListUser"
+import { useListUser, useUserCount } from "@/features/user/hooks/useListUser"
 import { formatNumber } from "@/utils/formatNumber"
+import { UserType } from "@/core/api/user/userContract"
 
 export default function Cpage({}: {}) {
   const [search, setSearch] = useState<string>("")
@@ -20,7 +21,35 @@ export default function Cpage({}: {}) {
     setSortOption(value)
   }
 
-  const { data: userCount } = useUserCount()
+  const { data: users } = useListUser({
+    activeTab: UserType.All,
+    search: "",
+    sortOption: SortOption.SortByLatest,
+  })
+  const userCount = useMemo(() => {
+    if (!users) {
+      return {
+        total: 0,
+        totalCustomer: 0,
+        totalFoundation: 0,
+      }
+    }
+
+    const total = users.length
+    const totalCustomer = users.filter(
+      (user) => user.role === UserType.Customer
+    ).length
+    const totalFoundation = users.filter(
+      (user) => user.role === UserType.Foundation
+    ).length
+
+    return {
+      total: total,
+      totalCustomer: totalCustomer,
+      totalFoundation: totalFoundation,
+    }
+  }, [users])
+
   const cards: CardTotalType[] = [
     {
       title: "Total Number of User",
@@ -45,13 +74,13 @@ export default function Cpage({}: {}) {
   return (
     <>
       <div className="flex gap-8 w-full flex-wrap">
-        {cards.map((card, i) => (
+        {cards.map((card) => (
           <CardTotal
             bgColor={card.bgColor}
             textColor={card.textColor}
             title={card.title}
             value={card.value}
-            key={i}
+            key={card.title}
           />
         ))}
       </div>

@@ -7,7 +7,10 @@ import CommissionStaticCard from "@/features/admin/components/graph/CommissionSt
 import TotalUserCard from "@/features/admin/components/graph/TotalUserCard"
 import WaitCard from "@/features/admin/components/graph/WaitCard"
 import { useGraphRange } from "@/features/admin/provider/graphProvider"
+import { useUser } from "@/features/auth/provider/UserContext"
 import { formatNumber } from "@/utils/formatNumber"
+import { Button } from "antd"
+import Link from "next/link"
 
 export default function Cpage({}: {}) {
   const { graph, isGraphLoading } = useGraphRange()
