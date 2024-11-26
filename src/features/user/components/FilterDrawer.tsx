@@ -1,3 +1,4 @@
+import { FilterState } from "@/app/(user)/petlist/CPage"
 import {
   Drawer,
   Button,
@@ -8,92 +9,28 @@ import {
   Divider,
   Space,
 } from "antd"
-import { useState, useCallback, SetStateAction } from "react"
-interface PriceRange {
-  isFree: boolean
-  min: number | undefined
-  max: number | undefined
-}
-interface FilterValues {
-  ownerTypes: string[]
-  priceRange: {
-    isFree: boolean
-    min?: number | undefined
-    max?: number | undefined
-  }
-  gender: string
-  petTypes: {
-    strayDog: boolean
-    dogBreed?: string
-    strayCat: boolean
-    catBreed?: string
-  }
-  foundationName?: string
-}
+import { useState, SetStateAction } from "react"
 
 interface FilterDrawerProps {
   visible: boolean
   onClose: () => void
-  onFilter: (filters: FilterValues) => void
+  setFilterState: React.Dispatch<SetStateAction<FilterState>>
+  filterState: FilterState
   onClear: () => void
+  subCategoryOptions: {
+    value: string
+    label: string
+  }[]
 }
 
-const inititalPetType = {
-  strayDog: false,
-  dogBreed: "",
-  strayCat: false,
-  catBreed: "",
-}
-
-const FilterDrawer = ({ visible, onClose, onFilter }: FilterDrawerProps) => {
-  const [ownerTypes, setOwnerTypes] = useState<string[]>([])
-  const [foundationName, setFoundationName] = useState<string>("")
-  const [priceRange, setPriceRange] = useState<PriceRange>({
-    isFree: false,
-    min: undefined,
-    max: undefined,
-  })
-  const [gender, setGender] = useState<string>("")
-  const [petTypes, setPetTypes] =
-    useState<FilterValues["petTypes"]>(inititalPetType)
-  const handleApplyFilters = useCallback(() => {
-    onFilter({
-      ownerTypes,
-      priceRange,
-      gender,
-      petTypes,
-      foundationName: ownerTypes.includes("Foundation")
-        ? foundationName
-        : undefined,
-    })
-    onClose()
-  }, [ownerTypes, priceRange, gender, petTypes, foundationName, onFilter])
-
-  const handleClearFilters = () => {
-    setOwnerTypes([])
-    setFoundationName("")
-    setPriceRange({ isFree: false, min: undefined, max: undefined })
-    setGender("")
-    setPetTypes({
-      strayDog: false,
-      dogBreed: "",
-      strayCat: false,
-      catBreed: "",
-    })
-    onFilter({
-      ownerTypes: [],
-      priceRange: { isFree: false, min: undefined, max: undefined },
-      gender: "",
-      petTypes: {
-        strayDog: false,
-        dogBreed: "",
-        strayCat: false,
-        catBreed: "",
-      },
-      foundationName: undefined,
-    })
-  }
-
+const FilterDrawer = ({
+  visible,
+  onClose,
+  filterState,
+  setFilterState,
+  subCategoryOptions,
+  onClear,
+}: FilterDrawerProps) => {
   return (
     <Drawer
       title="Filters"
@@ -102,53 +39,148 @@ const FilterDrawer = ({ visible, onClose, onFilter }: FilterDrawerProps) => {
       open={visible}
       width={320}
     >
-      <Checkbox.Group
-        value={ownerTypes}
-        onChange={(values) => setOwnerTypes(values as string[])}
-      >
-        <p className="font-semibold">Owner Types</p>
-        <Space direction="vertical">
-          <Checkbox value="Individual">Individual</Checkbox>
-          <Checkbox value="Foundation">Foundation</Checkbox>
-          {ownerTypes.includes("Foundation") && (
-            <Input
-              placeholder="Enter foundation name"
-              className="w-[200px] ml-6"
-              value={foundationName}
-              onChange={(e) => setFoundationName(e.target.value)}
-            />
-          )}
-        </Space>
-      </Checkbox.Group>
+      <p className="font-semibold mb-2">Owner Types</p>
+      <div className="flex flex-col gap-2">
+        <Checkbox
+          checked={filterState.ownerType === "all"}
+          onChange={() =>
+            setFilterState((prev) => ({ ...prev, ownerType: "all" }))
+          }
+        >
+          All
+        </Checkbox>
+        <Checkbox
+          checked={filterState.ownerType === "customer"}
+          onChange={() =>
+            setFilterState((prev) => ({ ...prev, ownerType: "customer" }))
+          }
+        >
+          Individual
+        </Checkbox>
+        <Checkbox
+          checked={filterState.ownerType === "foundation"}
+          onChange={() =>
+            setFilterState((prev) => ({ ...prev, ownerType: "foundation" }))
+          }
+        >
+          Foundation
+        </Checkbox>
+      </div>
+
+      <Divider />
+
+      <p className="font-semibold mb-2">Pet verify</p>
+      <div className="flex flex-col gap-2">
+        <Checkbox
+          checked={filterState.isVerify === "all"}
+          onChange={() =>
+            setFilterState((prev) => ({ ...prev, isVerify: "all" }))
+          }
+        >
+          All
+        </Checkbox>
+        <Checkbox
+          checked={filterState.isVerify === "verified"}
+          onChange={() =>
+            setFilterState((prev) => ({ ...prev, isVerify: "verified" }))
+          }
+        >
+          Verify
+        </Checkbox>
+        <Checkbox
+          checked={filterState.isVerify === "unverified"}
+          onChange={() =>
+            setFilterState((prev) => ({ ...prev, isVerify: "unverified" }))
+          }
+        >
+          Unverify
+        </Checkbox>
+      </div>
+
+      <Divider />
+
+      <p className="font-semibold mb-2">Pet sold</p>
+      <div className="flex flex-col gap-2">
+        <Checkbox
+          checked={filterState.isSold === "all"}
+          onChange={() =>
+            setFilterState((prev) => ({ ...prev, isSold: "all" }))
+          }
+        >
+          All
+        </Checkbox>
+        <Checkbox
+          checked={filterState.isSold === "sold"}
+          onChange={() =>
+            setFilterState((prev) => ({ ...prev, isSold: "sold" }))
+          }
+        >
+          Sold
+        </Checkbox>
+        <Checkbox
+          checked={filterState.isSold === "unsold"}
+          onChange={() =>
+            setFilterState((prev) => ({ ...prev, isSold: "unsold" }))
+          }
+        >
+          Unsold
+        </Checkbox>
+      </div>
 
       <Divider />
 
       {/* Price Range */}
-      <p className="font-semibold">Price Range</p>
-      <Checkbox
-        checked={priceRange.isFree}
-        onChange={() =>
-          setPriceRange({ isFree: true, min: undefined, max: undefined })
-        }
-      >
-        Free
-      </Checkbox>
-      <Checkbox
-        checked={!priceRange.isFree}
-        onChange={() => setPriceRange((prev) => ({ ...prev, isFree: false }))}
-      >
-        Price Range
-      </Checkbox>
-      {!priceRange.isFree && (
+      <div className="flex flex-col gap-2">
+        <p className="font-semibold">Price Range</p>
+        <div className="flex gap-2">
+          <Checkbox
+            checked={filterState.priceRange.isFree}
+            onChange={() =>
+              // setPriceRange({ isFree: true, min: undefined, max: undefined })
+              setFilterState((prev) => ({
+                ...prev,
+                priceRange: {
+                  isFree: true,
+                  min: undefined,
+                  max: undefined,
+                },
+              }))
+            }
+          >
+            Free
+          </Checkbox>
+          <Checkbox
+            checked={!filterState.priceRange.isFree}
+            onChange={() =>
+              setFilterState((prev) => ({
+                ...prev,
+                priceRange: {
+                  isFree: false,
+                  min: prev.priceRange.min,
+                  max: prev.priceRange.max,
+                },
+              }))
+            }
+          >
+            Price Range
+          </Checkbox>
+        </div>
+      </div>
+
+      {!filterState.priceRange.isFree && (
         <div className="flex justify-between mt-2">
           <Input
             placeholder="MIN"
             className="w-[120px]"
-            value={priceRange.min}
+            value={filterState.priceRange.min}
             onChange={(e) =>
-              setPriceRange((prev) => ({
+              setFilterState((prev) => ({
                 ...prev,
-                min: Number(e.target.value),
+                priceRange: {
+                  isFree: false,
+                  min: Number(e.target.value),
+                  max: prev.priceRange.max,
+                },
               }))
             }
           />
@@ -156,11 +188,15 @@ const FilterDrawer = ({ visible, onClose, onFilter }: FilterDrawerProps) => {
           <Input
             placeholder="MAX"
             className="w-[120px]"
-            value={priceRange.max}
+            value={filterState.priceRange.max}
             onChange={(e) =>
-              setPriceRange((prev) => ({
+              setFilterState((prev) => ({
                 ...prev,
-                max: Number(e.target.value),
+                priceRange: {
+                  isFree: prev.priceRange.isFree,
+                  min: prev.priceRange.min,
+                  max: Number(e.target.value),
+                },
               }))
             }
           />
@@ -169,99 +205,26 @@ const FilterDrawer = ({ visible, onClose, onFilter }: FilterDrawerProps) => {
 
       <Divider />
 
-      {/* Gender */}
-      <p className="font-semibold">Gender</p>
-      <Radio.Group value={gender} onChange={(e) => setGender(e.target.value)}>
-        <Space direction="vertical">
-          <Radio value="Male">Male</Radio>
-          <Radio value="Female">Female</Radio>
-        </Space>
-      </Radio.Group>
-
-      <Divider />
-
       {/* Pet Types */}
       <p className="font-semibold">Pet Types</p>
-      <Checkbox
-        checked={petTypes.strayDog}
-        onChange={(e) =>
-          setPetTypes((prev) => ({ ...prev, strayDog: e.target.checked }))
+      <AutoComplete
+        options={subCategoryOptions}
+        className="w-full mt-2"
+        placeholder="e.g., Golden Retriever"
+        onChange={(value) =>
+          setFilterState((prev) => ({ ...prev, subCategory: value }))
         }
-      >
-        Stray Dog
-      </Checkbox>
-      <Checkbox
-        checked={petTypes.dogBreed !== undefined}
-        onChange={(e) =>
-          setPetTypes((prev) => ({
-            ...prev,
-            dogBreed: e.target.checked ? "" : undefined,
-          }))
-        }
-      >
-        Dog Breed
-      </Checkbox>
-      {petTypes.dogBreed !== undefined && (
-        <AutoComplete
-          options={[
-            { value: "Golden Retriever" },
-            { value: "Bulldog" },
-            { value: "Poodle" },
-          ]}
-          className="w-full mt-2"
-          placeholder="e.g., Golden Retriever"
-          onChange={(value) =>
-            setPetTypes((prev) => ({ ...prev, dogBreed: value }))
-          }
-        />
-      )}
-
-      <Checkbox
-        checked={petTypes.strayCat}
-        onChange={(e) =>
-          setPetTypes((prev) => ({ ...prev, strayCat: e.target.checked }))
-        }
-      >
-        Stray Cat
-      </Checkbox>
-      <Checkbox
-        checked={petTypes.catBreed !== undefined}
-        onChange={(e) =>
-          setPetTypes((prev) => ({
-            ...prev,
-            catBreed: e.target.checked ? "" : undefined,
-          }))
-        }
-      >
-        Cat Breed
-      </Checkbox>
-      {petTypes.catBreed !== undefined && (
-        <AutoComplete
-          options={[
-            { value: "Persian" },
-            { value: "Siamese" },
-            { value: "Bengal" },
-          ]}
-          className="w-full mt-2"
-          placeholder="e.g., Persian"
-          onChange={(value) =>
-            setPetTypes((prev) => ({ ...prev, catBreed: value }))
-          }
-        />
-      )}
-
+        value={filterState.subCategory}
+      />
       <Divider />
 
       <Button
         className="w-full mt-4 bg-[#B95F5F] text-white"
-        onClick={handleApplyFilters}
+        // onClick={handleApplyFilters}
       >
         Apply Filters
       </Button>
-      <Button
-        className="w-full mt-2 text-[#B95F5F]"
-        onClick={handleClearFilters}
-      >
+      <Button className="w-full mt-2 text-[#B95F5F]" onClick={onClear}>
         Clear All
       </Button>
     </Drawer>

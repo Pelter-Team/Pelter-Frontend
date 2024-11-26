@@ -12,6 +12,7 @@ export const PetListSchema = z.object({
   owner: z.string(),
   is_sold: z.boolean(),
   category: z.string(),
+  role: z.string(),
   subcategory: z.string(),
   description: z.string(),
   is_verified: z.boolean(),
@@ -83,10 +84,27 @@ const PetDetail = z.object({
   price: z.number().positive(),
   image_url: z.string().url(),
   vaccine_book_url: z.string().url().nullable().optional(),
+  user_profile_url: z.string().url().nullable().optional(),
+  phone: z.string().nullable().optional(),
+  owner: z.string(),
   created_at: z.string().date(),
   updated_at: z.string().date(),
 })
 export type PetDetail = z.infer<typeof PetDetail>
+
+const MyPet = z.object({
+  id: z.number(),
+  user_id: z.number(),
+  name: z.string(),
+  is_sold: z.boolean(),
+  is_verified: z.boolean(),
+  created_at: z.string().date(),
+  updated_at: z.string().date(),
+  description: z.string(),
+  category: z.string(),
+  subcategory: z.string(),
+})
+export type MyPet = z.infer<typeof MyPet>
 
 const c = initContract()
 export const petContract = c.router({
@@ -97,6 +115,14 @@ export const petContract = c.router({
       200: c.type<Response<PetLists[]>>(),
       400: c.type<ErrorResponse>(),
     },
+  },
+  getMyPets: {
+    method: "GET",
+    path: "/products/user",
+    responses: {
+      200: c.type<Response<MyPet[]>>(),
+      400: c.type<ErrorResponse>(),
+    }
   },
   getPetId: {
     method: "GET",
@@ -204,10 +230,10 @@ export const priceOptions: {
   value: keyof typeof PriceOption
   label: keyof typeof PriceOption
 }[] = [
-  { value: PriceOption.All, label: "All" },
-  { value: PriceOption.Free, label: "Free" },
-  { value: PriceOption.Commercial, label: "Commercial" },
-]
+    { value: PriceOption.All, label: "All" },
+    { value: PriceOption.Free, label: "Free" },
+    { value: PriceOption.Commercial, label: "Commercial" },
+  ]
 
 export const sortOptions = [
   { value: "Sort By Latest", label: "Sort By Latest" },

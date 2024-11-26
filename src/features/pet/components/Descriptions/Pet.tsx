@@ -30,14 +30,30 @@ export default function PetDescription({ petId }: { petId: number }) {
       },
       {
         key: "2",
-        label: "Breed",
+        label: "Name",
+        span: 3,
+        className: descClassName,
+        labelStyle: labelStyle,
+        children: <p className={childrenTextClassName}>{pet.name}</p>,
+      },
+      {
+        key: "3",
+        label: "Type",
         span: 3,
         labelStyle: labelStyle,
         className: descClassName,
         children: <p className={childrenTextClassName}>{pet.category}</p>,
       },
       {
-        key: "3",
+        key: "4",
+        label: "Breed",
+        span: 3,
+        labelStyle: labelStyle,
+        className: descClassName,
+        children: <p className={childrenTextClassName}>{pet.subcategory}</p>,
+      },
+      {
+        key: "5",
         label: "Date of birth",
         span: 3,
         labelStyle: labelStyle,
@@ -49,43 +65,50 @@ export default function PetDescription({ petId }: { petId: number }) {
         ),
       },
       {
-        key: "4",
+        key: "6",
         label: "Price",
         span: 3,
         labelStyle: labelStyle,
         className: descClassName,
+        children: <p className={childrenTextClassName}>{pet.price}</p>,
+      },
+
+      {
+        key: "7",
+        label: "Sold",
+        span: 3,
+        labelStyle: labelStyle,
+        className: descClassName,
         children: (
-          <p className={childrenTextClassName}>{formatNumber(pet.price)}</p>
+          <p className={childrenTextClassName}>
+            {pet.is_sold ? "Sold" : "Unsold"}
+          </p>
         ),
       },
       {
-        key: "5",
-        label: "Color",
+        key: "8",
+        label: "Verify",
         span: 3,
         labelStyle: labelStyle,
         className: descClassName,
-        children: <p className={childrenTextClassName}>{pet.subcategory}</p>,
+        children: (
+          <p className={childrenTextClassName}>
+            {pet.is_verified ? "Verified" : "Unverified"}
+          </p>
+        ),
       },
       {
-        key: "6",
-        label: "Location",
-        span: 3,
-        labelStyle: labelStyle,
-        className: descClassName,
-        children: <p className={childrenTextClassName}>{pet.name}</p>,
-      },
-      {
-        key: "7",
+        key: "9",
         label: "Description",
         span: 3,
         labelStyle: labelStyle,
         className: descClassName,
-        children: <p className={childrenTextClassName}>{pet.name}</p>,
+        children: <p className={childrenTextClassName}>{pet.description}</p>,
       },
     ]
     if (pet.vaccine_book_url) {
       temp.push({
-        key: "8",
+        key: "10",
         label: "Pet Degree",
         span: 3,
         labelStyle: labelStyle,
@@ -102,7 +125,7 @@ export default function PetDescription({ petId }: { petId: number }) {
     <>
       <Descriptions
         title="Pet details"
-        className="text-xl font-normal"
+        className="text-2xl font-semibold"
         items={petDesc}
       />
       <Modal

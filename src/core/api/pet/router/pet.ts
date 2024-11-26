@@ -18,6 +18,18 @@ export class PetRouter extends Router<typeof apiContract> {
     }
   }
 
+  async getMyPets() {
+    const response = await this.client.pet.getMyPets()
+    switch (response.status) {
+      case 200:
+        return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
+      default:
+        throw new APIError(response.status, "Failed to fetch get my list of pets")
+    }
+  }
+
   async getListPetVerification() {
     const response = await this.client.pet.getListPetVerification()
     switch (response.status) {

@@ -1,6 +1,6 @@
 import apiClient from "@/core/api/api";
 import { APIError } from "@/core/api/error";
-import { CreatePetRequest, PetLists } from "@/core/api/pet/petContract";
+import { CreatePetRequest } from "@/core/api/pet/petContract";
 import { useMutation, UseMutationResult } from "@tanstack/react-query";
 
 interface PetFormInput {
@@ -12,7 +12,7 @@ interface PetFormInput {
   is_verified: boolean;
   price: number;
   image_url: string;
-  vaccine_book_url: string;
+  vaccine_book_url: string | null;
 }
 
 export const useAddPet = () => {
@@ -30,7 +30,7 @@ export const useAddPet = () => {
   };
 
   const mutation: UseMutationResult<
-    { response: PetLists },
+    { response: PetFormInput },
     Error,
     PetFormInput
   > = useMutation({

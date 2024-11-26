@@ -1,28 +1,22 @@
-import { Dropdown, Menu } from "antd"
 import { DownOutlined } from "@ant-design/icons"
-
-type SortOption = {
-  category: "date" | "name" | "price"
-  order: "asc" | "desc"
-}
+import { Button, Dropdown, Menu } from "antd"
 
 interface SortDropdownProps {
-  currentSort: SortOption
-  onSort: (sort: SortOption) => void
+  currentSort: string
+  onSort: (value: string) => void
 }
 
 const SORT_OPTIONS = {
-  latest: { category: "date", order: "desc", label: "Latest" },
-  oldest: { category: "date", order: "asc", label: "Oldest" },
-  alphabet: { category: "name", order: "asc", label: "Alphabet" },
-  priceLowToHigh: { category: "price", order: "asc", label: "Lowest Price" },
-  priceHighToLow: { category: "price", order: "desc", label: "Highest Price" },
+  latest: "Latest",
+  oldest: "Oldest",
+  alphabet: "Alphabet",
+  priceLowToHigh: "Lowest Price",
+  priceHighToLow: "Highest Price",
 } as const
 
 const SortDropdown = ({ currentSort, onSort }: SortDropdownProps) => {
   const handleMenuClick = ({ key }: { key: string }) => {
-    const option = SORT_OPTIONS[key as keyof typeof SORT_OPTIONS]
-    onSort({ category: option.category, order: option.order })
+    onSort(key)
   }
 
   const sortMenu = (
@@ -35,25 +29,12 @@ const SortDropdown = ({ currentSort, onSort }: SortDropdownProps) => {
     </Menu>
   )
 
-  const getSortDisplayText = () => {
-    const { category, order } = currentSort
-    if (category === "price") {
-      return `Sort by Price: ${order === "asc" ? "Low to High" : "High to Low"}`
-    }
-    if (category === "name") {
-      return "Sort by Alphabet"
-    }
-    if (category === "date") {
-      return `Sort by ${order === "desc" ? "Latest" : "Oldest"}`
-    }
-    return "Sort By"
-  }
-
   return (
-    <Dropdown overlay={sortMenu} trigger={["click"]}>
-      <a className="ant-dropdown-link cursor-pointer">
-        {getSortDisplayText()} <DownOutlined />
-      </a>
+    <Dropdown overlay={sortMenu}>
+      <Button>
+        {SORT_OPTIONS[currentSort as keyof typeof SORT_OPTIONS]}{" "}
+        <DownOutlined />
+      </Button>
     </Dropdown>
   )
 }

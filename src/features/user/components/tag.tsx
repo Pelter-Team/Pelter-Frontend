@@ -101,32 +101,23 @@ interface TagCounts {
   cats: number
 }
 const Tag: React.FC<TagProps> = ({ selectedTag, onTagSelect, counts }) => {
-  const calculateCounts = (): TagCounts => {
-    return {
-      all: counts?.all || 0,
-      dogs: counts?.dogs || 0,
-      cats: counts?.cats || 0,
-    }
-  }
-
+  // FIXME: i know this shit but don't have enough time
   const tags = [
-    { id: "all", label: "All Pets" },
-    { id: "dogs", label: "Dogs" },
-    { id: "cats", label: "Cats" },
+    { id: "all", label: "All Pets", filterId: "all" },
+    { id: "dogs", label: "Dogs", filterId: "Dog" },
+    { id: "cats", label: "Cats", filterId: "Cat" },
   ]
-
-  const tagCounts = calculateCounts()
 
   return (
     <div className="flex gap-4 items-center mb-6">
       {tags.map((tag) => (
         <button
-          key={tag.id}
-          onClick={() => onTagSelect(tag.id)}
+          key={tag.filterId}
+          onClick={() => onTagSelect(tag.filterId)}
           className={`
             px-4 py-2 rounded-full transition-all duration-200
             ${
-              selectedTag === tag.id
+              selectedTag === tag.filterId
                 ? "bg-[#B95F5F] text-white shadow-md"
                 : "bg-gray-100 hover:bg-gray-200 text-gray-700"
             }
@@ -137,10 +128,10 @@ const Tag: React.FC<TagProps> = ({ selectedTag, onTagSelect, counts }) => {
           <span
             className={`
               text-sm px-2 py-0.5 rounded-full
-              ${selectedTag === tag.id ? "bg-[#D88484]" : "bg-gray-200"}
+              ${selectedTag === tag.filterId ? "bg-[#D88484]" : "bg-gray-200"}
             `}
           >
-            {tagCounts[tag.id]}
+            {counts[tag.id]}
           </span>
         </button>
       ))}

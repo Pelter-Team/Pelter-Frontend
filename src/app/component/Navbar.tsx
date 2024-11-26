@@ -5,7 +5,6 @@ import { useState } from "react"
 import { Drawer, Button, MenuProps, Dropdown } from "antd"
 import {
   SearchOutlined,
-  ShoppingCartOutlined,
   MenuOutlined,
   HeartOutlined,
   UserOutlined,
@@ -21,7 +20,6 @@ export default function Navbar({ white }: { white?: boolean }) {
     { name: "Home", link: "/" },
     { name: "Shop", link: "/petlist" },
     { name: "Register your pet / stray", link: "/newProduct" },
-    { name: "Contact us ", link: "/" },
   ]
 
   const showDrawer = () => {
@@ -78,12 +76,7 @@ export default function Navbar({ white }: { white?: boolean }) {
           keyboard
           footer={
             <div className="flex flex-col gap-4 bottom-0 text-lg w-full pb-4 pt-2">
-              <Link href="/" className="flex items-center hover:text-primary">
-                <ShoppingCartOutlined className="text-3xl hover:text-black pr-2" />
-                Shopping Cart
-              </Link>
-              <hr />
-              <Link href="/" className="flex items-center hover:text-primary">
+              <Link href="/favorite" className="flex items-center hover:text-primary">
                 <HeartOutlined className="text-3xl hover:text-black pr-2" />
                 Wish list
               </Link>
@@ -117,11 +110,8 @@ export default function Navbar({ white }: { white?: boolean }) {
         </Link>
       </div>
       <div className="flex flex-row gap-6 justify-center items-center">
-        <Link href="/">
+        <Link href="/petlist">
           <SearchOutlined className="text-3xl hover:text-black" />
-        </Link>
-        <Link href="/">
-          <ShoppingCartOutlined className="text-3xl hover:text-black" />
         </Link>
 
         {userState ? (
