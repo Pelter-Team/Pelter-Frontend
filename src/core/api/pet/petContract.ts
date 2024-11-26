@@ -84,6 +84,9 @@ const PetDetail = z.object({
   price: z.number().positive(),
   image_url: z.string().url(),
   vaccine_book_url: z.string().url().nullable().optional(),
+  user_profile_url: z.string().url().nullable().optional(),
+  phone: z.string().nullable().optional(),
+  owner: z.string(),
   created_at: z.string().date(),
   updated_at: z.string().date(),
 })

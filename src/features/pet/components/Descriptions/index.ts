@@ -5,6 +5,6 @@ export const labelStyle = {
   fontWeight: "600",
 }
 export const childrenTextClassName =
-  "text-sm font-normal text-gray-700 self-center"
+  "text-sm font-medium text-gray-700 self-center"
 
 export const descClassName = "!pb-2"

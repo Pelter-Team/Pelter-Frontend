@@ -29,6 +29,7 @@ export const mockPetId = async (): Promise<PetDetail> => {
   const data: PetDetail = {
     id: 1,
     user_id: 101,
+    owner: "John Doe",
     transaction_id: 1001,
     review_id: [1, 2, 3],
     name: "Luna",

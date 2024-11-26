@@ -1,29 +1,23 @@
 import apiClient from "@/core/api/api"
-import { PetVerificationStatus } from "@/core/api/pet/petContract"
-import { useMutation, UseMutationResult } from "@tanstack/react-query"
-import { notification } from "antd"
+import { APIError } from "@/core/api/error"
+import { useMutation } from "@tanstack/react-query"
 
 interface VerifyPetInput {
   petId: number
 }
 
 export const useAdoptPet = () => {
-  const [api] = notification.useNotification()
-
   const flowFn = async ({ petId }: VerifyPetInput) => {
     try {
-      // const response = await apiClient.petRouter.verifyPet(petId)
-
-      //   return { response: response }
-      return {}
+      const response =
+        await apiClient.transactionRouter.insertTransaction(petId)
+      return { response: response }
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Unknown error occurred"
-      api.error({
-        message: "Failed to update pet verification",
-        description: errorMessage,
-      })
-      throw error
+      if (error instanceof APIError) {
+        throw error.message
+      } else {
+        throw error
+      }
     }
   }
 
