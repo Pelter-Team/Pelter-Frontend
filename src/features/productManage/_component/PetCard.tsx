@@ -1,7 +1,9 @@
-import { Button } from "antd"
+import { Button, Modal } from "antd"
 import { EditOutlined } from "@ant-design/icons"
+import { useState } from "react"
 
 interface Card {
+  id: number
   name: string
   type: string
   description: string
@@ -9,7 +11,13 @@ interface Card {
   updatedAt: string
 }
 
-export default function PetCard({ card }: { card: Card }) {
+export default function PetCard({
+  card,
+  handleOpen,
+}: {
+  card: Card
+  handleOpen: (petId: number, name: string, is_sold: boolean) => void
+}) {
   return (
     <>
       <div className="flex flex-col w-full mt-6 gap-4">
@@ -21,7 +29,10 @@ export default function PetCard({ card }: { card: Card }) {
             </div>
           </div>
 
-          <Button className="bg-primary text-white h-10">
+          <Button
+            onClick={() => handleOpen(card.id, card.name, card.isAdopt)}
+            className="bg-primary text-white h-10"
+          >
             Update Status <EditOutlined />
           </Button>
         </div>

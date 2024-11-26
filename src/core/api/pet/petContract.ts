@@ -92,6 +92,20 @@ const PetDetail = z.object({
 })
 export type PetDetail = z.infer<typeof PetDetail>
 
+const MyPet = z.object({
+  id: z.number(),
+  user_id: z.number(),
+  name: z.string(),
+  is_sold: z.boolean(),
+  is_verified: z.boolean(),
+  created_at: z.string().date(),
+  updated_at: z.string().date(),
+  description: z.string(),
+  category: z.string(),
+  subcategory: z.string(),
+})
+export type MyPet = z.infer<typeof MyPet>
+
 const c = initContract()
 export const petContract = c.router({
   getListPets: {
@@ -102,6 +116,11 @@ export const petContract = c.router({
       400: c.type<ErrorResponse>(),
     },
   },
+  getMyPets: {
+    method: "GET",
+    path: "/products/user",
+    responses: {
+      200: c.type<Response<MyPet[]>>(),
   getFavPets: {
     method: "POST",
     body: c.type<{
@@ -119,6 +138,20 @@ export const petContract = c.router({
       petId: number
     }>(),
     path: "/product/:petId",
+    responses: {
+      200: c.type<Response<PetDetail>>(),
+      400: c.type<ErrorResponse>(),
+    },
+  },
+  updateIsSold: {
+    method: "PATCH",
+    pathParams: c.type<{
+      petId: number
+    }>(),
+    body: c.type<{
+      is_sold: boolean
+    }>(),
+    path: "/product/is-sold/:petId",
     responses: {
       200: c.type<Response<PetDetail>>(),
       400: c.type<ErrorResponse>(),

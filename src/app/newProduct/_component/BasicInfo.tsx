@@ -18,9 +18,9 @@ export default function BasicInfo({
   setResource,
 }: BasicProps) {
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col ">
       <div className="text-xl font-bold">Basic Information</div>
-      <form className="bg-transparent w-full h-fit p-4 border border-black rounded-md mt-3 gap-3 flex flex-col min-h-[27rem]">
+      <form className="bg-transparent w-full h-fit p-4 border border-black rounded-md mt-3 gap-3 flex flex-col min-h-[29rem]">
         <div className="flex flex-row gap-4">
           <div className="w-44">
             <label htmlFor="Name" className="text-base flex flex-row mb-1">
