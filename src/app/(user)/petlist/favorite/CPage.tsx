@@ -6,8 +6,8 @@ import { useFavPets } from "@/features/pet/hooks/useFavoritePet"
 import Link from "next/link"
 import LoadingSpinner from "@/components/LoadingSpinner"
 
-const currentPetsPerPage = 8
-const petsPerPage = 8
+const currentPetsPerPage = 20
+const petsPerPage = 20
 const CFavoritePetList = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const indexOfLastPet = currentPage * petsPerPage
@@ -71,26 +71,28 @@ const CFavoritePetList = () => {
             counts={getPetCounts()}
           /> */}
         </div>
-        <Row gutter={[24, 32]}>
+        <div className="grid grid-cols-1 min-[300px]:grid-cols-2 min-[450px]:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
           {currentPets.length === 0 ? (
-            <h6>You got no favorite yet!</h6>
+            <h6 className="text-lg font-normal text-gray-600 mx-auto py-4">
+              No favorite pet yet!
+            </h6>
           ) : (
             currentPets.map((pet) => (
-              <Col key={pet.id} xs={24} sm={12} md={8} lg={6}>
-                <PetCard
-                  pet={{
-                    id: pet.id,
-                    image: pet.image_url,
-                    name: pet.name,
-                    is_sold: pet.is_sold,
-                    price: pet.price,
-                  }}
-                  onRemoveFav={onRemoveFav}
-                />
-              </Col>
+              // <Col key={pet.id} xs={24} sm={12} md={8} lg={6}>
+              <PetCard
+                pet={{
+                  id: pet.id,
+                  image: pet.image_url,
+                  name: pet.name,
+                  price: pet.price,
+                  is_sold: pet.is_sold,
+                }}
+                key={pet.id}
+              />
+              // </Col>
             ))
           )}
-        </Row>
+        </div>
         <div className="flex justify-center mt-4">
           <Pagination
             current={currentPage}

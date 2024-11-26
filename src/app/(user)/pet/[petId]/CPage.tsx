@@ -1,6 +1,7 @@
 "use client"
 
 import LoadingSpinner from "@/components/LoadingSpinner"
+import { useUser } from "@/features/auth/provider/UserContext"
 import PetContract from "@/features/pet/components/Descriptions/Contact"
 import PetDescription from "@/features/pet/components/Descriptions/Pet"
 import { useAdoptPet } from "@/features/pet/hooks/useAdoptPet"
@@ -9,6 +10,7 @@ import { HomeOutlined } from "@ant-design/icons"
 import {
   Breadcrumb,
   Button,
+  Divider,
   Image as ImageAntd,
   notification,
   Popconfirm,
@@ -19,6 +21,7 @@ import { useState } from "react"
 
 export default function CPage({}: {}) {
   const { petId } = useParams()
+  const { userState } = useUser?.()!
   const { data: pet, isLoading } = usePetId({ petId: Number(petId) })
   const { adoptFlow, isPending: isAdoptPending } = useAdoptPet()
   const [api, contextHolder] = notification.useNotification()
@@ -73,15 +76,15 @@ export default function CPage({}: {}) {
         />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="flex flex-col gap-4">
-            <div className="relative w-full h-full min-h-96 max-h-96">
+            <div className="relative h-full w-full flex items-center justify-center mx-auto my-auto ">
               <Image
                 fill
                 src={pet.image_url}
                 alt="pet"
-                className="w-full h-full"
+                className="w-full h-full rounded-lg"
               />
             </div>
-            <div className="flex-1" />
+            {/* <div className="flex-1" /> */}
             <h6 className="text-xl font-medium">Posted By</h6>
             <div className="bg-white p-2 w-full flex rounded-lg gap-2">
               <Image
@@ -105,7 +108,7 @@ export default function CPage({}: {}) {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
             <h6 className="text-3xl font-semibold">{pet.name}</h6>
             <div className="flex gap-4">
               <div className="px-4 py-1 rounded-2xl bg-[#D0B8A8]">
@@ -116,8 +119,11 @@ export default function CPage({}: {}) {
               </div>
             </div>
             <hr />
-            <PetDescription petId={Number(petId)} />
-            <PetContract petId={Number(petId)} />
+            <div className="flex flex-col">
+              <PetDescription petId={Number(petId)} />
+              <Divider className="!m-2" />
+              <PetContract petId={Number(petId)} />
+            </div>
 
             <Popconfirm
               title="Are you sure you  want do adopt this pet?"
@@ -130,12 +136,14 @@ export default function CPage({}: {}) {
                 loading={isAdoptPending}
                 type="primary"
                 className="py-5"
-                disabled={pet.is_sold || success}
+                disabled={pet.is_sold || success || !userState.user}
               >
                 {pet.is_sold ? (
                   <p className="text-red-300">Pet already got adopted</p>
-                ) : (
+                ) : userState.user ? (
                   <p>Adopt</p>
+                ) : (
+                  <p>Login to adopt</p>
                 )}
               </Button>
             </Popconfirm>

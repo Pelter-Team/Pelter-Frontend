@@ -10,15 +10,9 @@ export default function PetDescription({ petId }: { petId: number }) {
   const { data: pet, isLoading } = usePetId({ petId })
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  if (isLoading) {
-    return <LoadingSpinner className="flex items-center justify-center" />
-  }
-
-  if (!pet) {
-    return <h6>Pet data not found</h6>
-  }
-
   const petDesc: DescriptionsProps["items"] = useMemo(() => {
+    if (!pet) return []
+
     let temp = [
       {
         key: "1",
@@ -103,7 +97,12 @@ export default function PetDescription({ petId }: { petId: number }) {
         span: 3,
         labelStyle: labelStyle,
         className: descClassName,
-        children: <p className={childrenTextClassName}>{pet.description}</p>,
+        children: (
+          <>
+            <br />
+            <p className={childrenTextClassName}>{pet.description}</p>
+          </>
+        ),
       },
     ]
     if (pet.vaccine_book_url) {
@@ -121,6 +120,15 @@ export default function PetDescription({ petId }: { petId: number }) {
 
     return temp
   }, [pet])
+
+  if (isLoading) {
+    return <LoadingSpinner className="flex items-center justify-center" />
+  }
+
+  if (!pet) {
+    return <h6>Pet data not found</h6>
+  }
+
   return (
     <>
       <Descriptions

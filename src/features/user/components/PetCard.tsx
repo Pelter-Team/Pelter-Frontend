@@ -61,22 +61,22 @@ const PetCard: React.FC<{
         <Image
           alt={pet.name}
           src={pet.image}
-          className="object-cover rounded-tr-xl rounded-tl-xl"
+          className="object-cover rounded-tr-xl rounded-tl-xl max-w-60 max-h-64"
           width={240}
-          height={208}
+          height={256}
         />
       }
-      // actions={[
-      //   <Link href={`/pet/${pet.id}`}>
-      //     <Button
-      //       key="adopt"
-      //       type="primary"
-      //       className="bg-[#B95F5F] border-[#B95F5F] rounded-md w-[90%] mx-auto text-white"
-      //     >
-      //       Adopt
-      //     </Button>
-      //   </Link>,
-      // ]}
+      actions={[
+        <Link href={`/pet/${pet.id}`} key={"adopt"}>
+          <Button
+            key="adopt"
+            type="primary"
+            className="bg-[#B95F5F] border-[#B95F5F] rounded-md w-[90%] mx-auto text-white"
+          >
+            Adopt
+          </Button>
+        </Link>,
+      ]}
     >
       {pet.is_sold && (
         <div className="absolute top-2 right-2 bg-white px-2 py-1 rounded-lg hover:bg-red-200 hover:text-white text-red-400">

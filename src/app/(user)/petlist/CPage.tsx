@@ -12,7 +12,7 @@ import { useListPets } from "@/features/pet/hooks/useListPets"
 import { PetLists, PetStatus, PriceOption } from "@/core/api/pet/petContract"
 import { SortOption } from "@/core/api/type"
 import LoadingSpinner from "@/components/LoadingSpinner"
-import { useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation"
 export interface FilterState {
   ownerType: "all" | "customer" | "foundation"
   priceRange: {
@@ -41,17 +41,17 @@ const initialFilterState: FilterState = {
   isSold: "all",
 }
 
-const petsPerPage = 8
+const petsPerPage = 20
 const PetListPage = () => {
   const [filterVisible, setFilterVisible] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
-  const searchParams = useSearchParams();
-  const free = searchParams.get("free") === "true";
+  const searchParams = useSearchParams()
+  const free = searchParams.get("free") === "true"
 
   const [filterState, setFilterState] = useState<FilterState>({
     ...initialFilterState,
     priceRange: { ...initialFilterState.priceRange, isFree: free },
-  });
+  })
 
   // it can be better if we just change this useListPets into useSomething that we can custom our queryKey
   const { data: pets, isLoading: isListPetLoading } = useListPets({
@@ -60,7 +60,16 @@ const PetListPage = () => {
     sortOption: SortOption.SortByLatest,
     search: "",
   })
+
   const filteredPets = useMemo(() => {
+    const handleOwner = (role: string) => {
+      if (role === "admin" || role === "foundation") {
+        return "foundation"
+      } else {
+        return "customer"
+      }
+    }
+
     setCurrentPage(1)
     return (
       pets
@@ -68,7 +77,7 @@ const PetListPage = () => {
           const ownerTypeCondition =
             filterState.ownerType === "all"
               ? true
-              : pet.role === filterState.ownerType
+              : filterState.ownerType === handleOwner(pet.role)
 
           const selectedTagCondition =
             filterState.selectedTag === "all"
@@ -137,11 +146,11 @@ const PetListPage = () => {
 
   const petCount = useMemo(() => {
     return {
-      all: filteredPets?.length ?? 0,
-      dogs: filteredPets?.filter((pet) => pet.category === "Dog").length ?? 0,
-      cats: filteredPets?.filter((pet) => pet.category === "Cat").length ?? 0,
+      all: pets?.length ?? 0,
+      dogs: pets?.filter((pet) => pet.category === "Dog").length ?? 0,
+      cats: pets?.filter((pet) => pet.category === "Cat").length ?? 0,
     }
-  }, [filteredPets])
+  }, [pets])
 
   const subCategoryOptions = useMemo(() => {
     const uniqueSubcategories = Array.from(
@@ -213,7 +222,7 @@ const PetListPage = () => {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-8 items-center justify-start">
+        <div className="grid grid-cols-1 min-[300px]:grid-cols-2 min-[450px]:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
           {currentPets.length === 0 ? (
             <h6 className="text-lg font-normal text-gray-600 mx-auto py-4">
               No data found
