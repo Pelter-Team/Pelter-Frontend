@@ -84,7 +84,8 @@ export default function PetDoc({
 
             <div>
               <label htmlFor="ID" className="text-base flex flex-row mb-1">
-                <span className="text-red-600">＊</span>Pet ID
+                <span className="text-red-600">＊</span>Pet identification
+                number
               </label>
               <input
                 type="text"
@@ -102,7 +103,7 @@ export default function PetDoc({
               <PedigreeUpload fileList={pedigree} setFileList={setPedigree} />
             </div>
 
-            <label htmlFor="ID" className="text-base flex flex-row mb-1">
+            {/* <label htmlFor="ID" className="text-base flex flex-row mb-1">
               <span className="text-red-600">＊</span>Already Vaccinated
             </label>
             <form className="flex flex-row gap-1 items-center">
@@ -124,7 +125,7 @@ export default function PetDoc({
                 className="ml-4 accent-primary w-4 h-4"
               />
               <label htmlFor="No">No</label>
-            </form>
+            </form> */}
           </div>
         </div>
       </div>

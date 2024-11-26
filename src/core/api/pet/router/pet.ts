@@ -26,7 +26,10 @@ export class PetRouter extends Router<typeof apiContract> {
       case 400:
         throw new ApiError(response.status, response.body.error)
       default:
-        throw new APIError(response.status, "Failed to fetch get my list of pets")
+        throw new APIError(
+          response.status,
+          "Failed to fetch get my list of pets"
+        )
     }
   }
 
@@ -101,6 +104,26 @@ export class PetRouter extends Router<typeof apiContract> {
   async getPetId(petId: number) {
     const response = await this.client.pet.getPetId({
       params: { petId },
+    })
+    switch (response.status) {
+      case 200:
+        return response.body.result
+      case 400:
+        throw new ApiError(response.status, response.body.error)
+      default:
+        throw new APIError(
+          response.status,
+          "Failed to fetch pet detail by petId"
+        )
+    }
+  }
+
+  async updateIsSold(petId: number, is_sold: boolean) {
+    const response = await this.client.pet.updateIsSold({
+      params: { petId },
+      body: {
+        is_sold: is_sold,
+      },
     })
     switch (response.status) {
       case 200:

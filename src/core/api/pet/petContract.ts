@@ -122,7 +122,7 @@ export const petContract = c.router({
     responses: {
       200: c.type<Response<MyPet[]>>(),
       400: c.type<ErrorResponse>(),
-    }
+    },
   },
   getPetId: {
     method: "GET",
@@ -130,6 +130,20 @@ export const petContract = c.router({
       petId: number
     }>(),
     path: "/product/:petId",
+    responses: {
+      200: c.type<Response<PetDetail>>(),
+      400: c.type<ErrorResponse>(),
+    },
+  },
+  updateIsSold: {
+    method: "PATCH",
+    pathParams: c.type<{
+      petId: number
+    }>(),
+    body: c.type<{
+      is_sold: boolean
+    }>(),
+    path: "/product/is-sold/:petId",
     responses: {
       200: c.type<Response<PetDetail>>(),
       400: c.type<ErrorResponse>(),
@@ -230,10 +244,10 @@ export const priceOptions: {
   value: keyof typeof PriceOption
   label: keyof typeof PriceOption
 }[] = [
-    { value: PriceOption.All, label: "All" },
-    { value: PriceOption.Free, label: "Free" },
-    { value: PriceOption.Commercial, label: "Commercial" },
-  ]
+  { value: PriceOption.All, label: "All" },
+  { value: PriceOption.Free, label: "Free" },
+  { value: PriceOption.Commercial, label: "Commercial" },
+]
 
 export const sortOptions = [
   { value: "Sort By Latest", label: "Sort By Latest" },
