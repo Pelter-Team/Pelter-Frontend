@@ -1,7 +1,6 @@
 import { APIError } from "../../error"
 import { apiContract } from "../.."
 import { Router } from "../../router"
-import { SortOption } from "../../type"
 import {
   LoginResponse,
   RegisterRequest,
@@ -22,6 +21,10 @@ export class UserRouter extends Router<typeof apiContract> {
         return response.body.result
       case 400:
         throw new ApiError(response.status, response.body.error)
+      case 409:
+        throw new ApiError(response.status, response.body.error)
+      case 500:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to login")
     }
@@ -35,6 +38,10 @@ export class UserRouter extends Router<typeof apiContract> {
       case 201:
         return response.body.result
       case 400:
+        throw new ApiError(response.status, response.body.error)
+      case 409:
+        throw new ApiError(response.status, response.body.error)
+      case 500:
         throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to register")

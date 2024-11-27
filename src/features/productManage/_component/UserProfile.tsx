@@ -23,7 +23,7 @@ export default function UserProfile() {
               : ""}
           </div>
           {userState.user?.phone && (
-            <div className="flex ">
+            <div className="flex gap-2">
               <PhoneOutlined className="rotate-90" />
               <h6 className="text-sm font-normal">{userState.user.phone}</h6>
             </div>

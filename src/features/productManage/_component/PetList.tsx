@@ -193,8 +193,8 @@ export default function PetList() {
         <div className="flex flex-col overflow-y-scroll h-[calc(100%-8rem)]">
           {isLoading && <Spin size="large" />}
           {error && <div className="text-red-500">{error.message}</div>}
-          {filteredPets ? (
-            filteredPets?.map((pet) => (
+          {filteredPets && filteredPets.length !== 0 ? (
+            filteredPets.map((pet) => (
               <PetCard
                 key={pet.id}
                 card={{

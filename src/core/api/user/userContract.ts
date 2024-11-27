@@ -77,6 +77,8 @@ export const userContract = c.router({
     responses: {
       200: c.type<Response<LoginResponse>>(),
       400: c.type<ErrorResponse>(),
+      409: c.type<ErrorResponse>(),
+      500: c.type<ErrorResponse>(),
     },
   },
   register: {
@@ -86,6 +88,8 @@ export const userContract = c.router({
     responses: {
       201: c.type<Response<RegisterResponse>>(),
       400: c.type<ErrorResponse>(),
+      409: c.type<ErrorResponse>(),
+      500: c.type<ErrorResponse>(),
     },
   },
   logout: {

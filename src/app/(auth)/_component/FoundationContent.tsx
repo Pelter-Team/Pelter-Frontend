@@ -106,11 +106,11 @@ export default function FoundationContent() {
       })
       router.push("/registersuccess")
     } catch (error) {
-      console.error("Login error:", error)
+      console.error("Register error:", error)
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error occurred"
       api.error({
-        message: "Failed to login",
+        message: "Failed to Register",
         description: errorMessage,
       })
     }
