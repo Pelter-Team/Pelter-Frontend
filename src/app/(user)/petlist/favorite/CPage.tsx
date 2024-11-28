@@ -1,7 +1,7 @@
 "use client"
 import { useState, useMemo, useEffect } from "react"
 import PetCard from "@/features/user/components/PetCard"
-import { Pagination, Row, Col, Button } from "antd"
+import { Pagination, Button } from "antd"
 import { useFavPets } from "@/features/pet/hooks/useFavoritePet"
 import Link from "next/link"
 import LoadingSpinner from "@/components/LoadingSpinner"
@@ -65,11 +65,6 @@ const CFavoritePetList = () => {
               {currentPets.length} lists in total
             </span>
           </div>
-          {/* <Tag
-            selectedTag={selectedTag}
-            onTagSelect={handleTagSelect}
-            counts={getPetCounts()}
-          /> */}
         </div>
         <div className="grid grid-cols-1 min-[300px]:grid-cols-2 min-[450px]:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
           {currentPets.length === 0 ? (
@@ -78,7 +73,6 @@ const CFavoritePetList = () => {
             </h6>
           ) : (
             currentPets.map((pet) => (
-              // <Col key={pet.id} xs={24} sm={12} md={8} lg={6}>
               <PetCard
                 pet={{
                   id: pet.id,
@@ -88,8 +82,8 @@ const CFavoritePetList = () => {
                   is_sold: pet.is_sold,
                 }}
                 key={pet.id}
+                onRemoveFav={onRemoveFav}
               />
-              // </Col>
             ))
           )}
         </div>

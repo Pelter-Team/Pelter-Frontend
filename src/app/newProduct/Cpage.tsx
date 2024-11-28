@@ -32,7 +32,7 @@ export default function Product() {
   const [vaccine, setVaccine] = useState("")
   const [term, setTerm] = useState<boolean>()
   const [open, setOpen] = useState(false)
-  const { createPet, isPending, error } = useAddPet()
+  const { createPet, isPending: isAddPetPending, error } = useAddPet()
   const [api, contextHolder] = notification.useNotification()
   const router = useRouter()
 
@@ -123,7 +123,7 @@ export default function Product() {
             </div>
           </div>
           <Link
-            href="/"
+            href="/productManage"
             className="flex justify-center items-center w-28 h-12 text-base text-white bg-primary rounded-md  hover:bg-opacity-80"
           >
             View Profile
@@ -186,8 +186,8 @@ export default function Product() {
 
           <div className="w-full flex justify-end col-span-2">
             <button
-              className="w-24 h-10 p-4 bg-primary text-white rounded-md flex justify-center items-center hover:bg-opacity-80"
-              disabled={!validate}
+              className="w-24 h-10 p-4 bg-primary disabled:bg-gray-300 text-white rounded-md flex justify-center items-center hover:bg-opacity-80"
+              disabled={!validate || isAddPetPending}
               onClick={() => setOpen(true)}
             >
               Confirm

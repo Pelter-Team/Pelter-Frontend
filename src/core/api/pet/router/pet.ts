@@ -13,6 +13,8 @@ export class PetRouter extends Router<typeof apiContract> {
         return response.body.result
       case 400:
         throw new ApiError(response.status, response.body.error)
+      case 500:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to fetch get list of pets")
     }
@@ -28,6 +30,8 @@ export class PetRouter extends Router<typeof apiContract> {
         return response.body.result
       case 400:
         throw new ApiError(response.status, response.body.error)
+      case 500:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to fetch get favorite pets")
     }
@@ -39,6 +43,8 @@ export class PetRouter extends Router<typeof apiContract> {
       case 200:
         return response.body.result
       case 400:
+        throw new ApiError(response.status, response.body.error)
+      case 500:
         throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(
@@ -54,6 +60,8 @@ export class PetRouter extends Router<typeof apiContract> {
       case 200:
         return response.body.result
       case 400:
+        throw new ApiError(response.status, response.body.error)
+      case 500:
         throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(
@@ -73,6 +81,8 @@ export class PetRouter extends Router<typeof apiContract> {
         return response.body.result
       case 400:
         throw new ApiError(response.status, response.body.error)
+      case 500:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to verify pet")
     }
@@ -88,6 +98,8 @@ export class PetRouter extends Router<typeof apiContract> {
       case 200:
         return response.body.result
       case 400:
+        throw new ApiError(response.status, response.body.error)
+      case 500:
         throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(
@@ -108,6 +120,8 @@ export class PetRouter extends Router<typeof apiContract> {
         return response.body.result
       case 400:
         throw new ApiError(response.status, response.body.error)
+      case 500:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(
           response.status,
@@ -124,6 +138,8 @@ export class PetRouter extends Router<typeof apiContract> {
       case 200:
         return response.body.result
       case 400:
+        throw new ApiError(response.status, response.body.error)
+      case 500:
         throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(
@@ -145,6 +161,8 @@ export class PetRouter extends Router<typeof apiContract> {
         return response.body.result
       case 400:
         throw new ApiError(response.status, response.body.error)
+      case 500:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(
           response.status,
@@ -162,6 +180,10 @@ export class PetRouter extends Router<typeof apiContract> {
         return response.body.result
       case 400:
         throw new ApiError(response.status, response.body.error)
+      case 401:
+        throw new ApiError(response.status, response.body.error)
+      case 500:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to insert pet")
     }
@@ -177,6 +199,8 @@ export class PetRouter extends Router<typeof apiContract> {
         return response.body.result
       case 400:
         throw new ApiError(response.status, response.body.error)
+      case 500:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to update pet")
     }
@@ -191,6 +215,8 @@ export class PetRouter extends Router<typeof apiContract> {
         return response.body.result
       case 400:
         throw new ApiError(response.status, response.body.error)
+      case 500:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to delete pet")
     }
@@ -204,6 +230,8 @@ export class PetRouter extends Router<typeof apiContract> {
       case 200:
         return response.body.result
       case 400:
+        throw new ApiError(response.status, response.body.error)
+      case 500:
         throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to delete admin pet")

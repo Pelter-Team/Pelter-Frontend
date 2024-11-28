@@ -55,7 +55,7 @@ export default function FoundationContent() {
   const { setUserState } = useUser?.()!
   const router = useRouter()
   const [api, contextHolder] = notification.useNotification()
-  const { registerFlow, error, isPending } = useRegister()
+  const { registerFlow, isPending } = useRegister()
 
   const [form] = Form.useForm()
   const [fileList, setFileList] = useState<UploadFile[]>() //store file that user upload

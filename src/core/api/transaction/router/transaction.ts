@@ -13,6 +13,8 @@ export class TransactionRouter extends Router<typeof apiContract> {
         return response.body.result
       case 400:
         throw new ApiError(response.status, response.body.error)
+      case 500:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to fetch transactions data")
     }
@@ -28,6 +30,8 @@ export class TransactionRouter extends Router<typeof apiContract> {
         return response.body.result
       case 400:
         throw new ApiError(response.status, response.body.error)
+      case 500:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(response.status, "Failed to insert transaction")
     }
@@ -41,6 +45,8 @@ export class TransactionRouter extends Router<typeof apiContract> {
       case 200:
         return response.body.result
       case 400:
+        throw new ApiError(response.status, response.body.error)
+      case 500:
         throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(
@@ -59,6 +65,8 @@ export class TransactionRouter extends Router<typeof apiContract> {
         return response.body.result
       case 400:
         throw new ApiError(response.status, response.body.error)
+      case 500:
+        throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(
           response.status,
@@ -73,6 +81,8 @@ export class TransactionRouter extends Router<typeof apiContract> {
       case 200:
         return response.body.result
       case 400:
+        throw new ApiError(response.status, response.body.error)
+      case 500:
         throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(
@@ -92,6 +102,8 @@ export class TransactionRouter extends Router<typeof apiContract> {
       case 200:
         return response.body.result
       case 400:
+        throw new ApiError(response.status, response.body.error)
+      case 500:
         throw new ApiError(response.status, response.body.error)
       default:
         throw new APIError(
