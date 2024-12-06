@@ -19,9 +19,19 @@ pnpm >= 9.11.0
 ```
 
 ## Installation
-```
-pnpm install
-```
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/yourusername/pelter-frontend.git
+   ```
+2. Navigate to the project directory:
+   ```sh
+   cd pelter-frontend
+   ```
+3. Install dependencies:
+   ```sh
+   pnpm install
+   ```
+4. Access development server at `http://localhost:3000`
 
 ## Development
 ```
@@ -32,6 +42,10 @@ pnpm dev
 ```
 pnpm build
 ```
+
+## Configuration
+Create a `.env` file in the root directory and add the following environment variables in .env.sample
+
 
 ## Project Structure
 ```
